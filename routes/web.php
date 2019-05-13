@@ -11,7 +11,7 @@
 |
 */
 
-// Руты для представителей.
+
 Route::get('/representative', ['as' => 'representativeHome', 'uses' => 'HomeRepresentativeController@index']);
 Route::group(['as' => 'representative.', 'middleware' => ['role:super-admin|representative']], function () {
     Route::get('/representative/create-dispatcher/', ['as' => 'createDispatcher', 'uses' => 'CreateDispatcherController@index']);
