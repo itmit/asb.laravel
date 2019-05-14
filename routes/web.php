@@ -12,18 +12,18 @@
 */
 
 
-Route::get('/representative', ['as' => 'representativeHome', 'uses' => 'HomeRepresentativeController@index']);
+Route::get('/', ['as' => 'representativeHome', 'uses' => 'HomeRepresentativeController@index']);
 Route::group(['as' => 'representative.', 'middleware' => ['role:super-admin|representative']], function () {
-    Route::get('/representative/create-dispatcher/', ['as' => 'createDispatcher', 'uses' => 'CreateDispatcherController@index']);
+    Route::get('/create-dispatcher', ['as' => 'createDispatcher', 'uses' => 'CreateDispatcherController@index']);
 
-    Route::post('/representative/create-dispatcher/', ['as' => 'createDispatcherHandler', 'uses' => 'CreateDispatcherController@createDispatcher']);
+    Route::post('/create-dispatcher', ['as' => 'createDispatcherHandler', 'uses' => 'CreateDispatcherController@createDispatcher']);
 });
 
 
-Route::get('/', function () {
+// Route::get('/', function () {
 
-    return view('welcome');
-});
+//     return view('welcome');
+// });
 
 Auth::routes();
 
