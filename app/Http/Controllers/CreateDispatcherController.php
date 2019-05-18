@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dispatcher;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CreateDispatcherController extends Controller
@@ -31,27 +34,39 @@ class CreateDispatcherController extends Controller
     public function createDispatcher(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        if (Auth::user()->ability(['super-admin', 'representative'], ['create-dispatcher'])) {
 
-        if ($validator->fails()) {
-            return redirect()
-                ->route('auth.representative.createDispatcher')
-                ->withErrors($validator)
-                ->withInput();
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()
+                    ->route('auth.representative.createDispatcher')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            DB::beginTransaction();
+
+            $dispatcher = User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => bcrypt($request->input('password')),
+            ]);
+
+            Dispatcher::create([
+                'representative' => Auth::id()
+            ]);
+
+            $dispatcher->attachRole(Role::where('name', '=', 'dispatcher')->first());
+
+            DB::commit();
+
+            return redirect()->route('auth.dispatcherList');
         }
-
-        $dispatcher = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-        ]);
-
-        $dispatcher->attachRole(Role::where('name', '=', 'dispatcher')->first());
-
-        return redirect()->route('auth.dispatcherList');
+        return redirect('login');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dispatcher;
 use App\Models\Role;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;

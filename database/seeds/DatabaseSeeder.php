@@ -4,6 +4,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::beginTransaction();
+
         $admin = User::create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
@@ -30,7 +33,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'super-admin',
             'display_name' => 'Главный администратор',
             'description' => 'Пользователь, который имеет все права.'
-        ])->attachPermission(
+        ]);
+
+        $adminRole->attachPermission(
             Permission::create([
                 'name' => 'create-representative',
                 'display_name' => 'Создовать представителей.',
@@ -44,7 +49,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'representative',
             'display_name' => 'Представитель',
             'description' => 'Пользователь может управлять и редактировать диспетчеров.'
-        ])->attachPermission(
+        ]);
+
+        $representativeRole->attachPermission(
             Permission::create([
                 'name' => 'create-dispatcher',
                 'display_name' => 'Создовать диспетчеров',
@@ -52,7 +59,7 @@ class DatabaseSeeder extends Seeder
             ])
         );
 
-        $representative->attchRole($representativeRole);
+        $representative->attachRole($representativeRole);
 
         Role::create([
             'name' => 'dispatcher',
@@ -65,6 +72,8 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Разрешает пользователю принимать заявки, поступающие от клиентов.'
             ])
         );
+
+        DB::commit();
 
     }
 }

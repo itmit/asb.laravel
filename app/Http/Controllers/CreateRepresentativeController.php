@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CreateRepresentativeController extends Controller
@@ -44,6 +45,8 @@ class CreateRepresentativeController extends Controller
                     ->withInput();
             }
 
+            DB::beginTransaction();
+
             $representative = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -51,6 +54,8 @@ class CreateRepresentativeController extends Controller
             ]);
 
             $representative->attachRole(Role::where('name', '=', 'representative')->first());
+
+            DB::commit();
 
             return redirect()->route('auth.representativeList');
         }
