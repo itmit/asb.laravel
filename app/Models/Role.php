@@ -17,7 +17,7 @@ class Role extends EntrustRole
      * @param string $roleName
      * @return Collection
      */
-    public static function getUsersByRoleName(string $roleName) : Collection
+    public static function getUsersByRoleName(string $roleName): Collection
     {
         return self::where('name', '=', $roleName)->first()->users()->get();
     }

@@ -17,7 +17,8 @@ class CreateRepresentativeController extends Controller
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         return view("admin.createRepresentative");
     }
 
@@ -27,7 +28,8 @@ class CreateRepresentativeController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function createRepresentative(Request $request) {
+    public function createRepresentative(Request $request)
+    {
 
         $user = Auth::user();
 

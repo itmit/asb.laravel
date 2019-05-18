@@ -21,8 +21,7 @@ class VerifyCsrfToken extends Middleware
     {
         try {
             return parent::handle($request, $next);
-        }
-        catch (TokenMismatchException $exception) {
+        } catch (TokenMismatchException $exception) {
             return redirect()->back()->withErrors([
                 'message' => 'Your Session have expired. Try again.',
             ]);

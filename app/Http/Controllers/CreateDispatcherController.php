@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,7 +17,8 @@ class CreateDispatcherController extends Controller
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         return view("representative.createDispatcher");
     }
 
@@ -27,7 +28,8 @@ class CreateDispatcherController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function createDispatcher(Request $request) {
+    public function createDispatcher(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
