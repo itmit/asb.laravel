@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.profileApp')
 
 @section('content')
     <div class="container-fluid">
@@ -7,9 +7,13 @@
 
             </div>
             <div class="col-sm-9">
-                <h1>Диспетчеры</h1>
+                <h1>Представители</h1>
                 <div class="col-sm-12">
-                    <a href="/representative/create-dispatcher/">Добавить диспетчера</a>
+
+                    @ability('super-admin', 'create-representative')
+                    <a href="{{ route('auth.admin.createRepresentative') }}">Создать представителя</a>
+                    @endability
+
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -20,14 +24,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($dispatchers as $dispatcher)
-                                <tr>
-                                    <td>{{ $dispatcher->name }}</td>
-                                    <td>{{ $dispatcher->email }}</td>
-                                    <td>{{ $dispatcher->created_at }}</td>
-                                    <td>{{ $dispatcher->updated_at }}</td>
-                                </tr>
-                            @endforeach
+                        @foreach($representatives as $representative)
+                            <tr>
+                                <td>{{ $representative->name }}</td>
+                                <td>{{ $representative->email }}</td>
+                                <td>{{ $representative->created_at }}</td>
+                                <td>{{ $representative->updated_at }}</td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

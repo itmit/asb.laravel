@@ -7,9 +7,9 @@
 
             </div>
             <div class="col-sm-9">
-                <h1>Создание диспетчера</h1>
+                <h1>Создание представителя</h1>
                 <div class="col-sm-12">
-                    <form class="form-horizontal" method="POST" action="{{ route('auth.representative.createDispatcherHandler') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('auth.admin.createRepresentative') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

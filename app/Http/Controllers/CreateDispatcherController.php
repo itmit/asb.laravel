@@ -21,7 +21,6 @@ class CreateDispatcherController extends Controller
         return view("representative.createDispatcher");
     }
 
-
     /**
      * Создает нового диспетчера и редиректит на главную страницу представителя.
      *
@@ -38,7 +37,7 @@ class CreateDispatcherController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->route('representative.createDispatcher')
+                ->route('auth.representative.createDispatcher')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -51,6 +50,6 @@ class CreateDispatcherController extends Controller
 
         $dispatcher->attachRole(Role::where('name', '=', 'dispatcher')->first());
 
-        return redirect()->route('representativeHome');
+        return redirect()->route('auth.dispatcherList');
     }
 }
