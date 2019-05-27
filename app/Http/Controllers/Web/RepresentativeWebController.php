@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Http\Controllers\Web;
+
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
+
+class RepresentativeWebController extends Controller
+{
+    /**
+     * @return Factory|View
+     */
+    public function index()
+    {
+        return view('admin.representativeList', [
+            'representatives' => Role::getUsersByRoleName('representative')
+        ]);
+    }
+
+    /**
+     * Показывает страницу создания диспетчера.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view("admin.createRepresentative");
+    }
+
+    /**
+     * Создает нового диспетчера и редиректит на главную страницу представителя.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if ($user->ability(['super-admin'], ['create-representative'])) {
+
+            $validator = $this->getValidator($request);
+
+            if ($validator->fails()) {
+                return redirect()
+                    ->route('auth.representative.create')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            DB::beginTransaction();
+
+            $representative = User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => bcrypt($request->input('password')),
+            ]);
+
+            $representative->attachRole(Role::where('name', '=', 'representative')->first());
+
+            DB::commit();
+
+            return redirect()->route('auth.representative.index');
+        }
+
+        return redirect('login');
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function getValidator(Request $request)
+    {
+        return Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
+}

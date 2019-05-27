@@ -79,10 +79,10 @@
 
                     <li class="active"><a href="{{ route('auth.home') }}">Главная</a></li>
 
-                    <li><a href="{{ route('auth.representativeList') }}">Представители</a></li>
+                    <li><a href="{{ route('auth.representative.index') }}">Представители</a></li>
 
 
-                    <li><a href="{{ route('auth.dispatcherList') }}">Диспетчеры</a></li>
+                    <li><a href="{{ route('auth.dispatcher.index') }}">Диспетчеры</a></li>
 
 
                     <li><a href="{{-- route('auth.manager.dispatcherList') --}}">Заявки</a></li>

@@ -11,7 +11,7 @@
                 <div class="col-sm-12">
 
                     @ability('super-admin,representative', 'create-dispatcher')
-                    <a href="{{ route('auth.representative.createDispatcher') }}">Создать диспетчера</a>
+                    <a href="{{ route('auth.dispatcher.create') }}">Создать диспетчера</a>
                     @endability
 
                     <table class="table table-bordered">
