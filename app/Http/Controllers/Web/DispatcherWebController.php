@@ -24,15 +24,10 @@ class DispatcherWebController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->ability(['super-admin'], ['create-dispatcher'])) {
-
-            return view('representative.dispatcherList', [
-                    "dispatchers" => Role::getUsersByRoleName('dispatcher')
-                ]
-            );
-        }
-
-        return redirect()->route('auth.login');
+        return view('representative.dispatcherList', [
+                "dispatchers" => Role::getUsersByRoleName('dispatcher')
+            ]
+        );
     }
 
     /**
@@ -91,6 +86,6 @@ class DispatcherWebController extends Controller
 
             return redirect()->route('auth.dispatcher.index');
         }
-        return redirect('login');
+        return redirect()->route('login');
     }
 }
