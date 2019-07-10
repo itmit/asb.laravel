@@ -29,11 +29,18 @@ class RepresentativeWebController extends Controller
     /**
      * Показывает страницу создания диспетчера.
      *
-     * @return Response
+     * @return Response|RedirectResponse
      */
     public function create()
     {
-        return view("admin.createRepresentative");
+        $user = Auth::user();
+
+        if ($user->ability(['super-admin'], ['create-representative'])) {
+            return view("admin.createRepresentative");
+        }
+        
+        return redirect()->route('auth.representative.index');
+        
     }
 
     /**
@@ -44,7 +51,6 @@ class RepresentativeWebController extends Controller
      */
     public function store(Request $request)
     {
-
         $user = Auth::user();
 
         if ($user->ability(['super-admin'], ['create-representative'])) {
