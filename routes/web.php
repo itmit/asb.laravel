@@ -19,12 +19,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
 
     Route::resource('dispatcher', 'Web\DispatcherWebController');
     Route::resource('representative', 'Web\RepresentativeWebController');
-
-    Route::group(['as' => 'dispatcher.', 'middleware' => ['role:super-admin|representative|dispatcher']], function () {
-//        Route::get('/create-client/', ['as' => 'createClient', 'uses' => 'CreateClientController@index']);
-//
-//        Route::post('/create-client/', ['as' => 'createClientHandler', 'uses' => 'CreateClientController@createClient']);
-    });
+    Route::resource('bid', 'Web\BidWebController');
 });
 
 Auth::routes();

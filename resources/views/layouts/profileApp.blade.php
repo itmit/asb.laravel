@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript">
+    </script>
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -85,11 +88,10 @@
                     <li><a href="{{ route('auth.dispatcher.index') }}">Диспетчеры</a></li>
 
 
-                    <li><a href="{{-- route('auth.manager.dispatcherList') --}}">Заявки</a></li>
+                    <li><a href="{{ route('auth.bid.index') }}">Заявки</a></li>
 
 
-                    <li><a href="{{-- route('auth.manager.dispatcherList') --}}">Клиенты</a></li>
-
+                    <li><a href="#{{-- route('auth.manager.dispatcherList') --}}">Клиенты</a></li>
                 </ul>
             </div>
             <div class="col-sm-9">
@@ -101,5 +103,6 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

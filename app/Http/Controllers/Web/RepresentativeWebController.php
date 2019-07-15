@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +23,7 @@ class RepresentativeWebController extends Controller
     {
         return view('admin.representativeList', [
             'representatives' => Role::getUsersByRoleName('representative')
+                ->sortByDesc('created_at')
         ]);
     }
 
@@ -38,9 +39,9 @@ class RepresentativeWebController extends Controller
         if ($user->ability(['super-admin'], ['create-representative'])) {
             return view("admin.createRepresentative");
         }
-        
+
         return redirect()->route('auth.representative.index');
-        
+
     }
 
     /**

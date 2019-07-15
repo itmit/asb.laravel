@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Models\Dispatcher;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +26,7 @@ class DispatcherWebController extends Controller
     {
         return view('representative.dispatcherList', [
                 "dispatchers" => Role::getUsersByRoleName('dispatcher')
+                    ->sortByDesc('created_at')
             ]
         );
     }
