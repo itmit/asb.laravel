@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bid;
 use App\Models\PointOnMap;
 use Illuminate\Http\Request;
 
