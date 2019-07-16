@@ -19,14 +19,14 @@ class DatabaseSeeder extends Seeder
 
         $admin = User::create([
             'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('x5410041'),
+            'email' => 'admin@itmit-studio.ru',
+            'password' => bcrypt('admin'),
         ]);
 
         $representative = User::create([
             'name' => 'repr',
-            'email' => 'repr@gmail.com',
-            'password' => bcrypt('x5410041'),
+            'email' => 'repr@itmit-studio.ru',
+            'password' => bcrypt('repr'),
         ]);
 
         $adminRole = Role::create([
