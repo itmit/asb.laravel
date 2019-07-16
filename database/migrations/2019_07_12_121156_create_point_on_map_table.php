@@ -21,7 +21,7 @@ class CreatePointOnMapTable extends Migration
             $table->double('longitude');
             $table->timestamps();
 
-            $table->foreign('client')->references('id')->on('client')
+            $table->foreign('client')->references('id')->on('clients')
                 ->onUpdate('cascade');
         });
     }

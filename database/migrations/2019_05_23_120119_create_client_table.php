@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateClientTable extends Migration
 {
@@ -13,13 +13,16 @@ class CreateClientTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('client');
-        Schema::create('client', function (Blueprint $table) {
+        Schema::dropIfExists('clients');
+        Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('representative')->unsigned();
+
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->rememberToken();
+
             $table->binary('user_picture');
             $table->string('phone_number');
             $table->string('note');
@@ -37,6 +40,6 @@ class CreateClientTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client');
+        Schema::dropIfExists('clients');
     }
 }

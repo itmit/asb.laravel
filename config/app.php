@@ -168,7 +168,8 @@ return [
          * Package Service Providers...
          */
         Zizaco\Entrust\EntrustServiceProvider::class,
-
+        Laravel\Passport\PassportServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('login', 'Api\UserController@login');
+Route::post('register', 'Api\UserController@register');
 
-Route::resource('pointOnMap', 'Api\PointOnMapApiController');
-Route::resource('bid', 'Api\BidApiController');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('details', 'Api\UserController@details');
+
+    Route::resource('pointOnMap', 'Api\PointOnMapApiController');
+    Route::resource('bid', 'Api\BidApiController');
+});
