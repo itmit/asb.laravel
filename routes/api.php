@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', 'Api\UserController@login');
-Route::post('register', 'Api\UserController@register');
+Route::post('login', 'Api\ClientController@login');
+Route::post('register', 'Api\ClientController@register');
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('details', 'Api\UserController@details');
+    Route::post('details', 'Api\ClientController@details');
 
-    Route::resource('pointOnMap', 'Api\PointOnMapApiController');
-    Route::resource('bid', 'Api\BidApiController');
 });
+
+Route::resource('pointOnMap', 'Api\PointOnMapApiController');
+Route::resource('bid', 'Api\BidApiController');

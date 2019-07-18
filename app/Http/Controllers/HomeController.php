@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 /**
@@ -16,6 +17,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // dd(Hash::make('x5410041', [
+        //     'rounds' => 12
+        // ]));
+
         return view('home');
     }
 }

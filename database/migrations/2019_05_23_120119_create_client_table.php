@@ -23,9 +23,9 @@ class CreateClientTable extends Migration
             $table->string('password');
             $table->rememberToken();
 
-            $table->binary('user_picture');
+            $table->binary('user_picture')->nullable();
             $table->string('phone_number');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
 
             $table->foreign('representative')->references('id')->on('users')

@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 
-class ClientController extends Controller
+class ClientController extends ApiBaseController
 {
     public $successStatus = 200;
 
@@ -20,13 +22,34 @@ class ClientController extends Controller
      */
     public function login()
     {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken('MyApp')->accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
-        } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+        
+        $user = Client::where('email', '=', request('email'))
+            ->get()->first();
+
+        if ($user != null) {
+            if (Hash::check(request('password'), $user->password))
+            {
+                Auth::login($user);
+            }
+
+            if (Auth::check()) {
+                $tokenResult = $user->createToken(config('app.name'));
+                $token = $tokenResult->token;
+                $token->expires_at = Carbon::now()->addWeeks(1);
+                $token->save();
+
+                return $this->sendResponse([
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer',
+                    'expires_at' => Carbon::parse(
+                        $tokenResult->token->expires_at
+                    )->toDateTimeString()
+                ], 
+                'Authorization is succesful');
+            }
         }
+
+        return $this->SendError('Authorization error', 'Unauthorised', 401);
     }
 
     /**
@@ -41,15 +64,16 @@ class ClientController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'c_password' => 'required|same:password',
+            'c_password' => 'required|same:password'
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
         $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
+        $input['password'] = Hash::make($input['password']);
+        $input['representative'] = 1;
         $user = Client::create($input);
-        $success['token'] = $user->createToken('MyApp')->accessToken;
+        $success['token'] = $user->createToken(config('app.name'))->accessToken;
         $success['name'] = $user->name;
         return response()->json(['success' => $success], $this->successStatus);
     }
@@ -59,7 +83,7 @@ class ClientController extends Controller
      *
      * @return Response
      */
-    public function details()
+    public function details(Request $request)
     {
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bid;
 use App\Models\PointOnMap;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BidApiController extends Controller
 {
@@ -17,14 +18,15 @@ class BidApiController extends Controller
      */
     public function store(Request $request)
     {
-        Bid::create([
+        $a = Bid::create([
             'location' =>
                 PointOnMap::create([
                     'client' => null,
                     'latitude' => $request->input('latitude'),
                     'longitude' => $request->input('longitude')
-                ]),
+                ])->id,
             'status' => 'PendingAcceptance'
         ]);
+        
     }
 }
