@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends ApiBaseController
 {
@@ -18,12 +18,12 @@ class ClientController extends ApiBaseController
     /**
      * login api
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function login()
     {
-        
-        $user = Client::where('email', '=', request('email'))
+
+        $user = Client::where('phone_number', '=', request('email'))
             ->get()->first();
 
         if ($user != null) {
@@ -44,8 +44,8 @@ class ClientController extends ApiBaseController
                     'expires_at' => Carbon::parse(
                         $tokenResult->token->expires_at
                     )->toDateTimeString()
-                ], 
-                'Authorization is succesful');
+                ],
+                    'Authorization is successful');
             }
         }
 
@@ -81,11 +81,11 @@ class ClientController extends ApiBaseController
     /**
      * details api
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function details(Request $request)
+    public function details()
     {
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+        return $this->SendResponse(['user' => auth('api')->user()], "");
     }
+
 }
