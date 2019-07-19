@@ -14,11 +14,27 @@ class Dispatcher extends Model
      * @var array
      */
     protected $fillable = [
-      'representative'
+        'representative', 'user'
     ];
 
     /**
      * @var string
      */
     protected $table = 'dispatcher';
+
+    /**
+     * @return User
+     */
+    public function representative()
+    {
+        return $this->belongsTo(User::class, 'representative')->get()->first();
+    }
+
+    /**
+     * @return User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user')->get()->first();
+    }
 }

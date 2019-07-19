@@ -1,10 +1,24 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    <h1>Создание представителя</h1>
+    <h1>Создание клиента</h1>
     <div class="col-sm-12">
-        <form class="form-horizontal" method="POST" action="{{ route('auth.representative.store') }}">
+        <form class="form-horizontal" method="POST" action="{{ route('auth.client.store') }}">
             {{ csrf_field() }}
+
+            @php
+                use App\Models\User;$user = Illuminate\Support\Facades\Auth::user();
+                if ($user instanceof User && $user->hasRole('dispatcher'))
+                {
+                     $repId = $user->dispatcher->representative;
+                }
+                else
+                {
+                    $repId = $user->id;
+                }
+            @endphp
+
+            <input type="hidden" name="representative" value="{{ $repId }}">
 
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                 <label for="name" class="col-md-4 control-label">Name</label>
@@ -15,8 +29,8 @@
 
                     @if ($errors->has('name'))
                         <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                            <strong>{{ $errors->first('name') }}</strong>
+                        </span>
                     @endif
                 </div>
             </div>
@@ -30,8 +44,23 @@
 
                     @if ($errors->has('email'))
                         <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
+                <label for="phone_number" class="col-md-4 control-label">Phone number</label>
+
+                <div class="col-md-6">
+                    <input id="phone_number" type="tel" class="form-control" name="phone_number"
+                           value="{{ old('phone_number') }}" required>
+
+                    @if ($errors->has('phone_number'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('phone_number') }}</strong>
+                        </span>
                     @endif
                 </div>
             </div>
@@ -44,8 +73,8 @@
 
                     @if ($errors->has('password'))
                         <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
                     @endif
                 </div>
             </div>
@@ -62,7 +91,7 @@
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">
-                        Создать диспетчера
+                        Создать клиента
                     </button>
                 </div>
             </div>

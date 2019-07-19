@@ -22,7 +22,6 @@ class ClientController extends ApiBaseController
      */
     public function login()
     {
-
         $user = Client::where('phone_number', '=', request('email'))
             ->get()->first();
 

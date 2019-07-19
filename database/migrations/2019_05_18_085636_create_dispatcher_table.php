@@ -18,9 +18,13 @@ class CreateDispatcherTable extends Migration
         Schema::create('dispatcher', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('representative')->unsigned();
+            $table->integer('user')->unsigned();
+
             $table->timestamps();
 
             $table->foreign('representative')->references('id')->on('users')
+                ->onUpdate('cascade');
+            $table->foreign('user')->references('id')->on('users')
                 ->onUpdate('cascade');
         });
     }

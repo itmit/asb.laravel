@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use App\Models\Dispatcher;
 use App\Models\Role;
 use App\Models\User;
@@ -16,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
-class DispatcherWebController extends Controller
+class DispatcherWebController extends BaseWebController
 {
 
     /**
@@ -25,8 +24,8 @@ class DispatcherWebController extends Controller
     public function index()
     {
         return view('representative.dispatcherList', [
-                "dispatchers" => Role::getUsersByRoleName('dispatcher')
-                    ->sortByDesc('created_at')
+                "dispatchers" => Dispatcher::where('representative', '=', $this->getRepresentativeId())
+                    ->orderBy('created_at', 'desc')->get()
             ]
         );
     }
@@ -78,7 +77,8 @@ class DispatcherWebController extends Controller
             ]);
 
             Dispatcher::create([
-                'representative' => Auth::id()
+                'representative' => Auth::id(),
+                'user' => $dispatcher->id
             ]);
 
             $dispatcher->attachRole(Role::where('name', '=', 'dispatcher')->first());

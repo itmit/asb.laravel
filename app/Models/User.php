@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
@@ -26,4 +28,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function dispatchers()
+    {
+        return $this->belongsTo(Dispatcher::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function dispatcher()
+    {
+        return $this->hasOne(Dispatcher::class, 'user');
+    }
 }

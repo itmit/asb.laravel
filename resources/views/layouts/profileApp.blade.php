@@ -91,7 +91,7 @@
                     <li><a href="{{ route('auth.bid.index') }}">Заявки</a></li>
 
 
-                    <li><a href="#{{-- route('auth.manager.dispatcherList') --}}">Клиенты</a></li>
+                    <li><a href="{{ route('auth.client.index') }}">Клиенты</a></li>
                 </ul>
             </div>
             <div class="col-sm-9">
@@ -104,5 +104,11 @@
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/script.js') }}"></script>
+<script src="{{ asset('js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('input[type=tel]').mask("+7 (999) 999-99-99");
+    });
+</script>
 </body>
 </html>

@@ -20,6 +20,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::resource('dispatcher', 'Web\DispatcherWebController');
     Route::resource('representative', 'Web\RepresentativeWebController');
     Route::resource('bid', 'Web\BidWebController');
+    Route::resource('client', 'Web\ClientWebController');
 });
 
 Auth::routes();
