@@ -22,9 +22,10 @@ class ClientController extends ApiBaseController
      */
     public function login()
     {
-        $user = Client::where('phone_number', '=', request('email'))
+        $number = urldecode(request('phoneNumber'));
+        $user = Client::where('phone_number', '=', $number)
             ->get()->first();
-
+        
         if ($user != null) {
             if (Hash::check(request('password'), $user->password))
             {
@@ -44,11 +45,11 @@ class ClientController extends ApiBaseController
                         $tokenResult->token->expires_at
                     )->toDateTimeString()
                 ],
-                    'Authorization is successful');
+                    "Authorization is successful");
             }
         }
 
-        return $this->SendError('Authorization error', 'Unauthorised', 401);
+        return $this->SendError('Authorization error', "Uncorrect login or password (login is with number: '$number')", 401);
     }
 
     /**

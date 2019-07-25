@@ -19,11 +19,15 @@
                 </thead>
                 <tbody>
                 @foreach($bids as $bid)
+                @php
+                if ($bid->location()->client()->representative != $id)
+                    continue;
+                @endphp
                     <tr>
                         <td>{{ $bid->status }}</td>
                         <td>
-                            <div class="js-location" data-longitude="59.1231286" data-latitude="37.8997383">
-
+                            <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
+                            {{ $bid->location()->client()->email }}
                             </div>
                         </td>
                         <td>

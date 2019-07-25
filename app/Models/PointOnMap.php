@@ -19,4 +19,9 @@ class PointOnMap extends Model
      * @var string
      */
     protected $table = 'point_on_map';
+
+    public function client() 
+    {
+        return $this->belongsTo(Client::class, 'client')->get()->first();        
+    }
 }

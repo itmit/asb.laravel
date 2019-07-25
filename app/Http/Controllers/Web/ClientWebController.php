@@ -27,7 +27,7 @@ class ClientWebController extends Controller
         if ($user instanceof User) {
             if ($user->hasRole('dispatcher')) {
                 $repId = $user->dispatcher->representative;
-            } elseif ($user->hasRole('representative')) {
+            } elseif ($user->hasRole('representative') || $user->hasRole('super-admin')) {
                 $repId = $user->id;
             }
         }
@@ -80,6 +80,6 @@ class ClientWebController extends Controller
             'representative' => $request->input('representative')
         ]);
 
-        return redirect()->route('auth.dispatcher.index');
+        return redirect()->route('auth.client.index');
     }
 }

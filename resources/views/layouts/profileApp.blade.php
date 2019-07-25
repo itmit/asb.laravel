@@ -82,14 +82,15 @@
 
                     <li class="active"><a href="{{ route('auth.home') }}">Главная</a></li>
 
+                    @ability('super-admin', 'show-representatives')
                     <li><a href="{{ route('auth.representative.index') }}">Представители</a></li>
+                    @endability
 
-
-                    <li><a href="{{ route('auth.dispatcher.index') }}">Диспетчеры</a></li>
-
+                    @ability('super-admin,representative', 'show-dispatchers')
+                    <li><a href="{{ route('auth.dispatcher.index') }}">Диспетчеры</a></li>                    
+                    @endability
 
                     <li><a href="{{ route('auth.bid.index') }}">Заявки</a></li>
-
 
                     <li><a href="{{ route('auth.client.index') }}">Клиенты</a></li>
                 </ul>

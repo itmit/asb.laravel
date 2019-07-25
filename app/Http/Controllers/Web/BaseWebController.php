@@ -16,7 +16,7 @@ abstract class BaseWebController extends Controller
         if ($user instanceof User) {
             if ($user->hasRole('dispatcher')) {
                 return $user->dispatcher->representative;
-            } elseif ($user->hasRole('representative')) {
+            } elseif ($user->hasRole('representative') || $user->hasRole('super-admin')) {
                 return $user->id;
             }
         }

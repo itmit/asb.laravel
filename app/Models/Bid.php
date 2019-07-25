@@ -18,4 +18,9 @@ class Bid extends Model
      * @var string
      */
     protected $table = 'bid';
+
+    public function location()
+    {
+        return $this->belongsTo(PointOnMap::class, 'location')->get()->first();
+    }
 }

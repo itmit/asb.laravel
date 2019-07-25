@@ -31,7 +31,7 @@ class BidApiController extends ApiBaseController
         Bid::create([
             'location' =>
                 PointOnMap::create([
-                    'client' => auth('api')->user(),
+                    'client' => auth('api')->user()->id,
                     'latitude' => $request->input('latitude'),
                     'longitude' => $request->input('longitude')
                 ])->id,
