@@ -9,9 +9,17 @@ class BidWebController extends BaseWebController
 {
     public function index()
     {
+        $bids = Bid::all()->sortByDesc('created_at');
+        $bs = [];
+        foreach ($bids as $bid) {
+            if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+                continue;
+            }
+
+            $bs[] = $bid;
+        }
         return view('dispatcher.listOfBid', [
-            'bids' => Bid::all()->sortByDesc('created_at'),
-            'id'  => $this->getRepresentativeId()
+            'bids' => $bs
         ]);
     }
 }

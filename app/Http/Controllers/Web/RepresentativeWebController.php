@@ -16,6 +16,11 @@ use Illuminate\View\View;
 
 class RepresentativeWebController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:super-admin');
+    }
+
     /**
      * @return Factory|View
      */

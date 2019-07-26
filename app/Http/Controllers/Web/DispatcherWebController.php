@@ -17,6 +17,10 @@ use Illuminate\View\View;
 
 class DispatcherWebController extends BaseWebController
 {
+    public function __construct()
+    {
+        $this->middleware('role:super-admin|representative');
+    }
 
     /**
      * @return Factory|RedirectResponse|Redirector|View

@@ -17,17 +17,18 @@ class CreateClientTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('representative')->unsigned();
-
+            
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
-
+            
             $table->binary('user_picture')->nullable();
-            $table->string('phone_number');
+            $table->string('phone_number')->unique();
+            $table->string('organization')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
-
+            
             $table->foreign('representative')->references('id')->on('users')
                 ->onUpdate('cascade');
         });

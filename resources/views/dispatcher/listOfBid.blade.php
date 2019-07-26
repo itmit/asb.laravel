@@ -19,10 +19,6 @@
                 </thead>
                 <tbody>
                 @foreach($bids as $bid)
-                @php
-                if ($bid->location()->client()->representative != $id)
-                    continue;
-                @endphp
                     <tr>
                         <td>{{ $bid->status }}</td>
                         <td>
