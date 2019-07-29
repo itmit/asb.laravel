@@ -27,6 +27,7 @@ class CreateClientTable extends Migration
             $table->string('phone_number')->unique();
             $table->string('organization')->nullable();
             $table->string('note')->nullable();
+            $table->boolean('is_guard');
             $table->timestamps();
             
             $table->foreign('representative')->references('id')->on('users')

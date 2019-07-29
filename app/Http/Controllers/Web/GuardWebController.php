@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
-class ClientWebController extends Controller
+class GuardWebController extends Controller
 {
 
     /**
@@ -32,9 +32,9 @@ class ClientWebController extends Controller
             }
         }
 
-        return view('dispatcher.listOfClients', [
-                'clients' => Client::where('representative', '=', $repId)
-                    ->where('is_guard', '<>', 1)
+        return view('representative.guardList', [
+                'guards' => Client::where('representative', '=', $repId)
+                    ->where('is_guard', '=', 1)
                     ->orderBy('created_at', 'desc')->get()
             ]
         );
@@ -47,40 +47,45 @@ class ClientWebController extends Controller
      */
     public function create()
     {
-        return view("dispatcher.clientCreationForm");
+        return view("representative.guardCreate");
     }
 
-    /**
-     * Создает нового диспетчера и редиректит на главную страницу представителя.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function store(Request $request)
     {
+        $user = Auth::user();
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'phone_number' => 'required|string|min:11',
-            'representative' => 'required'
+            'phone' => 'required|string|min:11'
         ]);
 
         if ($validator->fails()) {
             return redirect()
-                ->route('auth.clint.create')
+                ->route('auth.guard.create')
                 ->withErrors($validator)
                 ->withInput();
+        }
+
+        if ($user instanceof User && $user->hasRole('dispatcher'))
+        {
+            $repId = $user->dispatcher->representative;
+        }
+        else
+        {
+            $repId = $user->id;
         }
 
         Client::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
-            'phone_number' => $request->input('phone_number'),
-            'representative' => $request->input('representative')
+            'phone_number' => $request->input('phone'),
+            'representative' => $repId,
+            'is_guard' => 1
         ]);
 
-        return redirect()->route('auth.client.index');
+        return redirect()->route('auth.guard.index');
     }
 }

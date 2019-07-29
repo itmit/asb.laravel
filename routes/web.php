@@ -21,6 +21,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::resource('representative', 'Web\RepresentativeWebController');
     Route::resource('bid', 'Web\BidWebController');
     Route::resource('client', 'Web\ClientWebController');
+    Route::resource('guard', 'Web\GuardWebController');
 });
 
 Auth::routes();
