@@ -21,4 +21,5 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::resource('pointOnMap', 'Api\PointOnMapApiController');
     Route::resource('bid', 'Api\BidApiController');
+    Route::post('bid/changeStatus', 'Api\BidApiController@changeStatus');
 });
