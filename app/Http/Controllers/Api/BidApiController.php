@@ -91,10 +91,9 @@ class BidApiController extends ApiBaseController
             return $this->sendError($validator->errors(), "Validation error", 401);
         }
 
-        $bid = DB::table('bid')
+        $bid[0] = DB::table('bid')
             ->where('uid', '=', request('uid'))
-            ->update(['status' => request('new_status')])
-            ->toArray();
+            ->update(['status' => request('new_status')]);
 
         return $this->sendResponse(
             $bid,
