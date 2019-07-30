@@ -21,7 +21,7 @@
                     <td>{{ $client->name }}</td>
                     <td>{{ $client->email }}</td>
                     <td>{{ $client->phone_number }}</td>
-                    <td>{{ $client->created_at }}</td>
+                    <td>{{ $client->created_at->timezone('Europe/Moscow') }}</td>
                 </tr>
             @endforeach
             </tbody>

@@ -60,4 +60,9 @@ class BidApiController extends ApiBaseController
             'status' => 'PendingAcceptance'
         ]);
     }
+
+    public function PendingAcceptanceBids()
+    {
+        
+    }
 }
