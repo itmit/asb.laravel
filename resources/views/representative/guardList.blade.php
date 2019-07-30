@@ -23,7 +23,7 @@
                     <td>{{ $guard->name }}</td>
                     <td>{{ $guard->email }}</td>
                     <td>{{ $guard->phone_number }}</td>
-                    <td>{{ $guard->created_at }}</td>
+                    <td>{{ $guard->created_at->timezone('Europe/Moscow') }}</td>
                 </tr>
                 @endforeach
             </tbody>

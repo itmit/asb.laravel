@@ -22,8 +22,8 @@
                 <tr>
                     <td>{{ $dispatcher->user()->name }}</td>
                     <td>{{ $dispatcher->user()->email }}</td>
-                    <td>{{ $dispatcher->created_at }}</td>
-                    <td>{{ $dispatcher->updated_at }}</td>
+                    <td>{{ $dispatcher->created_at->timezone('Europe/Moscow') }}</td>
+                    <td>{{ $dispatcher->updated_at->timezone('Europe/Moscow') }}</td>
                 </tr>
             @endforeach
             </tbody>

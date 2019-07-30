@@ -29,8 +29,8 @@
                         <td>
 
                         </td>
-                        <td>{{ $bid->created_at }}</td>
-                        <td>{{ $bid->updated_at }}</td>
+                        <td>{{ $bid->created_at->timezone('Europe/Moscow') }}</td>
+                        <td>{{ $bid->updated_at->timezone('Europe/Moscow') }}</td>
                     </tr>
                 @endforeach
                 </tbody>
