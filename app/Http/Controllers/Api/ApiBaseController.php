@@ -23,13 +23,7 @@ abstract class ApiBaseController extends Controller
     protected function getRepresentativeId(): int
     {
         $user = auth('api')->user();
-        if ($user instanceof User) {
-            if ($user->hasRole('dispatcher')) {
-                return $user->dispatcher->representative;
-            } elseif ($user->hasRole('representative') || $user->hasRole('super-admin')) {
-                return $user->id;
-            }
-        } elseif ($user instanceof Client) 
+        if ($user instanceof Client) 
         {
             return $user->representative;
         }
