@@ -21,20 +21,25 @@ class BidApiController extends ApiBaseController
     {
         if(request('status'))
         {
-            $status = request('status');
-        }
-        else $status = 'FALSE';
-        
-        echo $status;
-
-        $bids = DB::table('bid')
+            $bids = DB::table('bid')
             ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
             ->join('clients', 'point_on_map.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             ->where('clients.representative', '=', $this->getRepresentativeId())
-            ->where('bid.status', '=', $status)
+            ->where('bid.status', '=', request('status'))
             ->orderBy('bid.updated_at', 'desc')
             ->get()->toArray();
+        }
+        else 
+        {
+            $bids = DB::table('bid')
+            ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+            ->join('clients', 'point_on_map.client', '=', 'clients.id')
+            ->join('users', 'clients.representative', '=', 'users.id')
+            ->where('clients.representative', '=', $this->getRepresentativeId())
+            ->orderBy('bid.updated_at', 'desc')
+            ->get()->toArray();
+        }
 
         return $this->sendResponse(
             $bids,
