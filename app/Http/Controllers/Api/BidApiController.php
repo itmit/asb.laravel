@@ -71,6 +71,7 @@ class BidApiController extends ApiBaseController
         Bid::create([
             'location' =>
                 PointOnMap::create([
+                    'uid' => $request->input('uid'),
                     'client' => auth('api')->user()->id,
                     'latitude' => $request->input('latitude'),
                     'longitude' => $request->input('longitude')
@@ -79,8 +80,17 @@ class BidApiController extends ApiBaseController
         ]);
     }
 
-    public function changeStatus()
+    public function changeStatus(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'uid' => 'required',
+            'new_status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors(), "Validation error", 401);
+        }
+
         $bid = DB::table('bid')
             ->where('uid', '=', request('uid'))
             ->update(['status' => request('new_status')]);
