@@ -35,6 +35,14 @@ class Client extends Authenticatable
     }
 
     /**
+     * @return User
+     */
+    public function representative()
+    {
+        return $this->belongsTo(User::class, 'representative')->get()->first();
+    }
+
+    /**
      * Get the login username to be used by the controller.
      *
      * @return string

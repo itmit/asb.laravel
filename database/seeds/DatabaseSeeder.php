@@ -20,13 +20,13 @@ class DatabaseSeeder extends Seeder
         $admin = User::create([
             'name' => 'admin',
             'email' => 'admin@itmit-studio.ru',
-            'password' => bcrypt('admin'),
+            'password' => '$2y$10$qYiU8MseeJF5ingZpExLROT8szDD5FWriVGEzSv.rviPd9K9kenq.',
         ]);
 
         $representative = User::create([
             'name' => 'repr',
             'email' => 'repr@itmit-studio.ru',
-            'password' => bcrypt('repr'),
+            'password' => '$2y$10$qYiU8MseeJF5ingZpExLROT8szDD5FWriVGEzSv.rviPd9K9kenq.',
         ]);
 
         $adminRole = Role::create([

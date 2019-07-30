@@ -85,7 +85,7 @@ class ClientController extends ApiBaseController
      */
     public function details()
     {
-        return $this->SendResponse(['user' => auth('api')->user()], "");
+        return $this->SendResponse(auth('api')->user()->toArray(), "");
     }
 
 }

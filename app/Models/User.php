@@ -38,6 +38,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return BelongsTo
+     */
+    public function clients()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    /**
      * @return HasOne
      */
     public function dispatcher()

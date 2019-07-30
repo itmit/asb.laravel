@@ -7,9 +7,31 @@ use App\Models\PointOnMap;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class BidApiController extends ApiBaseController
 {
+    /**
+     * Возвращает все завки, по дате обновления, по убыванию.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request) : JsonResponse
+    {
+        $bids = DB::table('bid')
+            ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+            ->join('clients', 'point_on_map.client', '=', 'clients.id')
+            ->join('users', 'clients.representative', '=', 'users.id')
+            ->where('clients.representative', '=', $this->getRepresentativeId())
+            ->orderBy('bid.updated_at', 'desc')
+            ->get()->toArray();
+
+        return $this->sendResponse(
+            $bids,
+            'Bids retrieved successfully.'
+        );
+    }
 
     /**
      * Store a newly created resource in storage.

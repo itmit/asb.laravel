@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse as JsonResponseAlias;
+use App\Models\User;
+use App\Models\Client;
 
 /**
  * Представляет базовый класс для api контроллеров.
@@ -12,6 +14,28 @@ use Illuminate\Http\JsonResponse as JsonResponseAlias;
  */
 abstract class ApiBaseController extends Controller
 {
+    /**
+     * Возвращает id представителства к которому отностися диспетчер или клиент.
+     * Либо текущий id пользователя если он является представителем или админом.
+     *
+     * @return integer
+     */
+    protected function getRepresentativeId(): int
+    {
+        $user = auth('api')->user();
+        if ($user instanceof User) {
+            if ($user->hasRole('dispatcher')) {
+                return $user->dispatcher->representative;
+            } elseif ($user->hasRole('representative') || $user->hasRole('super-admin')) {
+                return $user->id;
+            }
+        } elseif ($user instanceof Client) 
+        {
+            return $user->representative;
+        }
+
+        return 0;
+    }
 
     /**
      * Отправляет ответ на успешный запрос к api.
