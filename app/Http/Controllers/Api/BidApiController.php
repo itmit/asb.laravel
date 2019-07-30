@@ -24,7 +24,7 @@ class BidApiController extends ApiBaseController
             ->join('clients', 'point_on_map.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             ->where('clients.representative', '=', $this->getRepresentativeId())
-            ->where('status', '=', request('status'))
+            ->where('status', '=', 'PendingAcceptance')
             ->orderBy('bid.updated_at', 'desc')
             ->get()->toArray();
 
