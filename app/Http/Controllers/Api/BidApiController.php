@@ -93,7 +93,8 @@ class BidApiController extends ApiBaseController
 
         $bid = DB::table('bid')
             ->where('uid', '=', request('uid'))
-            ->update(['status' => request('new_status')]);
+            ->update(['status' => request('new_status')])
+            ->toArray();
 
         return $this->sendResponse(
             $bid,
