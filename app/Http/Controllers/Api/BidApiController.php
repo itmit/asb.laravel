@@ -81,6 +81,13 @@ class BidApiController extends ApiBaseController
 
     public function changeStatus()
     {
-        return 'a))0)';
+        $bid = DB::table('bid')
+            ->where('uid', '=', request('uid'))
+            ->update(['status' => request('new_status')]);
+
+        return $this->sendResponse(
+            $bid,
+            'Bid updated successfully.'
+        );
     }
 }
