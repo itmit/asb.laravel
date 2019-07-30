@@ -27,6 +27,8 @@ class BidApiController extends ApiBaseController
             ->join('users', 'clients.representative', '=', 'users.id')
             ->where('clients.representative', '=', $this->getRepresentativeId())
             ->where('bid.status', '=', request('status'))
+            ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
+            'clients.phone_number', 'clients.organization')
             ->orderBy('bid.updated_at', 'desc')
             ->get()->toArray();
         }
@@ -37,6 +39,8 @@ class BidApiController extends ApiBaseController
             ->join('clients', 'point_on_map.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             ->where('clients.representative', '=', $this->getRepresentativeId())
+            ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
+            'clients.phone_number', 'clients.organization')
             ->orderBy('bid.updated_at', 'desc')
             ->get()->toArray();
         }
