@@ -25,6 +25,8 @@ class BidApiController extends ApiBaseController
         }
         else $status = 'FALSE';
         
+        echo $status;
+
         $bids = DB::table('bid')
             ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
             ->join('clients', 'point_on_map.client', '=', 'clients.id')
