@@ -28,10 +28,8 @@ class BidApiController extends ApiBaseController
             ->orderBy('bid.updated_at', 'desc')
             ->get()->toArray();
 
-        return $this->getRepresentativeId();
-
         return $this->sendResponse(
-            $bids,
+            $this->getRepresentativeId(),
             'Bids retrieved successfully.'
         );
     }
