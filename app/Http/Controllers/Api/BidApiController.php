@@ -23,7 +23,7 @@ class BidApiController extends ApiBaseController
         {
             $status = request('status');
         }
-        else $status = FALSE;
+        else $status = 'FALSE';
         
         $bids = DB::table('bid')
             ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
