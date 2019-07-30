@@ -12,6 +12,7 @@ class Bid extends Model
     protected $fillable = [
         'location',
         'status',
+        'uid',
     ];
 
     /**

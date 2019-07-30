@@ -79,8 +79,8 @@ class BidApiController extends ApiBaseController
         ]);
     }
 
-    public function PendingAcceptanceBids()
+    public function changeStatus()
     {
-        
+        return 'a))0)';
     }
 }

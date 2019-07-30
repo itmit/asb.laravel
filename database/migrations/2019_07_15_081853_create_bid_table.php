@@ -16,6 +16,7 @@ class CreateBidTable extends Migration
         Schema::dropIfExists('bid');
         Schema::create('bid', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('uid')->unsigned();
             $table->integer('location')->unsigned();
             $table->enum('status', ['Accepted', 'PendingAcceptance', 'Processed']);
 
