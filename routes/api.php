@@ -24,3 +24,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('bid/changeStatus', 'Api\BidApiController@changeStatus');
     Route::post('client/changePhoto', 'Api\ClientController@changePhoto');
 });
+
+Route::fallback(function () {
+    $code = 404;
+    $response = [
+        'success' => false,
+        'message' => 'Page not found',
+    ];
+
+    return response()->json($response, $code);
+});
