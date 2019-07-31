@@ -88,4 +88,33 @@ class ClientController extends ApiBaseController
         return $this->SendResponse(auth('api')->user()->toArray(), "");
     }
 
+    public function changePhoto(Request $request)
+    {
+
+        return $this->SendResponse(auth('api')->user()->id, '');
+
+        // $validator = Validator::make($request->all(), [ 
+        //     'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:10000',
+        // ]);
+
+        // if ($validator->fails()) { 
+        //     return response()->json(['error'=>$validator->errors()], 401);            
+        // }
+
+        // $path = Storage::putFileAs(
+        //     'public/avatars', $request->file('contents'), $request->uid . '.jpg'
+        // );
+
+        // $user = Client::where('uid', '=', $request->uid)
+        //     ->update(['photo' => $path]);
+
+        // if($user > 0)
+        // {
+        //     return $this->sendResponse([
+        //         $user
+        //     ],
+        //         'Updated');
+        // }
+        // return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
 }
