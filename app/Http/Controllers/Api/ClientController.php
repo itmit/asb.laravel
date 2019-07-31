@@ -90,32 +90,28 @@ class ClientController extends ApiBaseController
 
     public function changePhoto(Request $request)
     {
+        $validator = Validator::make($request->all(), [ 
+            'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:10000',
+        ]);
 
-        return auth('api')->user()->name;
-        // return $this->SendResponse([auth('api')->user()->id], '');
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
 
-        // $validator = Validator::make($request->all(), [ 
-        //     'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:10000',
-        // ]);
+        $path = Storage::putFileAs(
+            'public/avatars', $request->file('contents'), auth('api')->user()->id . '.jpg'
+        );
 
-        // if ($validator->fails()) { 
-        //     return response()->json(['error'=>$validator->errors()], 401);            
-        // }
+        $user = Client::where('id', '=', auth('api')->user()->id)
+            ->update(['photo' => $path]);
 
-        // $path = Storage::putFileAs(
-        //     'public/avatars', $request->file('contents'), $request->uid . '.jpg'
-        // );
-
-        // $user = Client::where('uid', '=', $request->uid)
-        //     ->update(['photo' => $path]);
-
-        // if($user > 0)
-        // {
-        //     return $this->sendResponse([
-        //         $user
-        //     ],
-        //         'Updated');
-        // }
-        // return $this->SendError('Update error', 'Something gone wrong', 401);
+        if($user > 0)
+        {
+            return $this->sendResponse([
+                $user
+            ],
+                'Updated');
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 }
