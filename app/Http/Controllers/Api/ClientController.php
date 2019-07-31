@@ -91,7 +91,7 @@ class ClientController extends ApiBaseController
     public function changePhoto(Request $request)
     {
 
-        return auth('api')->user()->id;
+        return auth('api')->user()->name;
         // return $this->SendResponse([auth('api')->user()->id], '');
 
         // $validator = Validator::make($request->all(), [ 
