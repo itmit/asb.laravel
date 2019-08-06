@@ -83,4 +83,11 @@ class ClientWebController extends Controller
 
         return redirect()->route('auth.client.index');
     }
+
+    public function destroy(Request $request)
+    {
+        Place::destroy($request->input('ids'));
+
+        return response()->json(['Places destroyed']);
+    }
 }
