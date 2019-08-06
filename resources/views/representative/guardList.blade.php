@@ -11,6 +11,7 @@
         <table class="table table-bordered">
             <thead>
             <tr>
+                <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>
                 <th>Имя</th>
                 <th>Почта</th>
                 <th>Дата создания</th>
@@ -20,6 +21,7 @@
             <tbody>
                 @foreach($guards as $guard)
                 <tr>
+                    <td><input type="checkbox" data-place-id="{{ $dispatcher->id }}" name="destoy-place-{{ $dispatcher->id }}" class="js-destroy"/></td>
                     <td>{{ $guard->name }}</td>
                     <td>{{ $guard->email }}</td>
                     <td>{{ $guard->phone_number }}</td>
