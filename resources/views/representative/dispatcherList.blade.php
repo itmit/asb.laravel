@@ -6,6 +6,7 @@
 
         @ability('super-admin,representative', 'create-dispatcher')
         <a href="{{ route('auth.dispatcher.create') }}">Создать диспетчера</a>
+        <input type="button" value="Удалить" class="js-destroy-button-dispatcher">
         @endability
 
         <table class="table table-bordered">
