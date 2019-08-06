@@ -6,11 +6,13 @@
 
         @ability('super-admin', 'create-representative')
         <a href="{{ route('auth.representative.create') }}">Создать представителя</a>
+        <input type="button" value="Удалить" class="js-destroy-button-representative">
         @endability
 
         <table class="table table-bordered">
             <thead>
             <tr>
+                <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>
                 <th>Имя</th>
                 <th>Почта</th>
                 <th>Дата создания</th>
@@ -20,6 +22,7 @@
             <tbody>
             @foreach($representatives as $representative)
                 <tr>
+                    <td><input type="checkbox" data-place-id="{{ $representative->id }}" name="destoy-place-{{ $representative->id }}" class="js-destroy"/></td>
                     <td>{{ $representative->name }}</td>
                     <td>{{ $representative->email }}</td>
                     <td>{{ $representative->created_at }}</td>
