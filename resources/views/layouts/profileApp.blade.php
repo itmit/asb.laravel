@@ -159,7 +159,7 @@
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
                 data    : { ids: ids },
-                url     : 'clients/delete',
+                url     : 'dispatcher/delete',
                 method    : 'delete',
                 success: function (response) {
                     console.log(response);

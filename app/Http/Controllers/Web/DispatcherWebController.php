@@ -93,4 +93,11 @@ class DispatcherWebController extends BaseWebController
         }
         return redirect()->route('login');
     }
+
+    public function destroy(Request $request)
+    {
+        Dispatcher::destroy($request->input('ids'));
+
+        return response()->json(['Clients destroyed']);
+    }
 }
