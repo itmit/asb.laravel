@@ -86,8 +86,8 @@ class ClientWebController extends Controller
 
     public function destroy(Request $request)
     {
-        Place::destroy($request->input('ids'));
+        Client::destroy($request->input('ids'));
 
-        return response()->json(['Places destroyed']);
+        return response()->json(['Clients destroyed']);
     }
 }
