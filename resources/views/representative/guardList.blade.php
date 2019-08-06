@@ -22,7 +22,7 @@
             <tbody>
                 @foreach($guards as $guard)
                 <tr>
-                    <td><input type="checkbox" data-place-id="{{ $dispatcher->id }}" name="destoy-place-{{ $dispatcher->id }}" class="js-destroy"/></td>
+                    <td><input type="checkbox" data-place-id="{{ $guard->id }}" name="destoy-place-{{ $guard->id }}" class="js-destroy"/></td>
                     <td>{{ $guard->name }}</td>
                     <td>{{ $guard->email }}</td>
                     <td>{{ $guard->phone_number }}</td>
