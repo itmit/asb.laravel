@@ -26,3 +26,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
 
 Auth::routes();
 
+
+Route::post('messages', function(Illuminate\Http\Request $request) {
+	App\Events\PrivateChat::dispatch($request->all());
+});
