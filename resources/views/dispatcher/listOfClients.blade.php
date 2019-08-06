@@ -6,6 +6,8 @@
 
         <a href="{{ route('auth.client.create') }}">Добавить клиентов</a>
 
+        <input type="button" value="Удалить" class="js-destroy-button">
+
         <table class="table table-bordered">
             <thead>
             <tr>
