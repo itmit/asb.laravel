@@ -6,6 +6,7 @@
 
         @ability('super-admin,representative', 'create-guard')
         <a href="{{ route('auth.guard.create') }}">Создать охранника</a>
+        <input type="button" value="Удалить" class="js-destroy-button-guard">
         @endability
 
         <table class="table table-bordered">

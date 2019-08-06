@@ -88,4 +88,11 @@ class GuardWebController extends Controller
 
         return redirect()->route('auth.guard.index');
     }
+
+    public function destroy(Request $request)
+    {
+        Client::destroy($request->input('ids'));
+
+        return response()->json(['Clients destroyed']);
+    }
 }

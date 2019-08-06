@@ -25,6 +25,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
 
     Route::delete('clients/delete', 'Web\ClientWebController@destroy');
     Route::delete('dispatcher/delete', 'Web\DispatcherWebController@destroy');
+    Route::delete('guard/delete', 'Web\GuardWebController@destroy');
 });
 
 Auth::routes();
