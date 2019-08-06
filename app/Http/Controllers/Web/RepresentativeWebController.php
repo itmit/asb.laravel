@@ -100,4 +100,11 @@ class RepresentativeWebController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
+
+    public function destroy(Request $request)
+    {
+        User::destroy($request->input('ids'));
+
+        return response()->json(['Representative destroyed']);
+    }
 }
