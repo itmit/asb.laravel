@@ -15,7 +15,7 @@ class ChangeStatusListener
      */
     public function __construct()
     {
-        return 'constr';
+        //
     }
 
     /**
