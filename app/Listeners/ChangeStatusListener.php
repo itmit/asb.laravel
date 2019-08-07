@@ -28,4 +28,9 @@ class ChangeStatusListener
     {
         return 'ChangeStatus';
     }
+
+    public function failed(ChangeStatus $event, $exception)
+    {
+        return 'fail';
+    }
 }
