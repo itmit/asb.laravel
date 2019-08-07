@@ -103,4 +103,11 @@ class BidApiController extends ApiBaseController
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
+
+    public function testFunc($bidID)
+    {
+        $bid = Order::findOrFail($bidID);
+
+        event(new ChangeStatus($bid));
+    }
 }

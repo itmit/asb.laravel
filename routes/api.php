@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('client/changePhoto', 'Api\ClientController@changePhoto');
 });
 
+Route::post('bid/testFunc', 'Api\BidApiController@testFunc');
+
 Route::fallback(function () {
     $code = 404;
     $response = [
