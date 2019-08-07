@@ -107,7 +107,7 @@ class BidApiController extends ApiBaseController
 
     public function testFunc(Request $bidID)
     {
-        $bid = Bid::findOrFail($bidID);
+        $bid = Bid::findOrFail($bidID)->first();
 
         event(new ChangeStatus($bid));
     }
