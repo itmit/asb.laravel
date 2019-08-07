@@ -9,11 +9,13 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Http\Models\Bid;
+use App\Models\Bid;
 
 class ChangeStatus
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $bid;
 
     /**
      * Create a new event instance.
