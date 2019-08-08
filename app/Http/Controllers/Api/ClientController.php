@@ -65,32 +65,6 @@ class ClientController extends ApiBaseController
     }
 
     /**
-     * Register api
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'c_password' => 'required|same:password'
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
-        }
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        $input['representative'] = 1;
-        $user = Client::create($input);
-        $success['token'] = $user->createToken(config('app.name'))->accessToken;
-        $success['name'] = $user->name;
-        return response()->json(['success' => $success], $this->successStatus);
-    }
-
-    /**
      * details api
      *
      * @return JsonResponse

@@ -62,8 +62,10 @@ class ClientWebController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed|same:password',
             'phone_number' => 'required|string|min:11',
-            'representative' => 'required'
+            'representative' => 'required',
+            'organization' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -73,11 +75,16 @@ class ClientWebController extends Controller
                 ->withInput();
         }
 
+        $number = $request->input('phone_number');
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+
         Client::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
-            'phone_number' => $request->input('phone_number'),
+            'phone_number' => $number,
             'representative' => $request->input('representative')
         ]);
 
