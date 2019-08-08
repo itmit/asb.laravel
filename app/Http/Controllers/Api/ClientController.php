@@ -22,7 +22,11 @@ class ClientController extends ApiBaseController
      */
     public function login()
     {
-        $number = urldecode(request('phoneNumber'));
+        $number = request('phoneNumber');
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        return $number;
         $user = Client::where('phone_number', '=', $number)
             ->get()->first();
         

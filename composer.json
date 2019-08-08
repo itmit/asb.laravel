@@ -8,13 +8,14 @@
         "php": ">=7.1.0",
         "beyondcode/laravel-websockets": "^1.1",
         "fideloper/proxy": "^4.0",
+        "giggsey/libphonenumber-for-php": "^8.10",
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.3",
         "laravel/tinker": "^1.0",
         "paragonie/random_compat": "2.*",
         "pusher/pusher-php-server": "~3.0",
-        "zizaco/entrust": "5.2.x-dev",
-        "react/dns" : "0.4.19"
+        "react/dns": "0.4.19",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
