@@ -20,7 +20,7 @@ class ClientController extends ApiBaseController
      *
      * @return JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'phoneNumber' => 'required',
