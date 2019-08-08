@@ -22,11 +22,19 @@ class ClientController extends ApiBaseController
      */
     public function login()
     {
+        $validator = Validator::make($request->all(), [
+            'phoneNumber' => 'required',
+            'password' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
         $number = request('phoneNumber');
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
         $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
-        return $number;
+
         $user = Client::where('phone_number', '=', $number)
             ->get()->first();
         
