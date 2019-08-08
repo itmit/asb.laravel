@@ -29,9 +29,9 @@ class BidApiController extends ApiBaseController
             ->where('clients.representative', '=', $this->getRepresentativeId())
             ->where('bid.status', '=', request('status'))
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-            'clients.phone_number', 'clients.organization')
+                'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid')
             ->orderBy('bid.updated_at', 'desc')
-            ->get()->toArray();
+            ->get();
         }
         else 
         {
@@ -41,13 +41,33 @@ class BidApiController extends ApiBaseController
             ->join('users', 'clients.representative', '=', 'users.id')
             ->where('clients.representative', '=', $this->getRepresentativeId())
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-            'clients.phone_number', 'clients.organization')
+                'clients.phone_number', 'clients.organization', 'bid.updated_at', 'bid.created_at', 'bid.uid')
             ->orderBy('bid.updated_at', 'desc')
-            ->get()->toArray();
+            ->get();
+        }
+
+        $response = [];
+        foreach ($bids as $bid) {
+            $response[] = [
+                'uid'   => $bid->uid,
+                'status' => $bid->status,
+                'updated_at' => $bid->updated_at,
+                'created_at' => $bid->created_at,
+                'location' => [
+                    'latitude' => $bid->latitude,
+                    'longitude' => $bid->longitude
+                ],
+                'client' => [
+                    'name' => $bid->name,
+                    'email' => $bid->email,
+                    'phone_number' => $bid->phone_number,
+                    'organization' => $bid->organization
+                ]
+            ];
         }
 
         return $this->sendResponse(
-            $bids,
+            $response,
             'Bids retrieved successfully.'
         );
     }
