@@ -89,7 +89,7 @@ class ClientController extends ApiBaseController
         );
 
         $user = Client::where('id', '=', auth('api')->user()->id)
-            ->update(['photo' => $path]);
+            ->update(['user_picture' => $path]);
 
         if($user > 0)
         {
