@@ -50,11 +50,11 @@
                         let result = '';
                         for(var i = 0; i < response[0].length; i++) {
                             result += '<tr>';
-                            result += '<td>' + data[0][i]['status'] + '</td>';
-                            result += '<td>' + data[0][i]['email'] + '</td>';
-                            result += '<td>' + data[0][i]['location'] + '</td>';
-                            result += '<td>' + data[0][i]['created_at'] + '</td>';
-                            result += '<td>' + data[0][i]['updated_at'] + '</td>';
+                            result += '<td>' + response[0][i]['status'] + '</td>';
+                            result += '<td>' + response[0][i]['email'] + '</td>';
+                            result += '<td>' + response[0][i]['location'] + '</td>';
+                            result += '<td>' + response[0][i]['created_at'] + '</td>';
+                            result += '<td>' + daresponseta[0][i]['updated_at'] + '</td>';
                             result += '</tr>';
                         }
                         console.log(result);
