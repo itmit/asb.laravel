@@ -55,7 +55,7 @@
                             result += '<td>' + response[i]['email'] + '</td>';
                             result += '<td>' + response[i]['location'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
-                            result += '<td>' + daresponseta[i]['updated_at'] + '</td>';
+                            result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
                         }
                         console.log(result);
