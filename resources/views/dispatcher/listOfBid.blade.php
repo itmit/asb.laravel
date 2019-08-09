@@ -48,16 +48,14 @@
                     method    : 'post',
                     success: function (response) {
                         let result = '';
-                        let count = 0;
-                        count = response.length;
-                        console.log(count);
-                        for(var i = 0; i < response[0].length; i++) {
+
+                        for(var i = 0; i < response.length; i++) {
                             result += '<tr>';
-                            result += '<td>' + response[0][i]['status'] + '</td>';
-                            result += '<td>' + response[0][i]['email'] + '</td>';
-                            result += '<td>' + response[0][i]['location'] + '</td>';
-                            result += '<td>' + response[0][i]['created_at'] + '</td>';
-                            result += '<td>' + daresponseta[0][i]['updated_at'] + '</td>';
+                            result += '<td>' + response[i]['status'] + '</td>';
+                            result += '<td>' + response[i]['email'] + '</td>';
+                            result += '<td>' + response[i]['location'] + '</td>';
+                            result += '<td>' + response[i]['created_at'] + '</td>';
+                            result += '<td>' + daresponseta[i]['updated_at'] + '</td>';
                             result += '</tr>';
                         }
                         console.log(result);
