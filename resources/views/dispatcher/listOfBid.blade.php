@@ -37,4 +37,10 @@
             </table>
         </div>
     </div>
+
+    <script>
+        setInterval(function(){ 
+            console.log('+ ');
+        }, 5000);
+    </script>
 @endsection
