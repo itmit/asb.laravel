@@ -7,6 +7,9 @@
 
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript">
     </script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/jquery.mask.js') }}"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -107,9 +110,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/script.js') }}"></script>
-<script src="{{ asset('js/jquery.mask.js') }}"></script>
+
 <script>
     global.$ = global.jQuery = require('jquery');
     $(document).ready(function() {
