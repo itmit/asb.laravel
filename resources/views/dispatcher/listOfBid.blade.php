@@ -48,15 +48,15 @@
                     method    : 'post',
                     success: function (response) {
                         let result = '';
-                        for(var i = 0; i < response[0].length; i++) {
-                            result += '<tr>';
-                            result += '<td>' + data[0][i]['block'] + '</td>';
-                            result += '<td>' + data[0][i]['floor'] + '</td>';
-                            result += '<td>' + data[0][i]['row'] + '</td>';
-                            result += '<td>' + data[0][i]['place_number'] + '</td>';
-                            result += '<td>' + data[0][i]['status'] + '</td>';
-                            result += '</tr>';
-                        }
+                        // for(var i = 0; i < response[0].length; i++) {
+                        //     result += '<tr>';
+                        //     result += '<td>' + data[0][i]['block'] + '</td>';
+                        //     result += '<td>' + data[0][i]['floor'] + '</td>';
+                        //     result += '<td>' + data[0][i]['row'] + '</td>';
+                        //     result += '<td>' + data[0][i]['place_number'] + '</td>';
+                        //     result += '<td>' + data[0][i]['status'] + '</td>';
+                        //     result += '</tr>';
+                        // }
                         console.log(response);
                     },
                     error: function (xhr, err) { 

@@ -27,7 +27,8 @@ class BidWebController extends BaseWebController
     {
         $bids = Bid::all()
         ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-        ->sortByDesc('created_at');
+        ->sortByDesc('created_at')
+        ->get();
         $bs = [];
         foreach ($bids as $bid) {
             if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
