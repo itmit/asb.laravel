@@ -27,7 +27,6 @@ class BidWebController extends BaseWebController
     {
         $bids = Bid::select('*')
         ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-        ->sortByDesc('created_at')
         ->get();
         $bs = [];
         foreach ($bids as $bid) {
