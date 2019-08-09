@@ -41,17 +41,18 @@
     <script>
         $(document).ready(function() {
             setInterval(function(){ 
-                $.ajax({
-                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                dataType: "json",
-                url     : 'bid',
-                method    : 'get',
-                success: function (response) {
-                    console.log(response);
-                },
-                error: function (xhr, err) { 
-                    console.log("Error: " + xhr + " " + err);
-                }
+                // $.ajax({
+                // headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                // dataType: "json",
+                // url     : 'bid',
+                // method    : 'get',
+                // success: function (response) {
+                //     console.log(response);
+                // },
+                // error: function (xhr, err) { 
+                //     console.log("Error: " + xhr + " " + err);
+                // }
+                console.log('+');
             }, 5000);
             });
         });
