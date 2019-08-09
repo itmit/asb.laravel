@@ -57,6 +57,7 @@
                             result += '<td>' + data[0][i]['updated_at'] + '</td>';
                             result += '</tr>';
                         }
+                        console.log(result);
                         $('tbody').html(result);
                     },
                     error: function (xhr, err) { 
