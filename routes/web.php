@@ -22,6 +22,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::resource('bid', 'Web\BidWebController');
     Route::resource('client', 'Web\ClientWebController');
     Route::resource('guard', 'Web\GuardWebController');
+    Route::post('bid/updateList', 'Web\BidWebController@updateList');
 
     Route::delete('clients/delete', 'Web\ClientWebController@destroy');
     Route::delete('dispatcher/delete', 'Web\DispatcherWebController@destroy');

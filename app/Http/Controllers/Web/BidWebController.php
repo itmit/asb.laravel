@@ -22,4 +22,19 @@ class BidWebController extends BaseWebController
             'bids' => $bs
         ]);
     }
+
+    public function updateList()
+    {
+        $bids = Bid::all()->sortByDesc('created_at');
+        $bs = [];
+        foreach ($bids as $bid) {
+            if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+                continue;
+            }
+
+            $bs[] = $bid;
+        }
+
+        return response()->json($bs);
+    }
 }
