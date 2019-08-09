@@ -39,7 +39,6 @@
     </div>
 
     <script>
-        global.$ = global.jQuery = require('jquery');
         $(document).ready(function() {
             setInterval(function(){ 
                 // $.ajax({

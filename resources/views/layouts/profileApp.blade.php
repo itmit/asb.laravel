@@ -112,7 +112,6 @@
 <!-- Scripts -->
 
 <script>
-    global.$ = global.jQuery = require('jquery');
     $(document).ready(function() {
         $(document).on('click', '.js-destroy-button', function() {
             let ids = [];
