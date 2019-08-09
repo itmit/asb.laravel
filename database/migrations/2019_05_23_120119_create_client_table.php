@@ -23,7 +23,7 @@ class CreateClientTable extends Migration
             $table->string('password');
             $table->rememberToken();
             
-            $table->binary('user_picture')->nullable();
+            $table->string('user_picture')->nullable();
             $table->string('phone_number')->unique();
             $table->string('organization')->nullable();
             $table->string('note')->nullable();
