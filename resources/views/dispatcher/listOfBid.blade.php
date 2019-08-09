@@ -49,7 +49,7 @@
                     success: function (response) {
                         let result = '';
                         let count = 0;
-                        count = response[0].length;
+                        count = response.length;
                         console.log(count);
                         for(var i = 0; i < response[0].length; i++) {
                             result += '<tr>';
