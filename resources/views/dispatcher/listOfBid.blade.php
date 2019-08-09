@@ -48,6 +48,9 @@
                     method    : 'post',
                     success: function (response) {
                         let result = '';
+                        let count = 0;
+                        count = response[0].length;
+                        console.log(count);
                         for(var i = 0; i < response[0].length; i++) {
                             result += '<tr>';
                             result += '<td>' + response[0][i]['status'] + '</td>';
