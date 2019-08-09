@@ -25,7 +25,7 @@ class BidWebController extends BaseWebController
 
     public function updateList()
     {
-        $bids = Bid::all()
+        $bids = Bid::select('*')
         ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
         ->sortByDesc('created_at')
         ->get();
