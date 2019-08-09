@@ -43,7 +43,7 @@
             setInterval(function(){ 
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "json",
+                    dataType: "html",
                     url     : 'bid',
                     method    : 'get',
                     success: function (response) {
@@ -53,7 +53,7 @@
                         console.log("Error: " + xhr + " " + err);
                     }
                 });
-            }, 5000);
+            }, 10000);
             });
     </script>
 @endsection
