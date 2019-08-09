@@ -111,6 +111,7 @@
 <script src="{{ asset('js/script.js') }}"></script>
 <script src="{{ asset('js/jquery.mask.js') }}"></script>
 <script>
+    global.$ = global.jQuery = require('jquery');
     $(document).ready(function() {
         $(document).on('click', '.js-destroy-button', function() {
             let ids = [];
