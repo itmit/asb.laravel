@@ -53,6 +53,7 @@
                     console.log("Error: " + xhr + " " + err);
                 }
             }, 5000);
+            });
         });
     </script>
 @endsection
