@@ -55,6 +55,5 @@
                 console.log('+');
             }, 5000);
             });
-        });
     </script>
 @endsection
