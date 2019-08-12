@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use App\Models\User;
 
 /**
  * Class HomeController

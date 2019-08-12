@@ -101,4 +101,27 @@ class ClientController extends ApiBaseController
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
+
+    public function note(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'note' => 'required|string|max:10000',
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
+        $user = Client::where('id', '=', auth('api')->user()->id)
+            ->update(['note' => $request->note]);
+
+        if($user > 0)
+        {
+            return $this->sendResponse([
+                $user
+            ],
+                'Updated');
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
 }

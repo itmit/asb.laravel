@@ -27,8 +27,8 @@
                     <td>{{ $representative->name }}</td>
                     <td>{{ $representative->email }}</td>
                     <td>{{ $representative->city }}</td>
-                    <td>{{ $representative->created_at }}</td>
-                    <td>{{ $representative->updated_at }}</td>
+                    <td>{{ $representative->created_at->timezone('Europe/Moscow') }}</td>
+                    <td>{{ $representative->updated_at->timezone('Europe/Moscow') }}</td>
                 </tr>
             @endforeach
             </tbody>
