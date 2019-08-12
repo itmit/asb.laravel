@@ -100,7 +100,7 @@ class ClientWebController extends Controller
 
     public function show($id)
     {
-        $client = Client::where('id', '=', $id)->get();
+        $client = Client::where('id', '=', $id)->first();
 
         print_r($client);
 
