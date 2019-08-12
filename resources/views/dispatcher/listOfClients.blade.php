@@ -22,7 +22,7 @@
             @foreach($clients as $client)
                 <tr>
                     <td><input type="checkbox" data-place-id="{{ $client->id }}" name="destoy-place-{{ $client->id }}" class="js-destroy"/></td>
-                <td><a href="{{ route('auth.client/'{{ $client->id }}) }}">{{ $client->name }}</a></td>
+                <td><a href="{{ route('clientDetail') }}"> {{ $client->name }} </a></td>
                     <td>{{ $client->email }}</td>
                     <td>{{ $client->phone_number }}</td>
                     <td>{{ $client->created_at->timezone('Europe/Moscow') }}</td>
