@@ -22,6 +22,13 @@ class HomeController extends Controller
         //     'rounds' => 12
         // ]));
 
-        return view('home');
+        $cities = User::select('*')
+            ->whereNotNull ('city')
+            ->distinct()
+            ->count('city');
+
+        return view('home', [
+            'cities' => $cities
+        ]);
     }
 }
