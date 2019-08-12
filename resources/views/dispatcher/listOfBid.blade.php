@@ -52,7 +52,7 @@
                             result += '<tr>';
                             result += '<td>' + response[i]['status'] + '</td>';
                             result += '<td>' + response[i]['email'] + '</td>';
-                            result += '<td>' + response[i]['latitude'] + ' ' + response[i]['longitude']'</td>';
+                            result += '<td>' + response[i]['latitude'] + ' - ' + response[i]['longitude']'</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
