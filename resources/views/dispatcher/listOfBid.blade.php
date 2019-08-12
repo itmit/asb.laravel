@@ -52,7 +52,13 @@
                             result += '<tr>';
                             result += '<td>' + response[i]['status'] + '</td>';
                             result += '<td>' + response[i]['email'] + '</td>';
-                            result += '<td>' + response[i]['latitude'] + ' - ' + response[i]['longitude'] + '</td>';
+
+                            var myGeocoder = ymaps.geocode([response[i]['latitude'],response[i]['longitude']], options.json);
+                            myGeocoder.then(function(res) {
+                                console.log(result.geoObjects.get(0).getLocalities());
+                            });
+
+                            result += '<td>' +  + ' - ' +  + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
