@@ -98,7 +98,7 @@ class ClientWebController extends Controller
         return response()->json(['Clients destroyed']);
     }
 
-    public function clientDetail(Request $request)
+    public function show(Request $request)
     {
         return view("dispatcher.clientDetail");
     }
