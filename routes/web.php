@@ -29,7 +29,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::delete('guard/delete', 'Web\GuardWebController@destroy');
     Route::delete('representative/delete', 'Web\RepresentativeWebController@destroy');
 
-    Route::get('client/{id}', 'Web\ClientWebController@clientDetail')->name('clientDetail');
+    Route::get('client/{id}', 'Web\ClientWebController@clientDetail');
 });
 
 Auth::routes();
