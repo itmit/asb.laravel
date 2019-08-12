@@ -98,16 +98,16 @@ class ClientWebController extends Controller
         return response()->json(['Clients destroyed']);
     }
 
-    public function show(Request $request)
+    public function show($id)
     {
-        $client = Client::where('id', '=', $request->route('id'))->get();
+        // $client = Client::where('id', '=', $request->route('id'))->get();
 
-        return $request->id;
+        return $id;
 
-        return $client;
+        // return $client;
 
-        return view("dispatcher.clientDetail", [
-            'client' => $client
-        ]);
+        // return view("dispatcher.clientDetail", [
+        //     'client' => $client
+        // ]);
     }
 }
