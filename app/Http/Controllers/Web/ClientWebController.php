@@ -102,6 +102,8 @@ class ClientWebController extends Controller
     {
         $client = Client::where('id', '=', $request->route('id'))->get();
 
+        dd($request);
+
         return $request->route('id');
 
         return $client;
