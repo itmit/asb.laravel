@@ -15,6 +15,7 @@
                 <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>
                 <th>Имя</th>
                 <th>Почта</th>
+                <th>Город</th>
                 <th>Дата создания</th>
                 <th>Дата обновления</th>
             </tr>
@@ -25,6 +26,7 @@
                     <td><input type="checkbox" data-place-id="{{ $representative->id }}" name="destoy-place-{{ $representative->id }}" class="js-destroy"/></td>
                     <td>{{ $representative->name }}</td>
                     <td>{{ $representative->email }}</td>
+                    <td>{{ $representative->city }}</td>
                     <td>{{ $representative->created_at }}</td>
                     <td>{{ $representative->updated_at }}</td>
                 </tr>
