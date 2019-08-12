@@ -52,8 +52,9 @@
                             result += '<tr>';
                             result += '<td>' + response[i]['status'] + '</td>';
                             result += '<td>' + response[i]['email'] + '</td>';
-
-                            var myGeocoder = ymaps.geocode([response[i]['latitude'],response[i]['longitude']]);
+                            
+                            //response[i]['latitude'],response[i]['longitude']
+                            var myGeocoder = ymaps.geocode([61.79,34.36]);
                             myGeocoder.then(function(res) {
                                 console.log(result.geoObjects.get(0).getLocalities());
                             });
