@@ -4,7 +4,7 @@
     <h1>Клиент {{ $client->name }}</h1>
     <div class="col-sm-12">
         <div>
-            <img src="{{URL::asset()}}" alt="profile Pic" height="200" width="200">
+            <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
             {{ $client->user_picture }}
         </div>
         <div>
