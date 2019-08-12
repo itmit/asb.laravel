@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Dispatcher;
 
 /**
  * Class HomeController
@@ -29,10 +30,13 @@ class HomeController extends Controller
             ->count('city');
 
         $reprs = Role::getUsersByRoleName('representative')->count();
+
+        $dispathers = Dispatcher::all()->count();
  
         return view('home', [
             'cities' => $cities,
             'reprs' => $reprs,
+            'dispathers' => $dispathers,
         ]);
     }
 }
