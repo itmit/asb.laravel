@@ -102,7 +102,7 @@ class ClientWebController extends Controller
     {
         $client = Client::where('id', '=', $id)->first();
 
-        print_r($client);
+        dd($client);
 
         return view("dispatcher.clientDetail", [
             'client' => $client
