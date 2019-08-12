@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\Role;
 
 /**
  * Class HomeController
@@ -27,8 +28,11 @@ class HomeController extends Controller
             ->distinct()
             ->count('city');
 
+        $reprs = Role::getUsersByRoleName('representative')->count();
+ 
         return view('home', [
-            'cities' => $cities
+            'cities' => $cities,
+            'reprs' => $reprs,
         ]);
     }
 }
