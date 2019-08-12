@@ -5,5 +5,5 @@
 
     <div><span>{{ $cities }} город(а)</span></div>
     <div><span>{{ $reprs }} представитель(я)</span></div>
-    <div><span>8 диспетчеров</span></div>
+    <div><span>{{ $dispathers }} диспетчера(ов)</span></div>
 @endsection
