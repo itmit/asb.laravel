@@ -48,12 +48,11 @@
                     method    : 'post',
                     success: function (response) {
                         let result = '';
-
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr>';
                             result += '<td>' + response[i]['status'] + '</td>';
                             result += '<td>' + response[i]['email'] + '</td>';
-                            result += '<td>' + response[i]['location'] + '</td>';
+                            result += '<td>' + response[i]['latitude'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
