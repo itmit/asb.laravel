@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('bid', 'Api\BidApiController');
     Route::post('bid/changeStatus', 'Api\BidApiController@changeStatus');
     Route::post('client/changePhoto', 'Api\ClientController@changePhoto');
+    Route::post('client/note', 'Api\ClientController@note');
 });
 
 Route::post('bid/testFunc', 'Api\BidApiController@testFunc');
