@@ -36,6 +36,21 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                <label for="city" class="col-md-4 control-label">Город</label>
+
+                <div class="col-md-6">
+                    <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}"
+                           required>
+
+                    @if ($errors->has('city'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('city') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                 <label for="password" class="col-md-4 control-label">Password</label>
 
