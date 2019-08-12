@@ -59,7 +59,7 @@
                                 console.log(result.geoObjects.get(0).getLocalities());
                             });
 
-                            result += '<td>' +  + ' - ' +  + '</td>';
+                            result += '<td>' + response[i]['latitude'] + ' | ' + response[i]['longitude'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';

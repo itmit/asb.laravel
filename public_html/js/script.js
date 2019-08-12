@@ -20,7 +20,7 @@ function init() {
 
     $locations.each(function () {
 
-        console.log([$(this).data('latitude'), $(this).data('longitude')]);
+        // console.log([$(this).data('latitude'), $(this).data('longitude')]);
         let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
         myMap.geoObjects.add(placeMark);
     });
