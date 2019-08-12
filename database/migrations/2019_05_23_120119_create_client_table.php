@@ -28,6 +28,7 @@ class CreateClientTable extends Migration
             $table->string('organization')->nullable();
             $table->string('note')->nullable();
             $table->boolean('is_guard');
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
             
             $table->foreign('representative')->references('id')->on('users')
