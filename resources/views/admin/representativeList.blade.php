@@ -35,3 +35,37 @@
         </table>
     </div>
 @endsection
+<script>
+$(document).ready(function() {
+    $(document).on('click', '.js-destroy-button-representative', function() {
+        let ids = [];
+
+        $(".js-destroy:checked").each(function(){
+            ids.push($(this).data('placeId'));
+        });
+        
+        console.log(ids);
+
+        let uSure = confirm('Вы действительно хотите удалить?');
+        if(uSure)
+        {
+            $.ajax({
+            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            dataType: "json",
+            data    : { ids: ids },
+            url     : 'representative/delete',
+            method    : 'delete',
+            success: function (response) {
+                console.log(response);
+                $(".js-destroy:checked").closest('tr').remove();
+                $(".js-destroy").prop("checked", "");
+            },
+            error: function (xhr, err) { 
+                console.log("Error: " + xhr + " " + err);
+            }
+        });
+        // console.log('sss');
+        }
+    });
+});
+</script>
