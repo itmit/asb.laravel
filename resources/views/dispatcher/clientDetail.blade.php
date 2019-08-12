@@ -3,7 +3,7 @@
 @section('content')
     <h1>Клиент {{ $client->name }}</h1>
     <div class="col-sm-12">
-        <a href="">Назад</a>
+        <a href="{{ url()->previous() }}">Назад</a>
     </div>
     <div class="col-sm-12">
         <div>
