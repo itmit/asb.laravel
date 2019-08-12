@@ -86,7 +86,7 @@ class ClientController extends ApiBaseController
         }
 
         $path = Storage::putFileAs(
-            'public/avatars', $request->file('contents'), auth('api')->user()->id . '.jpg'
+            'avatars', $request->file('contents'), auth('api')->user()->id . '.jpg'
         );
 
         $user = Client::where('id', '=', auth('api')->user()->id)
