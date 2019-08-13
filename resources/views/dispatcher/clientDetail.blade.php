@@ -16,7 +16,16 @@
             {{ $client->is_active }}
         </div>
         <div>
-            <button class="btn btn-primary">Показать последнее местоположение</button>
+            <button class="btn btn-primary display-location">Показать последнее местоположение</button>
+            <div id="location"></div>
         </div>
     </div>
+
+    <script>
+    $(document).ready(function() {
+        $(document).on('click', '.display-location', function() {
+            console.log('sss');
+        })
+    })
+    </script>
 @endsection
