@@ -76,6 +76,7 @@ class DispatcherWebController extends BaseWebController
 
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
+                'fio' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
             ]);
@@ -91,6 +92,7 @@ class DispatcherWebController extends BaseWebController
 
             $dispatcher = User::create([
                 'name' => $request->input('name'),
+                'fio' => $request->input('fio'),
                 'email' => $request->input('email'),
                 'password' => bcrypt($request->input('password')),
             ]);
