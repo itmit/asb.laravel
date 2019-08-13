@@ -47,10 +47,10 @@ class BidWebController extends BaseWebController
             if ($user->hasRole('super-admin'))
             {
                 $bids = Bid::all()
-                ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-                ->join('clients', 'point_on_map.client', '=', 'clients.id')
-                ->sortByDesc('created_at')
-                ->get();
+                // ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+                // ->join('clients', 'point_on_map.client', '=', 'clients.id')
+                ->sortByDesc('created_at');
+                // ->get();
 
                 return response()->json($bids);
             }
