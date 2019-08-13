@@ -54,7 +54,7 @@ class BidWebController extends BaseWebController
 
                 // return response()->json($bids);
                 return view('dispatcher.listOfBid', [
-                    'bids' => $bs
+                    'bids' => $bids
                 ]);
             }
             else
