@@ -20,7 +20,7 @@
                 <tbody>
                 @foreach($bids as $bid)
                     <tr>
-                        <td>{{ $bid->status }}</td>
+                        <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
                             <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
                             {{ $bid->location()->client()->email }}
