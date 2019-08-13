@@ -22,9 +22,24 @@
     </div>
 
     <script>
-    $(document).ready(function() {
+    $(document).ready(function()
+    {
         $(document).on('click', '.display-location', function() {
-            console.log('sss');
+            $.ajax({
+                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                data    : { ids: ids },
+                url     : 'client/lastLocation',
+                method    : 'post',
+                success: function (response) {
+                    $('#location').html(
+                        's'
+                    );
+                },
+                error: function (xhr, err) { 
+                    console.log("Error: " + xhr + " " + err);
+                }
+            })
         })
     })
     </script>
