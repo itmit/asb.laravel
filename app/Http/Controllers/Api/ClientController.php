@@ -86,11 +86,11 @@ class ClientController extends ApiBaseController
         }
 
         $path = Storage::putFileAs(
-            'storage/avatars', $request->file('contents'), auth('api')->user()->id . '.jpg'
+            'public/avatars', $request->file('contents'), auth('api')->user()->id . '.jpg'
         );
 
         $user = Client::where('id', '=', auth('api')->user()->id)
-            ->update(['user_picture' => 'storage/avatars/' . auth('api')->user()->id . '.jpg']);
+            ->update(['user_picture' => 'public/avatars/' . auth('api')->user()->id . '.jpg']);
 
         if($user > 0)
         {
