@@ -120,4 +120,10 @@ class ClientWebController extends Controller
             'client' => $client
         ]);
     }
+
+    public function lastLocation($id)
+    {
+
+        return response()->json($id);
+    }
 }
