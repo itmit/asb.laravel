@@ -5,8 +5,8 @@
     <div class="col-sm-12">
 
         @ability('super-admin', 'create-representative')
-        <a href="{{ route('auth.representative.create') }}">Создать представителя</a>
-        <input type="button" value="Удалить" class="js-destroy-button-representative">
+        <a href="{{ route('auth.representative.create') }}" class="btn btn-primary">Создать представителя</a>
+        <input type="button" value="Удалить" class="js-destroy-button-representative btn btn-primary">
         @endability
 
         <table class="table table-bordered">
@@ -34,6 +34,10 @@
             </tbody>
         </table>
     </div>
+    <script>
+        $('.left-menu > .nav > *:nth-child(2)').addClass('active');
+        $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+    </script>
     <script>
     $(document).ready(function() {
         $(document).on('click', '.js-destroy-button-representative', function() {

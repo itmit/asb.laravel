@@ -78,9 +78,9 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-3 left-menu">
                 <ul class="nav">
 
                     <li class="active"><a href="{{ route('auth.home') }}">Главная</a></li>
@@ -102,7 +102,7 @@
                     <li><a href="{{ route('auth.client.index') }}">Клиенты</a></li>
                 </ul>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-9 tabs-content">
                 @yield('content')
             </div>
         </div>

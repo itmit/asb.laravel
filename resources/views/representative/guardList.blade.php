@@ -5,8 +5,8 @@
     <div class="col-sm-12">
 
         @ability('super-admin,representative', 'create-guard')
-        <a href="{{ route('auth.guard.create') }}">Создать охранника</a>
-        <input type="button" value="Удалить" class="js-destroy-button-guard">
+        <a href="{{ route('auth.guard.create') }}" class="btn btn-primary">Создать охранника</a>
+        <input type="button" value="Удалить" class="js-destroy-button-guard btn btn-primary">
         @endability
 
         <table class="table table-bordered">
@@ -32,4 +32,8 @@
             </tbody>
         </table>
     </div>
+    <script>
+        $('.left-menu > .nav > *:nth-child(4)').addClass('active');
+        $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+    </script>
 @endsection

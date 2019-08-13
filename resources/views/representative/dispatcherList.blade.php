@@ -5,8 +5,8 @@
     <div class="col-sm-12">
 
         @ability('super-admin,representative', 'create-dispatcher')
-        <a href="{{ route('auth.dispatcher.create') }}">Создать диспетчера</a>
-        <input type="button" value="Удалить" class="js-destroy-button-dispatcher">
+        <a href="{{ route('auth.dispatcher.create') }}" class="btn btn-primary">Создать диспетчера</a>
+        <input type="button" value="Удалить" class="js-destroy-button-dispatcher btn btn-primary">
         @endability
 
         <table class="table table-bordered">
@@ -32,4 +32,8 @@
             </tbody>
         </table>
     </div>
+    <script>
+        $('.left-menu > .nav > *:nth-child(3)').addClass('active');
+        $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+    </script>
 @endsection

@@ -4,9 +4,9 @@
     <h1>Клиенты</h1>
     <div class="col-sm-12">
 
-        <a href="{{ route('auth.client.create') }}">Добавить клиентов</a>
+        <a href="{{ route('auth.client.create') }}" class="btn btn-primary">Добавить клиентов</a>
 
-        <input type="button" value="Удалить" class="js-destroy-button">
+        <input type="button" value="Удалить" class="js-destroy-button btn btn-primary">
 
         <table class="table table-bordered">
             <thead>
@@ -31,4 +31,8 @@
             </tbody>
         </table>
     </div>
+    <script>
+        $('.left-menu > .nav > *:nth-child(6)').addClass('active');
+        $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+    </script>
 @endsection
