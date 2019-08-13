@@ -3,12 +3,10 @@
 @section('content')
     <h1>Представители</h1>
     <div class="col-sm-12">
-
         @ability('super-admin', 'create-representative')
         <a href="{{ route('auth.representative.create') }}" class="btn btn-primary">Создать представителя</a>
         <input type="button" value="Удалить" class="js-destroy-button-representative btn btn-primary">
         @endability
-
         <table class="table table-bordered">
             <thead>
             <tr>
