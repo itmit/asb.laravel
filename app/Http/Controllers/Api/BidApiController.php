@@ -80,6 +80,8 @@ class BidApiController extends ApiBaseController
      */
     public function store(Request $request)
     {
+        var_dump($request);
+
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
             'longitude' => 'required',
