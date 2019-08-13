@@ -84,6 +84,7 @@ class BidApiController extends ApiBaseController
             'latitude' => 'required',
             'longitude' => 'required',
             'uid' => 'required',
+            'type' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -98,7 +99,8 @@ class BidApiController extends ApiBaseController
                     'longitude' => $request->input('longitude')
                 ])->id,
             'status' => 'PendingAcceptance',
-            'uid' => $request->input('uid')
+            'uid' => $request->input('uid'),
+            'uid' => $request->input('type')
         ]);
     }
 
