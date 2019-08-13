@@ -50,7 +50,7 @@
                         let result = '';
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr>';
-                            result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
+                            result += '<td><a href="bid/' + response[i]['bid.id'] + '">' + response[i]['status'] + '</a></td>';
                             result += '<td>' + response[i]['email'] + '</td>';
                             
                             //response[i]['latitude'],response[i]['longitude']
