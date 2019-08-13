@@ -29,7 +29,7 @@ class BidApiController extends ApiBaseController
             ->where('clients.representative', '=', $this->getRepresentativeId())
             ->where('bid.status', '=', request('status'))
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-                'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid')
+                'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture')
             ->orderBy('bid.updated_at', 'desc')
             ->get();
         }
