@@ -10,9 +10,6 @@
             <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
         </div>
         <div>
-            PASSWORD?????
-        </div>
-        <div>
             {{ $client->note }}
         </div>
         <div>

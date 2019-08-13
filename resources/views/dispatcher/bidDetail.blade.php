@@ -16,7 +16,7 @@
             {{ $bid->type }}
         </div>
         <div>
-            
+            {{ $bid->location()->client()->name }}
         </div>
     </div>
 @endsection
