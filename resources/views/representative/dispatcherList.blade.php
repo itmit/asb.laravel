@@ -13,6 +13,7 @@
             <thead>
             <tr>
                 <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>
+                <th>Логин</th>
                 <th>Имя</th>
                 <th>Почта</th>
                 <th>Дата создания</th>
@@ -24,6 +25,7 @@
                 <tr>
                     <td><input type="checkbox" data-place-id="{{ $dispatcher->id }}" name="destoy-place-{{ $dispatcher->id }}" class="js-destroy"/></td>
                     <td>{{ $dispatcher->user()->name }}</td>
+                    <td>{{ $dispatcher->user()->fio }}</td>
                     <td>{{ $dispatcher->user()->email }}</td>
                     <td>{{ $dispatcher->created_at->timezone('Europe/Moscow') }}</td>
                     <td>{{ $dispatcher->updated_at->timezone('Europe/Moscow') }}</td>
