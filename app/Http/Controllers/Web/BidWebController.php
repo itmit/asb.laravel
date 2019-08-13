@@ -41,19 +41,38 @@ class BidWebController extends BaseWebController
 
     public function updateList()
     {
-        $bids = Bid::select('*')
-        ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-        ->join('clients', 'point_on_map.client', '=', 'clients.id')
-        ->get();
-        $bs = [];
-        foreach ($bids as $bid) {
-            if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
-                continue;
+
+        $user = Auth::user();
+        if ($user instanceof User) {
+            if ($user->hasRole('super-admin'))
+            {
+                $bids = Bid::select('*')
+                ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+                ->join('clients', 'point_on_map.client', '=', 'clients.id')
+                ->sortByDesc('created_at')
+                ->get();
+
+                return response()->json($bids);
             }
+            else
+            {
+                $bids = Bid::select('*')
+                ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+                ->join('clients', 'point_on_map.client', '=', 'clients.id')
+                ->sortByDesc('created_at')
+                ->get();
+                $bs = [];
+                foreach ($bids as $bid) {
+                    if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+                        continue;
+                    }
 
-            $bs[] = $bid;
-        }
+                    $bs[] = $bid;
+                }
 
-        return response()->json($bs);
+                return response()->json($bs);
+            };
+        };
+        return 'Что-то пошло не так :(';
     }
 }
