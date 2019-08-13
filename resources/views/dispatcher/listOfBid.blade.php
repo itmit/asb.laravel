@@ -60,7 +60,7 @@
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
                         }
-                        $('html').html(response);
+                        $('tbody').html(result);
                     },
                     error: function (xhr, err) { 
                         console.log("Error: " + xhr + " " + err);
