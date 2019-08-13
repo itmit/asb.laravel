@@ -18,5 +18,8 @@
         <div>
             {{ $bid->location()->client()->name }}
         </div>
+        <div>
+            {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
+        </div>
     </div>
 @endsection
