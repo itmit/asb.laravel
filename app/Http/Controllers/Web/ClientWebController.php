@@ -28,7 +28,7 @@ class ClientWebController extends Controller
             if ($user->hasRole('super-admin'))
             {
                 return view('dispatcher.listOfClients', [
-                    'clients' => Client::all()
+                    'clients' => Client::select('*')
                         ->where('is_guard', '<>', 1)
                         ->orderBy('created_at', 'desc')->get()
                 ]
