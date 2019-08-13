@@ -15,6 +15,7 @@
                 <th>Имя</th>
                 <th>Почта</th>
                 <th>Номер телефона</th>
+                <th>Статус</th>
                 <th>Дата создания</th>
             </tr>
             </thead>
@@ -25,6 +26,7 @@
                 <td><a href="client/{{ $client->id }}"> {{ $client->name }} </a></td>
                     <td>{{ $client->email }}</td>
                     <td>{{ $client->phone_number }}</td>
+                    <td>{{ $client->is_active }}</td>
                     <td>{{ $client->created_at->timezone('Europe/Moscow') }}</td>
                 </tr>
             @endforeach
