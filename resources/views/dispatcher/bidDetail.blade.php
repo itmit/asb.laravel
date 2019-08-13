@@ -1,22 +1,22 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    <h1>Заявка {{ $client->name }}</h1>
+    <h1>Заявка {{ $bid->id }}</h1>
     <div class="col-sm-12">
         <a href="{{ url()->previous() }}">Назад</a>
     </div>
     <div class="col-sm-12">
         <div>
-            <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
+            {{ $bid->created_at }}
         </div>
         <div>
-            PASSWORD?????
+            {{ $bid->updated_at }}
         </div>
         <div>
-            {{ $client->note }}
+            {{ $bid->type }}
         </div>
         <div>
-            {{ $client->is_active }}
+            
         </div>
     </div>
 @endsection

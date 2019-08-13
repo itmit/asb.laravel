@@ -75,4 +75,13 @@ class BidWebController extends BaseWebController
         };
         return 'Что-то пошло не так :(';
     }
+
+    public function show($id)
+    {
+        $bid = Bid::where('id', '=', $id)->first();
+
+        return view("dispatcher.bidDetail", [
+            'bid' => $bid
+        ]);
+    }
 }
