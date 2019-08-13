@@ -80,8 +80,6 @@ class BidApiController extends ApiBaseController
      */
     public function store(Request $request)
     {
-        var_dump($request->input('uid'));
-
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
             'longitude' => 'required',
@@ -95,12 +93,12 @@ class BidApiController extends ApiBaseController
         Bid::create([
             'location' =>
                 PointOnMap::create([
-                    'uid' => $request->input('uid'),
                     'client' => auth('api')->user()->id,
                     'latitude' => $request->input('latitude'),
                     'longitude' => $request->input('longitude')
                 ])->id,
-            'status' => 'PendingAcceptance'
+            'status' => 'PendingAcceptance',
+            'uid' => $request->input('uid')
         ]);
     }
 
