@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Bid;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class BidWebController extends BaseWebController
 {
