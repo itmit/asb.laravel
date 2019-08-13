@@ -28,7 +28,6 @@
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
-                data    : { ids: ids },
                 url     : 'client/lastLocation',
                 method    : 'post',
                 success: function (response) {
