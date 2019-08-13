@@ -15,30 +15,28 @@ class BidWebController extends BaseWebController
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                // $bids = Bid::all()->sortByDesc('created_at');
-                // return view('dispatcher.listOfBid', [
-                //     'bids' => $bids
-                // ]);
-                return 'su';
+                $bids = Bid::all()->sortByDesc('created_at');
+                return view('dispatcher.listOfBid', [
+                    'bids' => $bids
+                ]);
             }
             else
             {
-                // $bids = Bid::all()->sortByDesc('created_at');
-                // $bs = [];
-                // foreach ($bids as $bid) {
-                //     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
-                //         continue;
-                //     }
+                $bids = Bid::all()->sortByDesc('created_at');
+                $bs = [];
+                foreach ($bids as $bid) {
+                    if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+                        continue;
+                    }
 
-                //     $bs[] = $bid;
-                // }
-                // return view('dispatcher.listOfBid', [
-                //     'bids' => $bs
-                // ]);
-                return 'r';
+                    $bs[] = $bid;
+                }
+                return view('dispatcher.listOfBid', [
+                    'bids' => $bs
+                ]);
             };
         };
-        return 'sss';
+        return 'Что-то пошло не так :(';
     }
 
     public function updateList()
