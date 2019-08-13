@@ -83,6 +83,7 @@ class BidApiController extends ApiBaseController
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
             'longitude' => 'required',
+            'uid' => 'required',
         ]);
 
         if ($validator->fails()) {
