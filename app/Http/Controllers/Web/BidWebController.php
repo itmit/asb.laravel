@@ -52,7 +52,10 @@ class BidWebController extends BaseWebController
                 ->sortByDesc('created_at');
                 // ->get();
 
-                return response()->json($bids);
+                // return response()->json($bids);
+                return view('dispatcher.listOfBid', [
+                    'bids' => $bs
+                ]);
             }
             else
             {

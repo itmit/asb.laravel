@@ -54,18 +54,13 @@
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
                             result += '<td>' + response[i]['email'] + '</td>';
                             
-                            //response[i]['latitude'],response[i]['longitude']
-                            var myGeocoder = ymaps.geocode([61.79,34.36]);
-                            myGeocoder.then(function(res) {
-                                console.log(result.geoObjects.get(0).getLocalities());
-                            });
 
                             result += '<td>' + response[i]['latitude'] + ' | ' + response[i]['longitude'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
                         }
-                        $('tbody').html(result);
+                        $('html').html(response);
                     },
                     error: function (xhr, err) { 
                         console.log("Error: " + xhr + " " + err);
@@ -73,6 +68,14 @@
                 });
             }, 5000);
             });
+
+                            //response[i]['latitude'],response[i]['longitude']
+                            // var myGeocoder = ymaps.geocode([61.79,34.36]);
+                            // myGeocoder.then(function(res) {
+                            //     console.log(result.geoObjects.get(0).getLocalities());
+                            // });
+
+
     </script>
     <script>
         $('.left-menu > .nav > *:nth-child(5)').addClass('active');
