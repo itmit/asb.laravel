@@ -27,11 +27,26 @@ class DispatcherWebController extends BaseWebController
      */
     public function index()
     {
-        return view('representative.dispatcherList', [
-                "dispatchers" => Dispatcher::where('representative', '=', $this->getRepresentativeId())
-                    ->orderBy('created_at', 'desc')->get()
-            ]
-        );
+        $user = Auth::user();
+        if ($user instanceof User)
+        {
+            if ($user->hasRole('super-admin'))
+            {
+                return view('representative.dispatcherList', [
+                    "dispatchers" => Dispatcher::select('*')
+                        ->orderBy('created_at', 'desc')->get()
+                ]
+            );
+            }
+            else
+            {
+                return view('representative.dispatcherList', [
+                    "dispatchers" => Dispatcher::where('representative', '=', $this->getRepresentativeId())
+                        ->orderBy('created_at', 'desc')->get()
+                ]
+            );
+            }
+        }
     }
 
     /**
