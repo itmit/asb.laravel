@@ -15,5 +15,8 @@
         <div>
             {{ $client->is_active }}
         </div>
+        <div>
+            <button class="btn btn-primary">Показать последнее местоположение</button>
+        </div>
     </div>
 @endsection
