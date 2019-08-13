@@ -37,6 +37,7 @@ class BidWebController extends BaseWebController
                 return 'r';
             };
         };
+        return 'sss';
     }
 
     public function updateList()
