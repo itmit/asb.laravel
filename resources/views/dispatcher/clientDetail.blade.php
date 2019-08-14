@@ -33,7 +33,7 @@
     $(document).ready(function()
     {
         $(document).on('click', '.display-location', function() {
-            let clientID = $('#client').data('clientID');
+            let clientID = $('#client').first().data('clientID');
             console.log(clientID);
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
