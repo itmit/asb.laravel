@@ -48,7 +48,24 @@ class BidWebController extends BaseWebController
             {
                 $bids = Bid::all()->sortByDesc('created_at');
 
-                
+                $response = [];
+                foreach ($bids as $bid) {
+                    $response[] = [
+                        'id'   => $bid->id,
+                        'status' => $bid->status,
+                        'updated_at' => $bid->updated_at,
+                        'created_at' => $bid->created_at,
+                        'location' => [
+                            'latitude' => $bid->latitude,
+                            'longitude' => $bid->longitude
+                        ],
+                        'client' => [
+                            'name' => $bid->name,
+                            'email' => $bid->email
+                        ]
+                    ];
+                }
+
                 $bids = Bid::select('bid.id', 'type', 'location', 'status', 'bid.created_at', 'bid.updated_at')
                 ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
                 ->join('clients', 'point_on_map.client', '=', 'clients.id')
