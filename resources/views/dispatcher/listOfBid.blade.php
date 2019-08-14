@@ -37,7 +37,7 @@
                             {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
                         </td>
                         <td>{{ $bid->type }}</td>
-                        <td>{{ substr($bid->created_at->timezone('Europe/Moscow'), 0, -6); }}</td>
+                        <td>{{ substr($bid->created_at->timezone('Europe/Moscow'), 0, -6) }}</td>
                         <td>{{ $bid->updated_at->timezone('Europe/Moscow') }}</td>
                     </tr>
                 @endforeach
