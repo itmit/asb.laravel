@@ -102,7 +102,7 @@ class BidApiController extends ApiBaseController
                 ])->id,
             'status' => 'PendingAcceptance',
             'uid' => $request->input('uid'),
-            'uid' => $request->input('type')
+            'type' => $request->input('type')
         ]);
     }
 
