@@ -13,6 +13,7 @@ class Bid extends Model
         'location',
         'status',
         'uid',
+        'type',
     ];
 
     /**

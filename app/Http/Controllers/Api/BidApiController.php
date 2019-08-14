@@ -29,7 +29,7 @@ class BidApiController extends ApiBaseController
             ->where('clients.representative', '=', $this->getRepresentativeId())
             ->where('bid.status', '=', request('status'))
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-                'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture')
+                'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture', 'bid.type')
             ->orderBy('bid.updated_at', 'desc')
             ->get();
         }
@@ -41,7 +41,7 @@ class BidApiController extends ApiBaseController
             ->join('users', 'clients.representative', '=', 'users.id')
             ->where('clients.representative', '=', $this->getRepresentativeId())
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-                'clients.phone_number', 'clients.organization', 'bid.updated_at', 'clients.note', 'clients.user_picture', 'bid.created_at', 'bid.uid')
+                'clients.phone_number', 'clients.organization', 'bid.updated_at', 'clients.note', 'clients.user_picture', 'bid.created_at', 'bid.uid', 'bid.type')
             ->orderBy('bid.updated_at', 'desc')
             ->get();
         }
@@ -51,6 +51,7 @@ class BidApiController extends ApiBaseController
             $response[] = [
                 'uid'   => $bid->uid,
                 'status' => $bid->status,
+                'type' => $bid->type,
                 'updated_at' => $bid->updated_at,
                 'created_at' => $bid->created_at,
                 'location' => [
