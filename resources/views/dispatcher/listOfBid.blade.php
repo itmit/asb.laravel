@@ -13,7 +13,7 @@
                 <option value="Processed">Processed</option>
             </select>
 
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="width: 100%">
                 <thead>
                 <tr>
                     <th>Статус</th>
