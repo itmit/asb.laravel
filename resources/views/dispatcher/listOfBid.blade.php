@@ -63,8 +63,8 @@
                             result += '<td>' + response[i]['client']['email'] + '</td>';
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
                             result += '<td>' + response[i]['type'] + '</td>';
-                            result += '<td>' + response[i]['created_at']['date'] + '</td>';
-                            result += '<td>' + response[i]['updated_at']['date'] + '</td>';
+                            result += '<td>' + response[i]['created_at'] + '</td>';
+                            result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
                         }
                         $('tbody').html(result);
