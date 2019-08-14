@@ -8,8 +8,8 @@
             <div id="map" style="width: 600px; height: 400px"></div>
 
             <select name="selectBidsByStatus" id="selectBidsByStatus">
+                <option value="PendingAcceptance" selected>PendingAcceptance</option>
                 <option value="Accepted">Accepted</option>
-                <option value="PendingAcceptance">PendingAcceptance</option>
                 <option value="Processed">Processed</option>
             </select>
 
@@ -50,9 +50,12 @@
         $(document).ready(function()
         {
             setInterval(function(){ 
+                let selectBidsByStatus = $('#selectBidsByStatus').val();
+                console.log(selectBidsByStatus);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
+                    data: {selectBidsByStatus: selectBidsByStatus},
                     url     : 'bid/updateList',
                     method    : 'post',
                     success: function (response) {
