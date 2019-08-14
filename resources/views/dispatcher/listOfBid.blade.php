@@ -7,7 +7,7 @@
 
             <div id="map" style="width: 600px; height: 400px"></div>
 
-            <select name="" id="">
+            <select name="selectBidsByStatus" id="selectBidsByStatus">
                 <option value="Accepted">Accepted</option>
                 <option value="PendingAcceptance">PendingAcceptance</option>
                 <option value="Processed">Processed</option>
@@ -47,7 +47,8 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function()
+        {
             setInterval(function(){ 
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -74,7 +75,25 @@
                     }
                 });
             }, 5000);
+
+            $(document).on('change', '#selectBidsByStatus', function() {
+            let bids = $('#selectBidsByStatus').val();
+            console.log(bids);
+            // $.ajax({
+            //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            //     dataType: "json",
+            //     data    : { block: block },
+            //     url     : 'places/getPlacesByBlock',
+            //     method    : 'post',
+            //     success: function (data) {
+                
+            //     },
+            //     error: function (xhr, err) { 
+            //         console.log(err + " " + xhr);
+            //     }
+            // });
             });
+        });
 
                             //response[i]['latitude'],response[i]['longitude']
                             // var myGeocoder = ymaps.geocode([61.79,34.36]);
