@@ -51,7 +51,6 @@
         {
             setInterval(function(){ 
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
-                console.log(selectBidsByStatus);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",

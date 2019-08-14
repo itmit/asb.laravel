@@ -39,14 +39,14 @@ class BidWebController extends BaseWebController
         return 'Что-то пошло не так :(';
     }
 
-    public function updateList()
+    public function updateList(Request $request)
     {
 
         $user = Auth::user();
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+                $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
 
                 $response = [];
                 foreach ($bids as $bid) {
@@ -71,7 +71,7 @@ class BidWebController extends BaseWebController
             }
             else
             {
-                $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+                $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
 
                 $response = [];
                 foreach ($bids as $bid) {
