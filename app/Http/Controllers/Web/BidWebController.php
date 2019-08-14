@@ -56,11 +56,11 @@ class BidWebController extends BaseWebController
                         'updated_at' => $bid->updated_at,
                         'created_at' => $bid->created_at,
                         'location' => [
-                            'latitude' => $bid->latitude,
-                            'longitude' => $bid->longitude
+                            'latitude' => $bid->location()->latitude,
+                            'longitude' => $bid->location()->longitude
                         ],
                         'client' => [
-                            'name' => $bid->name,
+                            'name' => $bid->location()->client()->name,
                             'email' => $bid->location()->client()->email
                         ]
                     ];
