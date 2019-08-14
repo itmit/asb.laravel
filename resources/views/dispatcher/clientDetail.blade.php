@@ -34,6 +34,7 @@
     {
         $(document).on('click', '.display-location', function() {
             let clientID = $('#client').data('clientID');
+            console.log(clientID);
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
