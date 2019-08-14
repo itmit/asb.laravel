@@ -7,10 +7,10 @@
     </div>
     <div class="col-sm-12">
         <div>
-            {{ $bid->created_at }}
+            {{ $bid->created_at->timezone('Europe/Moscow') }}
         </div>
         <div>
-            {{ $bid->updated_at }}
+            {{ $bid->updated_at->timezone('Europe/Moscow') }}
         </div>
         <div>
             {{ $bid->type }}
