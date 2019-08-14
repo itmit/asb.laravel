@@ -13,6 +13,7 @@
                     <th>Статус</th>
                     <th>Клиент</th>
                     <th>Место</th>
+                    <th>Тип</th>
                     <th>Дата создания</th>
                     <th>Дата обновления</th>
                 </tr>
@@ -29,6 +30,7 @@
                         <td>
                             {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
                         </td>
+                        <td>{{ $bid->type }}</td>
                         <td>{{ $bid->created_at->timezone('Europe/Moscow') }}</td>
                         <td>{{ $bid->updated_at->timezone('Europe/Moscow') }}</td>
                     </tr>
