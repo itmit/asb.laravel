@@ -7,11 +7,11 @@
     </div>
     <div class="col-sm-12">
         <div>
-            Статус: {{ $bid->created_at->timezone('Europe/Moscow') }}
+            Статус: {{ $bid->status }}
             <select name="" id="">
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
+                <option value="Accepted">Accepted</option>
+                <option value="PendingAcceptance">PendingAcceptance</option>
+                <option value="Processed">Processed</option>
             </select>
         </div>
         <div>
