@@ -1,7 +1,7 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    <h1 id="client" data-clientID="{{ $client->id }}">Клиент {{ $client->name }}</h1>
+    <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->name }}</h1>
     <div class="col-sm-12">
         <a href="{{ url()->previous() }}" class="btn btn-primary client-back">Назад</a>
     </div>
@@ -33,7 +33,7 @@
     $(document).ready(function()
     {
         $(document).on('click', '.display-location', function() {
-            let clientID = $('h1').data('clientID');
+            let clientID = $('h1').data('clientid');
             console.log(clientID);
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
