@@ -60,44 +60,38 @@
         });
     }
 
-
-    $(document).on('change', '#changeBidStatus', function() {
-        // let bidNewStatus = $('#changeBidStatus').val();
-        // let bidID = data('bidID');
-        // console.log(bidNewStatus);
-        console.log('sss');
+    $(document).ready(function()
+        {
+        $(document).on('change', '#changeBidStatus', function() {
+            let selectBidsByStatus = $('#selectBidsByStatus').val();
+            console.log(changeBidStatus);
         // $.ajax({
         //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         //     dataType: "json",
-        //     data    : { bid: bid },
-        //     url     : 'places/getPlacesByBlock',
+        //     data: {selectBidsByStatus: selectBidsByStatus},
+        //     url     : 'bid/updateList',
         //     method    : 'post',
-        //     success: function (data) {
-        //     let result = '';
-        //     if(data[0].length === 0)
-        //     {
-        //         result += '<tr><td colspan="7">В выбранном разделе ничего нет</td></tr>'
-        //     }
-        //     else
-        //     {
-        //         for(var i = 0; i < data[0].length; i++) {
-        //             result += '<tr>';
-        //             result += '<td><input type="checkbox" data-place-id="' + data[0][i]['id'] + '" name="destoy-place-' + data[0][i]['id'] + '" class="js-destroy"/></td>';
-        //             result += '<td>' + data[0][i]['block'] + '</td>';
-        //             result += '<td>' + data[0][i]['floor'] + '</td>';
-        //             result += '<td>' + data[0][i]['row'] + '</td>';
-        //             result += '<td>' + data[0][i]['place_number'] + '</td>';
-        //             result += '<td>' + data[0][i]['status'] + '</td>';
-        //             result += '<td>' + data[0][i]['price'] + '</td>';
-        //             result += '</tr>';
-        //         }
-        //     }   
-        //     $('tbody').html(result);
+        //     success: function (response) {
+        //         let result = '';
+        //             for(var i = 0; i < response.length; i++) {
+        //                 result += '<tr>';
+        //                 result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
+        //                 result += '<td>' + response[i]['client']['email'] + '</td>';
+        //                 result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
+        //                 result += '<td>' + response[i]['type'] + '</td>';
+        //                 result += '<td>' + response[i]['created_at'] + '</td>';
+        //                 result += '<td>' + response[i]['updated_at'] + '</td>';
+        //                 result += '</tr>';
+        //             }
+        //             $('tbody').html(result);
         //     },
         //     error: function (xhr, err) { 
         //         console.log(err + " " + xhr);
         //     }
         // });
+        })
+    });
+    
     });
     </script>
 @endsection
