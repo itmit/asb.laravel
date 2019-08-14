@@ -59,5 +59,8 @@
             myMap.geoObjects.add(placeMark);
         });
     }
+
+
+    
     </script>
 @endsection

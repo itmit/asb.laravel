@@ -22,18 +22,18 @@ class ChangeStatus implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Bid $bid)
-    {
-        $this->bid = $bid;
-    }
+    // public function __construct(Bid $bid)
+    // {
+    //     $this->bid = $bid;
+    // }
 
     /**
      * Get the channels the event should broadcast on.
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('bid.'.$this->update->id);
-    }
+    // public function broadcastOn()
+    // {
+    //     return new PrivateChannel('bid.'.$this->update->id);
+    // }
 }
