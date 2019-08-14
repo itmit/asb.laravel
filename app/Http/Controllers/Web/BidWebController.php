@@ -66,13 +66,13 @@ class BidWebController extends BaseWebController
                     ];
                 }
 
-                $bids = Bid::select('bid.id', 'type', 'location', 'status', 'bid.created_at', 'bid.updated_at')
-                ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-                ->join('clients', 'point_on_map.client', '=', 'clients.id')
-                ->orderBy('bid.created_at', 'desc')
-                ->get();
+                // $bids = Bid::select('bid.id', 'type', 'location', 'status', 'bid.created_at', 'bid.updated_at')
+                // ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+                // ->join('clients', 'point_on_map.client', '=', 'clients.id')
+                // ->orderBy('bid.created_at', 'desc')
+                // ->get();
 
-                return response()->json($bids);
+                return response()->json($response);
             }
             else
             {
