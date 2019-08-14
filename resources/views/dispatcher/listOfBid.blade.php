@@ -56,7 +56,7 @@
                     url     : 'bid/updateList',
                     method    : 'post',
                     success: function (response) {
-                        console.log(response);
+                        // console.log(response);
                         let result = '';
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr>';

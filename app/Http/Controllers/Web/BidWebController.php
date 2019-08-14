@@ -46,7 +46,7 @@ class BidWebController extends BaseWebController
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                $bids = Bid::all()->sortByDesc('created_at');
+                $bids = Bid::where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
 
                 $response = [];
                 foreach ($bids as $bid) {
@@ -83,8 +83,8 @@ class BidWebController extends BaseWebController
                         'id'   => $bid->id,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => $bid->updated_at,
-                        'created_at' => $bid->created_at,
+                        'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+                        'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0),
                         'location' => [
                             'latitude' => $bid->location()->latitude,
                             'longitude' => $bid->location()->longitude
