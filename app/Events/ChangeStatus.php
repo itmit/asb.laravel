@@ -15,7 +15,7 @@ class ChangeStatus implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $bid;
+    // public $bid;
 
     /**
      * Create a new event instance.

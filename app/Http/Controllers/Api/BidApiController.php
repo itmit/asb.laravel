@@ -123,7 +123,7 @@ class BidApiController extends ApiBaseController
 
         if($bid > 0)
         {
-            event(new ChangeStatus($bid));
+            // event(new ChangeStatus($bid));
             return $this->sendResponse([
                 $bid
             ],
