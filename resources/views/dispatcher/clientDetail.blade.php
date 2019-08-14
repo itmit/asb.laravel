@@ -14,6 +14,14 @@
         </div>
         <div>
             {{ $client->is_active }}
+            @ability('super-admin', 'change-activity')
+            @if($client->is_active)
+                <input type="checkbox" name="activeClient" id="activeClient" checked>
+            @else
+                <input type="checkbox" name="activeClient" id="activeClient">
+            @endif                    
+            @endability
+            
         </div>
         <div>
             <button class="btn btn-primary display-location">Показать последнее местоположение</button>
