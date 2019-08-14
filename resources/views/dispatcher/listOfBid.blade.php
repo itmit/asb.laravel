@@ -55,9 +55,8 @@
                             result += '<tr>';
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
                             result += '<td>' + response[i]['client']['email'] + '</td>';
-                            
-
                             result += '<td>' + response[i]['latitude'] + ' | ' + response[i]['longitude'] + '</td>';
+                            result += '<td>' + response[i]['type'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
