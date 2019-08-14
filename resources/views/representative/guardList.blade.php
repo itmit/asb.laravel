@@ -15,6 +15,7 @@
                 <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>
                 <th>Имя</th>
                 <th>Почта</th>
+                <th>Телефон</th>
                 <th>Дата создания</th>
                 <th>Дата обновления</th>
             </tr>
@@ -27,6 +28,7 @@
                     <td>{{ $guard->email }}</td>
                     <td>{{ $guard->phone_number }}</td>
                     <td>{{ $guard->created_at->timezone('Europe/Moscow') }}</td>
+                    <td>{{ $guard->updated_at->timezone('Europe/Moscow') }}</td>
                 </tr>
                 @endforeach
             </tbody>
