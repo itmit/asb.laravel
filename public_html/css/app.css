@@ -64,6 +64,7 @@
     border-radius: 5px;
     padding-left: 60px;
     padding-right: 60px;
+    color: white !important;
 }
 .navbar-header {
     margin-top: 8px;
@@ -73,7 +74,7 @@
 }
 .dropdown-menu {
     background-color: #3097d1;
-    width: 97%;
+    width: 100%;
 }
 .dropdown-menu a,
 .dropdown-menu a:hover {
@@ -97,4 +98,16 @@ td {
 }
 .client-back {
     margin-bottom: 10px;
+}
+.navbar-right a,
+.navbar-right a:hover {
+    background-color: #3097d1 !important;
+    font-weight: bold;
+}
+.col-md-offset-4 button {
+    font-size: 14px;
+}
+.number {
+    width: 25%;
+    text-align: center;
 }

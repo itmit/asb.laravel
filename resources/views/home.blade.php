@@ -10,26 +10,22 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th class="table-checkbox"><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>
-                <th></th>
-                <th>Количество</th>
+                <th>Наименование</th>
+                <th class="number">Количество</th>
             </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="checkbox" class="js-destroy"/></td>
                     <td>Город</td>
-                    <td>{{ $cities }}</td>
+                    <td class="number">2</td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" class="js-destroy"/></td>
                     <td>Представитель</td>
-                    <td>{{ $reprs }}</td>
+                    <td class="number">2</td>
                 </tr>
                 <tr>
-                    <td><input type="checkbox" class="js-destroy"/></td>
                     <td>Диспетчер</td>
-                    <td>{{ $dispathers }}</td>
+                    <td class="number">3</td>
                 </tr>
             </tbody>
         </table>
