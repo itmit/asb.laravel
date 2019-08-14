@@ -79,21 +79,31 @@
             }, 5000);
 
             $(document).on('change', '#selectBidsByStatus', function() {
-            let bids = $('#selectBidsByStatus').val();
-            console.log(bids);
-            // $.ajax({
-            //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            //     dataType: "json",
-            //     data    : { block: block },
-            //     url     : 'places/getPlacesByBlock',
-            //     method    : 'post',
-            //     success: function (data) {
-                
-            //     },
-            //     error: function (xhr, err) { 
-            //         console.log(err + " " + xhr);
-            //     }
-            // });
+                let selectBidsByStatus = $('#selectBidsByStatus').val();
+            $.ajax({
+                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                data: {selectBidsByStatus: selectBidsByStatus},
+                url     : 'bid/updateList',
+                method    : 'post',
+                success: function (response) {
+                    let result = '';
+                        for(var i = 0; i < response.length; i++) {
+                            result += '<tr>';
+                            result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
+                            result += '<td>' + response[i]['client']['email'] + '</td>';
+                            result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
+                            result += '<td>' + response[i]['type'] + '</td>';
+                            result += '<td>' + response[i]['created_at'] + '</td>';
+                            result += '<td>' + response[i]['updated_at'] + '</td>';
+                            result += '</tr>';
+                        }
+                        $('tbody').html(result);
+                },
+                error: function (xhr, err) { 
+                    console.log(err + " " + xhr);
+                }
+            });
             });
         });
 
