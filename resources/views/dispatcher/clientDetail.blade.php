@@ -34,7 +34,30 @@
     {
         $(document).on('click', '.display-location', function() {
             let clientID = $('h1').data('clientid');
-            console.log(clientID);
+            $.ajax({
+                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                data: {clientID: clientID},
+                url     : '../clients/lastLocation',
+                method    : 'post',
+                success: function (response) {
+                    $('#location').html(
+                        's'
+                    );
+                },
+                error: function (xhr, err) { 
+                    console.log("Error: " + xhr + " " + err);
+                }
+            })
+        })
+
+        $(document).on('change', '#activeClient', function() {
+            if($("#activeClient").prop("checked")){
+                console.log('check');
+            }
+            else{
+                console.log('no check');
+            }
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",

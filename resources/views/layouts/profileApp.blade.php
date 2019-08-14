@@ -120,7 +120,7 @@
                 ids.push($(this).data('placeId'));
             });
             
-            console.log(ids);
+            // console.log(ids);
 
             let uSure = confirm('Вы действительно хотите удалить?');
             if(uSure)
@@ -132,7 +132,7 @@
                 url     : 'clients/delete',
                 method    : 'delete',
                 success: function (response) {
-                    console.log(response);
+                    // console.log(response);
                     $(".js-destroy:checked").closest('tr').remove();
                     $(".js-destroy").prop("checked", "");
                 },
@@ -151,7 +151,7 @@
                 ids.push($(this).data('placeId'));
             });
             
-            console.log(ids);
+            // console.log(ids);
 
             let uSure = confirm('Вы действительно хотите удалить?');
             if(uSure)
@@ -163,7 +163,7 @@
                 url     : 'dispatcher/delete',
                 method    : 'delete',
                 success: function (response) {
-                    console.log(response);
+                    // console.log(response);
                     $(".js-destroy:checked").closest('tr').remove();
                     $(".js-destroy").prop("checked", "");
                 },
@@ -182,7 +182,7 @@
                 ids.push($(this).data('placeId'));
             });
             
-            console.log(ids);
+            // console.log(ids);
 
             let uSure = confirm('Вы действительно хотите удалить?');
             if(uSure)
@@ -194,7 +194,7 @@
                 url     : 'guard/delete',
                 method    : 'delete',
                 success: function (response) {
-                    console.log(response);
+                    // console.log(response);
                     $(".js-destroy:checked").closest('tr').remove();
                     $(".js-destroy").prop("checked", "");
                 },
@@ -211,7 +211,7 @@
 
                 if($(".js-destroy-all").prop("checked")){
                     $(".js-destroy").prop("checked", "checked");
-                    console.log('check');
+                    // console.log('check');
                 }
                 else{
                     $(".js-destroy").prop("checked", "");
