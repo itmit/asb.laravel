@@ -34,11 +34,19 @@ class ClientWebController extends Controller
                 ]
             );
             }
-            else
-            {
+            if ($user->hasRole('dispatcher')) {
                 $repId = $user->dispatcher->representative;
                 return view('dispatcher.listOfClients', [
                     'clients' => Client::where('representative', '=', $repId)
+                        ->where('is_guard', '<>', 1)
+                        ->orderBy('created_at', 'desc')->get()
+                ]
+            );
+            }
+            if ($user->hasRole('representative')) {
+                $userId = Auth::id();
+                return view('dispatcher.listOfClients', [
+                    'clients' => Client::where('representative', '=', $userId)
                         ->where('is_guard', '<>', 1)
                         ->orderBy('created_at', 'desc')->get()
                 ]

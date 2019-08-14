@@ -94,11 +94,16 @@ class GuardWebController extends Controller
             $repId = $user->id;
         }
 
+        $number = request('phone');
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+
         Client::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
-            'phone_number' => $request->input('phone'),
+            'phone_number' => $number,
             'representative' => $repId,
             'is_guard' => 1
         ]);
