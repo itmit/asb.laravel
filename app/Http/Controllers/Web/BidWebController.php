@@ -54,8 +54,8 @@ class BidWebController extends BaseWebController
                         'id'   => $bid->id,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0, -1),
-                        'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0, -6),
+                        'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+                        'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0),
                         'location' => [
                             'latitude' => $bid->location()->latitude,
                             'longitude' => $bid->location()->longitude
