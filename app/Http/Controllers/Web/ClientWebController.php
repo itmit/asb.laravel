@@ -129,7 +129,7 @@ class ClientWebController extends Controller
         ]);
     }
 
-    public function lastLocation($clientID)
+    public function lastLocation(Request $clientID)
     {
 
         return response()->json($clientID);
