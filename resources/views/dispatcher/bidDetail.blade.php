@@ -7,19 +7,27 @@
     </div>
     <div class="col-sm-12">
         <div>
-            {{ $bid->created_at->timezone('Europe/Moscow') }}
+            Статус: {{ $bid->created_at->timezone('Europe/Moscow') }}
+            <select name="" id="">
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+            </select>
         </div>
         <div>
-            {{ $bid->updated_at->timezone('Europe/Moscow') }}
+            Создана: {{ $bid->created_at->timezone('Europe/Moscow') }}
         </div>
         <div>
-            {{ $bid->type }}
+            Обновлена: {{ $bid->updated_at->timezone('Europe/Moscow') }}
         </div>
         <div>
-            {{ $bid->location()->client()->name }}
+            Тип: {{ $bid->type }}
+        </div>
+        <div>
+            Клиент: <a href="client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name }}</a>
         </div>
         <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
-            {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
+            Координаты: {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
         </div>
         <div id="map" style="width: 600px; height: 400px"></div>
     </div>
