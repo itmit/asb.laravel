@@ -24,7 +24,7 @@
             Тип: {{ $bid->type }}
         </div>
         <div>
-            Клиент: <a href="client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name }}</a>
+            Клиент: <a href="../client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name }}</a>
         </div>
         <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
             Координаты: {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
