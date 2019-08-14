@@ -67,31 +67,36 @@ class BidWebController extends BaseWebController
                     ];
                 }
 
-                // $bids = Bid::select('bid.id', 'type', 'location', 'status', 'bid.created_at', 'bid.updated_at')
-                // ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-                // ->join('clients', 'point_on_map.client', '=', 'clients.id')
-                // ->orderBy('bid.created_at', 'desc')
-                // ->get();
-
                 return response()->json($response);
             }
             else
             {
-                $bids = Bid::select('*')
-                ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-                ->join('clients', 'point_on_map.client', '=', 'clients.id')
-                ->orderBy('bid.created_at', 'desc')
-                ->get();
-                $bs = [];
+                $bids = Bid::all()->sortByDesc('created_at');
+
+                $response = [];
                 foreach ($bids as $bid) {
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                         continue;
                     }
 
-                    $bs[] = $bid;
+                    $response[] = [
+                        'id'   => $bid->id,
+                        'status' => $bid->status,
+                        'type' => $bid->type,
+                        'updated_at' => $bid->updated_at,
+                        'created_at' => $bid->created_at,
+                        'location' => [
+                            'latitude' => $bid->location()->latitude,
+                            'longitude' => $bid->location()->longitude
+                        ],
+                        'client' => [
+                            'name' => $bid->location()->client()->name,
+                            'email' => $bid->location()->client()->email
+                        ]
+                    ];
                 }
 
-                return response()->json($bs);
+                return response()->json($response);
             };
         };
         return 'Что-то пошло не так :(';

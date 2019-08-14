@@ -52,7 +52,7 @@
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr>';
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
-                            result += '<td>' + response[i]['email'] + '</td>';
+                            result += '<td>' + response[i]['client']['email'] + '</td>';
                             
 
                             result += '<td>' + response[i]['latitude'] + ' | ' + response[i]['longitude'] + '</td>';
