@@ -7,6 +7,12 @@
 
             <div id="map" style="width: 600px; height: 400px"></div>
 
+            <select name="" id="">
+                <option value="Accepted">Accepted</option>
+                <option value="PendingAcceptance">PendingAcceptance</option>
+                <option value="Processed">Processed</option>
+            </select>
+
             <table class="table table-bordered">
                 <thead>
                 <tr>
