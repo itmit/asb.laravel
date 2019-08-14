@@ -63,7 +63,7 @@
 
     $(document).on('change', '#changeBidStatus', function() {
         let bidNewStatus = $('#changeBidStatus').val();
-        let bidID = data('bidID');
+        // let bidID = data('bidID');
         console.log(bidNewStatus);
         // $.ajax({
         //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
