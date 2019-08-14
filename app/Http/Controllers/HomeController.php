@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Dispatcher;
+use App\Models\Client;
 
 /**
  * Class HomeController
@@ -32,11 +33,16 @@ class HomeController extends Controller
         $reprs = Role::getUsersByRoleName('representative')->count();
 
         $dispathers = Dispatcher::all()->count();
+
+        $clients = Client::select('*')
+            ->where('is_guard', '<>', 1)
+            ->count();
  
         return view('home', [
             'cities' => $cities,
             'reprs' => $reprs,
             'dispathers' => $dispathers,
+            'clients' => $clients,
         ]);
     }
 }

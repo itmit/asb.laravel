@@ -27,6 +27,10 @@
                     <td>Диспетчер</td>
                     <td class="number">{{ $dispathers }}</td>
                 </tr>
+                <tr>
+                    <td>Клиентов</td>
+                    <td class="number">{{ $dispathers }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
