@@ -15,14 +15,14 @@ class BidWebController extends BaseWebController
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                $bids = Bid::all()->sortByDesc('created_at');
+                $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
                 return view('dispatcher.listOfBid', [
                     'bids' => $bids
                 ]);
             }
             else
             {
-                $bids = Bid::all()->sortByDesc('created_at');
+                $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
                 $bs = [];
                 foreach ($bids as $bid) {
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
@@ -71,7 +71,7 @@ class BidWebController extends BaseWebController
             }
             else
             {
-                $bids = Bid::all()->sortByDesc('created_at');
+                $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
 
                 $response = [];
                 foreach ($bids as $bid) {
