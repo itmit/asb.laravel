@@ -91,7 +91,5 @@
         // });
         })
     });
-    
-    });
     </script>
 @endsection
