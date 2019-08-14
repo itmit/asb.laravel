@@ -52,17 +52,17 @@
         })
 
         $(document).on('change', '#activeClient', function() {
+            let clientID = $('h1').data('clientid');
             if($("#activeClient").prop("checked")){
-                console.log('check');
-            }
-            else{
                 console.log('no check');
             }
-            $.ajax({
+            else{
+                console.log('check');
+                $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
-                data: {clientID: clientID},
-                url     : '../clients/lastLocation',
+                data: {clientID: clientID, direction: down},
+                url     : '../clients/changeActivity',
                 method    : 'post',
                 success: function (response) {
                     $('#location').html(
@@ -73,6 +73,7 @@
                     console.log("Error: " + xhr + " " + err);
                 }
             })
+            }
         })
     })
     </script>

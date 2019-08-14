@@ -134,4 +134,17 @@ class ClientWebController extends Controller
 
         return response()->json($clientID);
     }
+
+    public function changeActivity(Request $request)
+    {
+        $user = Auth::user();
+        if ($user instanceof User) {
+            if ($user->hasRole('super-admin'))
+            {
+                return 'aaa';
+            }
+            else return 'Error!!!!';
+        }
+        else return 'Что-то пошло не так :(';
+    }
 }
