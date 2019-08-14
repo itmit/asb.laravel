@@ -46,7 +46,7 @@ class BidWebController extends BaseWebController
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                $bids = Bid::where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+                $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
 
                 $response = [];
                 foreach ($bids as $bid) {
