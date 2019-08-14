@@ -29,7 +29,7 @@
                 </tr>
                 <tr>
                     <td>Клиентов</td>
-                    <td class="number">{{ $dispathers }}</td>
+                    <td class="number">{{ $clients }}</td>
                 </tr>
             </tbody>
         </table>
