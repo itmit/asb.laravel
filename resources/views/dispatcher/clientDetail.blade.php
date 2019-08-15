@@ -21,14 +21,11 @@
                 @endif 
             </span>
             @ability('super-admin', 'change-activity')
-            <div>
-            Активировать/деактивировать
             @if($client->is_active)
                 <input type="checkbox" name="activeClient" id="activeClient" checked>
             @else
                 <input type="checkbox" name="activeClient" id="activeClient">
-            @endif         
-            </div>           
+            @endif                  
             @endability
             
         </div>
