@@ -25,8 +25,8 @@
         </div>
         <div>
             <button class="btn btn-primary display-location">Показать последнее местоположение</button>
-            <div id="location"></div>
         </div>
+        <div id="location"></div>
     </div>
 
     <script>
