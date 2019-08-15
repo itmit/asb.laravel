@@ -81,9 +81,15 @@ class ClientWebController extends Controller
      */
     public function store(Request $request)
     {
+        $number = $request->input('phone_number');
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        $request['phone_number'] = $number;
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:clients',
             'password' => 'required|string|min:6|confirmed',
             'password' => 'required|string|min:6|confirmed|same:password',
             'phone_number' => 'required|string|min:11|unique:clients,phone_number',
@@ -97,11 +103,6 @@ class ClientWebController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        $number = $request->input('phone_number');
-        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
-        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
 
         Client::create([
             'name' => $request->input('name'),

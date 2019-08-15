@@ -27,7 +27,7 @@ class CreateClientTable extends Migration
             $table->string('phone_number')->unique();
             $table->string('organization')->nullable();
             $table->string('note')->nullable();
-            $table->boolean('is_guard');
+            $table->boolean('is_guard')->default(0);
             $table->boolean('is_active')->default(1);
             $table->timestamps();
             
