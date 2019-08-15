@@ -61,9 +61,7 @@
                 url     : '../clients/changeActivity',
                 method    : 'post',
                 success: function (response) {
-                    $('#location').html(
-                        's'
-                    );
+                    
                 },
                 error: function (xhr, err) { 
                     console.log("Error: " + xhr + " " + err);
@@ -79,9 +77,7 @@
                 url     : '../clients/changeActivity',
                 method    : 'post',
                 success: function (response) {
-                    $('#location').html(
-                        's'
-                    );
+                    
                 },
                 error: function (xhr, err) { 
                     console.log("Error: " + xhr + " " + err);

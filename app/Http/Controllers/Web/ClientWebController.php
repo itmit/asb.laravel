@@ -149,7 +149,7 @@ class ClientWebController extends Controller
                 else $direction = 0;
             }
             else return 'Error!!!!';
-            return $request->id . ' ' . $request->direction;
+            return $request->clientID . ' | ' . $request->direction;
             // $client = Client::where('id', '=', $request->id)
             // ->update(['name' => $request->name, 'city' => $request->city, 'field_of_activity' => $request->field_of_activity,
             // 'organization' => $request->organization, 'position' => $request->position]);
