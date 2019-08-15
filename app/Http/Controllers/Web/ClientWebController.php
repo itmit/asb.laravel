@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\PointOnMap;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -131,8 +132,8 @@ class ClientWebController extends Controller
 
     public function lastLocation(Request $clientID)
     {
-
-        return response()->json($clientID);
+        $lastClientLocation = PointOnMap::latest()->where('client', '=', $clientID);
+        return response()->json($lastClientLocation);
     }
 
     public function changeActivity(Request $request)
