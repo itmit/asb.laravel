@@ -13,7 +13,14 @@
             {{ $client->note }}
         </div>
         <div>
-            <span class="clientActiveStatus">{{ $client->is_active }}</span>
+            <span class="clientActiveStatus">
+                @if($client->is_active)
+                    Активен
+                @else
+                    Не активен
+                @endif 
+            </span>
+            Активировать/деактивировать
             @ability('super-admin', 'change-activity')
             @if($client->is_active)
                 <input type="checkbox" name="activeClient" id="activeClient" checked>
@@ -80,7 +87,7 @@
                 url     : '../clients/changeActivity',
                 method    : 'post',
                 success: function (response) {
-                    $(".clientActiveStatus").html("1");
+                    $(".clientActiveStatus").html("Активен");
                 },
                 error: function (xhr, err) { 
                     console.log("Error: " + xhr + " " + err);
@@ -96,7 +103,7 @@
                 url     : '../clients/changeActivity',
                 method    : 'post',
                 success: function (response) {
-                    $(".clientActiveStatus").html("0");
+                    $(".clientActiveStatus").html("Не активен");
                 },
                 error: function (xhr, err) { 
                     console.log("Error: " + xhr + " " + err);
