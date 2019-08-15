@@ -26,7 +26,13 @@
                 <td><a href="client/{{ $client->id }}"> {{ $client->name }} </a></td>
                     <td>{{ $client->email }}</td>
                     <td>{{ $client->phone_number }}</td>
-                    <td>{{ $client->is_active }}</td>
+                    <td>
+                        @if($client->is_active)
+                        Активен
+                        @else
+                        Не активен
+                        @endif
+                    </td>
                     <td>{{ $client->created_at->timezone('Europe/Moscow') }}</td>
                 </tr>
             @endforeach
