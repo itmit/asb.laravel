@@ -15,7 +15,7 @@ function init() {
         center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
         // Уровень масштабирования. Допустимые значения:
         // от 0 (весь мир) до 19.
-        zoom: 10
+        zoom: 15
     });
 
     $locations.each(function () {
