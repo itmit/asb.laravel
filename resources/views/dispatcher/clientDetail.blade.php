@@ -54,13 +54,28 @@
         $(document).on('change', '#activeClient', function() {
             if($("#activeClient").prop("checked")){
                 console.log('no check');
+                $.ajax({
+                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                data: {clientID: clientID, direction: 1},
+                url     : '../clients/changeActivity',
+                method    : 'post',
+                success: function (response) {
+                    $('#location').html(
+                        's'
+                    );
+                },
+                error: function (xhr, err) { 
+                    console.log("Error: " + xhr + " " + err);
+                }
+            })
             }
             else{
                 console.log('check');
                 $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
-                data: {clientID: clientID, direction: down},
+                data: {clientID: clientID, direction: 0},
                 url     : '../clients/changeActivity',
                 method    : 'post',
                 success: function (response) {

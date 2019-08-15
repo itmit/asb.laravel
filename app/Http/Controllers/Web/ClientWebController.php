@@ -141,7 +141,11 @@ class ClientWebController extends Controller
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                return 'aaa';
+                if($request->direction)
+                {
+                    return '1';
+                }
+                else return '0';
             }
             else return 'Error!!!!';
         }
