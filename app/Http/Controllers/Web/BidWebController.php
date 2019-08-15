@@ -51,6 +51,18 @@ class BidWebController extends BaseWebController
 
                 $response = [];
                 foreach ($bids as $bid) {
+                    if($bid->status == 'PendingAcceptance')
+                    {
+                        $bid->status = 'Ожидает принятия';
+                    };
+                    if($bid->status == 'Accepted')
+                    {
+                        $bid->status = 'Принята';
+                    };
+                    if($bid->status == 'Processed')
+                    {
+                        $bid->status = 'Выполнена';
+                    };
                     $response[] = [
                         'id'   => $bid->id,
                         'status' => $bid->status,

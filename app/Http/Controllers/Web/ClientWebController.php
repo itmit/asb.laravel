@@ -86,7 +86,7 @@ class ClientWebController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'password' => 'required|string|min:6|confirmed|same:password',
-            'phone_number' => 'required|string|min:11',
+            'phone_number' => 'required|string|min:11|unique:clients',
             'representative' => 'required',
             'organization' => 'required'
         ]);

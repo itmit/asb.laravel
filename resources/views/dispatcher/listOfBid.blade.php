@@ -8,9 +8,9 @@
             <div id="map" style="width: 600px; height: 400px"></div>
 
             <select name="selectBidsByStatus" id="selectBidsByStatus">
-                <option value="PendingAcceptance" selected>PendingAcceptance</option>
-                <option value="Accepted">Accepted</option>
-                <option value="Processed">Processed</option>
+                <option value="PendingAcceptance" selected>Ожидает принятия</option>
+                <option value="Accepted">Принята</option>
+                <option value="Processed">Выполнена</option>
             </select>
 
             <table class="table table-bordered" style="width: 100%">
