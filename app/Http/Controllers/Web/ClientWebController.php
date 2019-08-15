@@ -138,21 +138,14 @@ class ClientWebController extends Controller
     public function changeActivity(Request $request)
     {
         $user = Auth::user();
-        $direction = 0;
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                if($request->direction)
-                {
-                    $direction = 1;
-                }
-                else $direction = 0;
+                $client = Client::where('id', '=', $request->clientID)
+                    ->update(['is_active' => $request->direction]);
+                return response()->json(['Активность пользователя изменена']);
             }
-            else return 'Error!!!!';
-            return $request->clientID . ' | ' . $request->direction;
-            // $client = Client::where('id', '=', $request->id)
-            // ->update(['name' => $request->name, 'city' => $request->city, 'field_of_activity' => $request->field_of_activity,
-            // 'organization' => $request->organization, 'position' => $request->position]);
+            else return response()->json(['Недостаточно прав']);
         }
         else return 'Что-то пошло не так :(';
     }
