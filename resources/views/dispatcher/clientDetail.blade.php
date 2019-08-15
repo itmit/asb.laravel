@@ -41,14 +41,15 @@
                 url     : '../clients/lastLocation',
                 method    : 'post',
                 success: function (response) {
-                    $('#location').html(
+                    $('#location').html('');
+                    
                     // Функция ymaps.ready() будет вызвана, когда
                     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
                     ymaps.ready(init);
 
                     function init() {
                         // Создание карты.
-                        myMap = new ymaps.Map("map", {
+                        myMap = new ymaps.Map("location", {
                             // Координаты центра карты.
                             // Порядок по умолчанию: «широта, долгота».
                             // Чтобы не определять координаты центра карты вручную,
@@ -62,7 +63,7 @@
                             let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
                             myMap.geoObjects.add(placeMark);
                     }
-                    );
+
                 },
                 error: function (xhr, err) { 
                     console.log("Error: " + xhr + " " + err);
