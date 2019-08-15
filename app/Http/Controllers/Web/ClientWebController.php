@@ -133,8 +133,14 @@ class ClientWebController extends Controller
     public function lastLocation(Request $request)
     {
         $lastClientLocation = PointOnMap::latest()->where('client', '=', $request->clientID)->first();
-        return $lastClientLocation;
-        return response()->json($lastClientLocation);
+
+        $lastLocation = [
+            'client' => $lastClientLocation->client,
+            'latitude' => $lastClientLocation->latitude,
+            'longitude' => $lastClientLocation->longitude,
+        ];
+        
+        return response()->json($lastLocation);
     }
 
     public function changeActivity(Request $request)
