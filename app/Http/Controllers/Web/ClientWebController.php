@@ -86,14 +86,14 @@ class ClientWebController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'password' => 'required|string|min:6|confirmed|same:password',
-            'phone_number' => 'required|string|min:11|unique:clients',
+            'phone_number' => 'required|string|min:11|unique:users',
             'representative' => 'required',
             'organization' => 'required'
         ]);
 
         if ($validator->fails()) {
             return redirect()
-                ->route('auth.clint.create')
+                ->route('auth.client.create')
                 ->withErrors($validator)
                 ->withInput();
         }
