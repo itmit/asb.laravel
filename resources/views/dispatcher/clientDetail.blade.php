@@ -59,9 +59,8 @@
                             // от 0 (весь мир) до 19.
                             zoom: 15
                         });
-                            // console.log([$(this).data('latitude'), $(this).data('longitude')]);
-                            let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
-                            myMap.geoObjects.add(placeMark);
+                            // let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
+                            // myMap.geoObjects.add(placeMark);
                     }
 
                 },
