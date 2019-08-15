@@ -32,8 +32,8 @@
     <script>
     $(document).ready(function()
     {
+        let clientID = $('h1').data('clientid');
         $(document).on('click', '.display-location', function() {
-            let clientID = $('h1').data('clientid');
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
@@ -52,7 +52,6 @@
         })
 
         $(document).on('change', '#activeClient', function() {
-            let clientID = $('h1').data('clientid');
             if($("#activeClient").prop("checked")){
                 console.log('no check');
             }
