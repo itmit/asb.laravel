@@ -74,19 +74,23 @@
                         $('tbody').html(result);
 
                         let bidsCount = $('tbody').html();
-                        if (bidsCount != ''){
-                            if(bidColor)
+                        if (bidsCount != '')
+                        {
+                            if($('#selectBidsByStatus').val() == "PendingAcceptance")
                             {
-                                $(".bid").css("background-color", "white");
-                                bidColor = false;
+                                if(bidColor)
+                                {
+                                    $(".bid").css("background-color", "white");
+                                    bidColor = false;
+                                }
+                                else
+                                {
+                                    $(".bid").css("background-color", "red");
+                                    bidColor = true;
+                                }
+                                // console.log(bidColor);
+                                // console.log("NOT NULL");
                             }
-                            else
-                            {
-                                $(".bid").css("background-color", "red");
-                                bidColor = true;
-                            }
-                            console.log(bidColor);
-                            // console.log("NOT NULL");
                         }
                         else{
                             // console.log("NULL");
