@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Events\ChangeStatus;
-use App\Http\Controllers\Web\BidWebController;
 
 class BidApiController extends ApiBaseController
 {
@@ -106,7 +105,6 @@ class BidApiController extends ApiBaseController
             'uid' => $request->input('uid'),
             'type' => $request->input('type')
         ]);
-        return alarm();
     }
 
     public function changeStatus(Request $request)

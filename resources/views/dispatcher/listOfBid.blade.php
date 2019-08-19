@@ -105,14 +105,11 @@
                 }
             });
             });
+
+            let bidsCount = $('tbody');
+            console.log(bidsCount);
+
         });
-
-                            //response[i]['latitude'],response[i]['longitude']
-                            // var myGeocoder = ymaps.geocode([61.79,34.36]);
-                            // myGeocoder.then(function(res) {
-                            //     console.log(result.geoObjects.get(0).getLocalities());
-                            // });
-
 
     </script>
     <script>
