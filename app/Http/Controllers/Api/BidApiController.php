@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Events\ChangeStatus;
+use Illuminate\Support\Facades\Auth;
 
 class BidApiController extends ApiBaseController
 {
@@ -117,7 +118,7 @@ class BidApiController extends ApiBaseController
         if ($validator->fails()) {
             return $this->sendError($validator->errors(), "Validation error", 401);
         }
-        
+
         $userId = Auth::id();
         $bid = Bid::where('uid', '=', $request->uid)
             ->update(['status' => $request->new_status, 'guard' => $userId]);
