@@ -7,7 +7,7 @@
             {{ csrf_field() }}
 
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                <label for="name" class="col-md-4 control-label">Login</label>
+                <label for="name" class="col-md-4 control-label">Логин</label>
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required
@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('fio') ? ' has-error' : '' }}">
-                <label for="fio" class="col-md-4 control-label">Name</label>
+                <label for="fio" class="col-md-4 control-label">Имя</label>
 
                 <div class="col-md-6">
                     <input id="fio" type="text" class="form-control" name="fio" value="{{ old('fio') }}" required
@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                <label for="email" class="col-md-4 control-label">E-Mail адрес</label>
 
                 <div class="col-md-6">
                     <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
@@ -52,7 +52,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                <label for="password" class="col-md-4 control-label">Password</label>
+                <label for="password" class="col-md-4 control-label">Пароль</label>
 
                 <div class="col-md-6">
                     <input id="password" type="password" class="form-control" name="password" required>
@@ -66,7 +66,7 @@
             </div>
 
             <div class="form-group">
-                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                <label for="password-confirm" class="col-md-4 control-label">Повторите пароль</label>
 
                 <div class="col-md-6">
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
@@ -83,4 +83,8 @@
             </div>
         </form>
     </div>
+    <script>
+        $('.left-menu > .nav > *:nth-child(3)').addClass('active');
+        $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+    </script>
 @endsection

@@ -21,7 +21,7 @@
             <input type="hidden" name="representative" value="{{ $repId }}">
 
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                <label for="name" class="col-md-4 control-label">Name</label>
+                <label for="name" class="col-md-4 control-label">Имя</label>
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required
@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                <label for="email" class="col-md-4 control-label">E-Mail адрес</label>
 
                 <div class="col-md-6">
                     <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
@@ -51,7 +51,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                <label for="phone_number" class="col-md-4 control-label">Phone number</label>
+                <label for="phone_number" class="col-md-4 control-label">Номер телефона</label>
 
                 <div class="col-md-6">
                     <input id="phone_number" type="tel" class="form-control" name="phone_number"
@@ -81,7 +81,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                <label for="password" class="col-md-4 control-label">Password</label>
+                <label for="password" class="col-md-4 control-label">Пароль</label>
 
                 <div class="col-md-6">
                     <input id="password" type="password" class="form-control" name="password" required>
@@ -95,7 +95,7 @@
             </div>
 
             <div class="form-group">
-                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                <label for="password-confirm" class="col-md-4 control-label">Повторите пароль</label>
 
                 <div class="col-md-6">
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
@@ -112,4 +112,8 @@
             </div>
         </form>
     </div>
+    <script>
+        $('.left-menu > .nav > *:nth-child(6)').addClass('active');
+        $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+    </script>
 @endsection

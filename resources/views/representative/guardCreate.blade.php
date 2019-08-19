@@ -83,4 +83,8 @@
             </div>
         </form>
     </div>
+    <script>
+        $('.left-menu > .nav > *:nth-child(4)').addClass('active');
+        $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+    </script>
 @endsection
