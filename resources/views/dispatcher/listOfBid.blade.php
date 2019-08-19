@@ -106,7 +106,7 @@
             });
             });
 
-            let bidsCount = $('tbody');
+            let bidsCount = $('tbody').html();
             console.log(bidsCount);
 
         });
