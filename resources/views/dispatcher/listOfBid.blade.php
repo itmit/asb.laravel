@@ -71,20 +71,19 @@
                             result += '</tr>';
                         }
                         $('tbody').html(result);
+                        let bidsCount = $('tbody').html();
+                        if (bidsCount != ''){
+                            console.log("NOT NULL");
+                            $(".bid").css("color", "red");
+                        }
+                        else{
+                            console.log("NULL");
+                        }
                     },
                     error: function (xhr, err) { 
                         console.log("Error: " + xhr + " " + err);
                     }
                 });
-
-                let bidsCount = $('tbody').html();
-                if (bidsCount != ''){
-                    console.log("NOT NULL");
-                    $(".bid").css("color", "red");
-                }
-                else{
-                    console.log("NULL");
-                }
 
             }, 5000);
 
