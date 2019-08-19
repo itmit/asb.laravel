@@ -80,14 +80,14 @@
                             {
                                 if(bidColor)
                                 {
-                                    $(".bid").css("background", "white");
+                                    $(".bid").css("background-color", "white");
                                     // $(".bid").css("color", "white");
                                     $(".bid").css("transition-duration", "1s");
                                     bidColor = false;
                                 }
                                 else
                                 {
-                                    $(".bid").css("background", "ff000061");
+                                    $(".bid").css("background-color", "ff000061");
                                     $(".bid").css("color", "white");
                                     $(".bid").css("transition-duration", "1s");
                                     bidColor = true;
