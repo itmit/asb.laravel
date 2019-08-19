@@ -87,7 +87,7 @@
                                 }
                                 else
                                 {
-                                    $(".bid").css("background-color", "ff000061");
+                                    $(".bid").css("background-color", "#ff000061");
                                     $(".bid").css("color", "white");
                                     $(".bid").css("transition-duration", "1s");
                                     bidColor = true;
