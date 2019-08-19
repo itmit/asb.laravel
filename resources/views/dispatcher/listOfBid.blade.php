@@ -97,7 +97,7 @@
                     }
                 });
 
-            }, 5000);
+            }, 3000);
 
             $(document).on('change', '#selectBidsByStatus', function() {
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
