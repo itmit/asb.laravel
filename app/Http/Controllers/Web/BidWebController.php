@@ -17,33 +17,8 @@ class BidWebController extends BaseWebController
             if ($user->hasRole('super-admin'))
             {
                 $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
-                foreach ($bids as $bid)
-                {
-                    switch ($bid->status) {
-                        case 'PendingAcceptance':
-                            $bid->status = 'Ожидает принятия';
-                            break;
-                        case 'Accepted':
-                            $bid->status = 'Принята';
-                            break;
-                        case 'Processed':
-                            $bid->status = 'Выполнена';
-                            break;
-                        default:
-                            $bid->type = 'Неопределено';
-                    };
-
-                    switch ($bid->type) {
-                        case 'Alert':
-                            $bid->type = 'Тревога';
-                            break;
-                        case 'Call':
-                            $bid->type = 'Звонок';
-                            break;
-                        default:
-                            $bid->type = 'Неопределено';
-                    };
-                }
+                translateStatus($bids);
+                translateType($bids);
                 return view('dispatcher.listOfBid', [
                     'bids' => $bids
                 ]);
@@ -52,35 +27,12 @@ class BidWebController extends BaseWebController
             {
                 $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
                 $bs = [];
+                translateStatus($bids);
+                translateType($bids);
                 foreach ($bids as $bid) {
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                         continue;
                     }
-                    switch ($bid->status) {
-                        case 'PendingAcceptance':
-                            $bid->status = 'Ожидает принятия';
-                            break;
-                        case 'Accepted':
-                            $bid->status = 'Принята';
-                            break;
-                        case 'Processed':
-                            $bid->status = 'Выполнена';
-                            break;
-                        default:
-                            $bid->type = 'Неопределено';
-                    };
-
-                    switch ($bid->type) {
-                        case 'Alert':
-                            $bid->type = 'Тревога';
-                            break;
-                        case 'Call':
-                            $bid->type = 'Звонок';
-                            break;
-                        default:
-                            $bid->type = 'Неопределено';
-                    };
-
                     $bs[] = $bid;
                 }
                 return view('dispatcher.listOfBid', [
@@ -102,19 +54,8 @@ class BidWebController extends BaseWebController
 
                 $response = [];
                 translateStatus($bids);
+                translateType($bids);
                 foreach ($bids as $bid) {
-
-                    switch ($bid->type) {
-                        case 'Alert':
-                            $bid->type = 'Тревога';
-                            break;
-                        case 'Call':
-                            $bid->type = 'Звонок';
-                            break;
-                        default:
-                            $bid->type = 'Неопределено';
-                    };
-
                     $response[] = [
                         'id'   => $bid->id,
                         'status' => $bid->status,
@@ -140,6 +81,8 @@ class BidWebController extends BaseWebController
                 $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
 
                 $response = [];
+                translateStatus($bids);
+                translateType($bids);
                 foreach ($bids as $bid) {
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                         continue;
@@ -199,6 +142,18 @@ class BidWebController extends BaseWebController
 
     public function translateType($bids)
     {
-        
+        foreach ($bids as $bid) {
+            switch ($bid->type) {
+                case 'Alert':
+                    $bid->type = 'Тревога';
+                    break;
+                case 'Call':
+                    $bid->type = 'Звонок';
+                    break;
+                default:
+                    $bid->type = 'Неопределено';
+            };
+        }
+        return $bids;
     }
 }
