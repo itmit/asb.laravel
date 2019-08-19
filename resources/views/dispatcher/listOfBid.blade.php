@@ -90,8 +90,8 @@
                                     $(".bid").css("color", "white");
                                     bidColor = true;
                                 }
-                                // console.log(bidColor);
-                                // console.log("NOT NULL");
+                                let audio = new Audio('/storage/app/public/alert.mp3');
+                                audio.play();
                             }
                         }
                         else{
