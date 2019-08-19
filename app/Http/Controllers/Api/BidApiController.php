@@ -106,7 +106,7 @@ class BidApiController extends ApiBaseController
             'uid' => $request->input('uid'),
             'type' => $request->input('type')
         ]);
-        alarm();
+        // alarm();
     }
 
     public function changeStatus(Request $request)
