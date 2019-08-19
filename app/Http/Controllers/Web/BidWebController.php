@@ -156,4 +156,9 @@ class BidWebController extends BaseWebController
         }
         return $bids;
     }
+
+    public function alarm()
+    {
+        return 'alarm';
+    }
 }

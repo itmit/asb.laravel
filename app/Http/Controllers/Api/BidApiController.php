@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Events\ChangeStatus;
+use App\Http\Controllers\Web\BidWebController;
 
 class BidApiController extends ApiBaseController
 {
@@ -105,6 +106,7 @@ class BidApiController extends ApiBaseController
             'uid' => $request->input('uid'),
             'type' => $request->input('type')
         ]);
+        alarm();
     }
 
     public function changeStatus(Request $request)
@@ -132,10 +134,10 @@ class BidApiController extends ApiBaseController
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 
-    public function testFunc(Request $bidID)
-    {
-        $bid = Bid::findOrFail($bidID)->first();
+    // public function testFunc(Request $bidID)
+    // {
+    //     $bid = Bid::findOrFail($bidID)->first();
 
-        return event(new ChangeStatus($bid));
-    }
+    //     return event(new ChangeStatus($bid));
+    // }
 }
