@@ -99,6 +99,8 @@
                             result += '</tr>';
                         }
                         $('tbody').html(result);
+                        let bidsCount = $('tbody').html();
+                        console.log(bidsCount);
                 },
                 error: function (xhr, err) { 
                     console.log(err + " " + xhr);
@@ -106,8 +108,7 @@
             });
             });
 
-            let bidsCount = $('tbody').html();
-            console.log(bidsCount);
+            
 
         });
 
