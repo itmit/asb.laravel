@@ -17,8 +17,8 @@ class BidWebController extends BaseWebController
             if ($user->hasRole('super-admin'))
             {
                 $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
-                translateStatus($bids);
-                translateType($bids);
+                self::translateStatus($bids);
+                self::translateType($bids);
                 return view('dispatcher.listOfBid', [
                     'bids' => $bids
                 ]);
@@ -27,8 +27,8 @@ class BidWebController extends BaseWebController
             {
                 $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
                 $bs = [];
-                translateStatus($bids);
-                translateType($bids);
+                self::translateStatus($bids);
+                self::translateType($bids);
                 foreach ($bids as $bid) {
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                         continue;
@@ -53,8 +53,8 @@ class BidWebController extends BaseWebController
                 $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
 
                 $response = [];
-                translateStatus($bids);
-                translateType($bids);
+                self::translateStatus($bids);
+                self::translateType($bids);
                 foreach ($bids as $bid) {
                     $response[] = [
                         'id'   => $bid->id,
@@ -81,8 +81,8 @@ class BidWebController extends BaseWebController
                 $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
 
                 $response = [];
-                translateStatus($bids);
-                translateType($bids);
+                self::translateStatus($bids);
+                self::translateType($bids);
                 foreach ($bids as $bid) {
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                         continue;
