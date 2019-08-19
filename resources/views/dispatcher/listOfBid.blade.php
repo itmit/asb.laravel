@@ -75,12 +75,12 @@
 
                         let bidsCount = $('tbody').html();
                         if (bidsCount != ''){
-                            if(bidColor == true)
+                            if(bidColor)
                             {
                                 $(".bid").css("background-color", "white");
                                 bidColor = false;
                             }
-                            if(bidColor == false)
+                            else
                             {
                                 $(".bid").css("background-color", "red");
                                 bidColor = true;
