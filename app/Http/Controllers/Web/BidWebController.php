@@ -17,6 +17,17 @@ class BidWebController extends BaseWebController
             if ($user->hasRole('super-admin'))
             {
                 $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+                foreach ($bids as $bid)
+                {
+                    if($bid->type == 'Alert')
+                    {
+                        $bid->type = 'Тревога';
+                    };
+                    if($bid->type == 'Call')
+                    {
+                        $bid->type = 'Звонок';
+                    };
+                }
                 return view('dispatcher.listOfBid', [
                     'bids' => $bids
                 ]);
@@ -29,6 +40,14 @@ class BidWebController extends BaseWebController
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                         continue;
                     }
+                    if($bid->type == 'Alert')
+                    {
+                        $bid->type = 'Тревога';
+                    };
+                    if($bid->type == 'Call')
+                    {
+                        $bid->type = 'Звонок';
+                    };
 
                     $bs[] = $bid;
                 }
@@ -62,6 +81,14 @@ class BidWebController extends BaseWebController
                     if($bid->status == 'Processed')
                     {
                         $bid->status = 'Выполнена';
+                    };
+                    if($bid->type == 'Alert')
+                    {
+                        $bid->type = 'Тревога';
+                    };
+                    if($bid->type == 'Call')
+                    {
+                        $bid->type = 'Звонок';
                     };
                     $response[] = [
                         'id'   => $bid->id,
