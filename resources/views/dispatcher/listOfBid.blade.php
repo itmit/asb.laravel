@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                 @foreach($bids as $bid)
-                    <tr>
+                    <tr class="bid">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
                             <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
@@ -61,7 +61,7 @@
                         // console.log(response);
                         let result = '';
                         for(var i = 0; i < response.length; i++) {
-                            result += '<tr>';
+                            result += '<tr class="bid">';
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
                             result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['email'] + '</a></td>';
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
@@ -76,6 +76,16 @@
                         console.log("Error: " + xhr + " " + err);
                     }
                 });
+
+                let bidsCount = $('tbody').html();
+                if (bidsCount != ''){
+                    console.log("NOT NULL");
+                    $(".bid").css("color", "red");
+                }
+                else{
+                    console.log("NULL");
+                }
+
             }, 5000);
 
             $(document).on('change', '#selectBidsByStatus', function() {
@@ -99,14 +109,6 @@
                             result += '</tr>';
                         }
                         $('tbody').html(result);
-                        let bidsCount = $('tbody').html();
-                        if (bidsCount != ''){
-                            console.log("NOT NULL");
-                        }
-                        else{
-                            console.log("NULL");
-                        }
-                        console.log(bidsCount);
                 },
                 error: function (xhr, err) { 
                     console.log(err + " " + xhr);
