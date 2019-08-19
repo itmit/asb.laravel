@@ -90,7 +90,7 @@
                                     $(".bid").css("color", "white");
                                     bidColor = true;
                                 }
-                                let audio = new Audio('/resources/assets/alert.mp3');
+                                let audio = new Audio('alert.mp3');
                                 audio.play();
                             }
                         }
