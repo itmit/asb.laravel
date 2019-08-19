@@ -30,7 +30,7 @@
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
                             <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
-                            {{ $bid->location()->client()->email }}
+                                <a href="client/{{ $bid->location()->client()->id }}"> {{ $bid->location()->client()->email }} </a>
                             </div>
                         </td>
                         <td>
@@ -63,7 +63,7 @@
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr>';
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
-                            result += '<td>' + response[i]['client']['email'] + '</td>';
+                            result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['email'] + '</a></td>';
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
                             result += '<td>' + response[i]['type'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
