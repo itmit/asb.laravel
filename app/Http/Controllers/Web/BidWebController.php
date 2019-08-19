@@ -19,13 +19,29 @@ class BidWebController extends BaseWebController
                 $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
                 foreach ($bids as $bid)
                 {
-                    if($bid->type == 'Alert')
-                    {
-                        $bid->type = 'Тревога';
+                    switch ($bid->status) {
+                        case 'PendingAcceptance':
+                            $bid->status = 'Ожидает принятия';
+                            break;
+                        case 'Accepted':
+                            $bid->status = 'Принята';
+                            break;
+                        case 'Processed':
+                            $bid->status = 'Выполнена';
+                            break;
+                        default:
+                            $bid->type = 'Неопределено';
                     };
-                    if($bid->type == 'Call')
-                    {
-                        $bid->type = 'Звонок';
+
+                    switch ($bid->type) {
+                        case 'Alert':
+                            $bid->type = 'Тревога';
+                            break;
+                        case 'Call':
+                            $bid->type = 'Звонок';
+                            break;
+                        default:
+                            $bid->type = 'Неопределено';
                     };
                 }
                 return view('dispatcher.listOfBid', [
@@ -40,13 +56,29 @@ class BidWebController extends BaseWebController
                     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                         continue;
                     }
-                    if($bid->type == 'Alert')
-                    {
-                        $bid->type = 'Тревога';
+                    switch ($bid->status) {
+                        case 'PendingAcceptance':
+                            $bid->status = 'Ожидает принятия';
+                            break;
+                        case 'Accepted':
+                            $bid->status = 'Принята';
+                            break;
+                        case 'Processed':
+                            $bid->status = 'Выполнена';
+                            break;
+                        default:
+                            $bid->type = 'Неопределено';
                     };
-                    if($bid->type == 'Call')
-                    {
-                        $bid->type = 'Звонок';
+                    
+                    switch ($bid->type) {
+                        case 'Alert':
+                            $bid->type = 'Тревога';
+                            break;
+                        case 'Call':
+                            $bid->type = 'Звонок';
+                            break;
+                        default:
+                            $bid->type = 'Неопределено';
                     };
 
                     $bs[] = $bid;
@@ -70,26 +102,32 @@ class BidWebController extends BaseWebController
 
                 $response = [];
                 foreach ($bids as $bid) {
-                    if($bid->status == 'PendingAcceptance')
-                    {
-                        $bid->status = 'Ожидает принятия';
+
+                    switch ($bid->status) {
+                        case 'PendingAcceptance':
+                            $bid->status = 'Ожидает принятия';
+                            break;
+                        case 'Accepted':
+                            $bid->status = 'Принята';
+                            break;
+                        case 'Processed':
+                            $bid->status = 'Выполнена';
+                            break;
+                        default:
+                            $bid->type = 'Неопределено';
                     };
-                    if($bid->status == 'Accepted')
-                    {
-                        $bid->status = 'Принята';
+
+                    switch ($bid->type) {
+                        case 'Alert':
+                            $bid->type = 'Тревога';
+                            break;
+                        case 'Call':
+                            $bid->type = 'Звонок';
+                            break;
+                        default:
+                            $bid->type = 'Неопределено';
                     };
-                    if($bid->status == 'Processed')
-                    {
-                        $bid->status = 'Выполнена';
-                    };
-                    if($bid->type == 'Alert')
-                    {
-                        $bid->type = 'Тревога';
-                    };
-                    if($bid->type == 'Call')
-                    {
-                        $bid->type = 'Звонок';
-                    };
+
                     $response[] = [
                         'id'   => $bid->id,
                         'status' => $bid->status,
