@@ -8,11 +8,11 @@
     <div class="col-sm-12">
         <div>
             Статус: {{ $bid->status }}
-            <select id="changeBidStatus" name="changeBidStatus">
+            {{-- <select id="changeBidStatus" name="changeBidStatus">
                 <option value="Accepted">Accepted</option>
                 <option value="PendingAcceptance">PendingAcceptance</option>
                 <option value="Processed">Processed</option>
-            </select>
+            </select> --}}
         </div>
         <div>
             Создана: {{ $bid->created_at->timezone('Europe/Moscow') }}

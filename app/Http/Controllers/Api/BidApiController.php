@@ -117,9 +117,10 @@ class BidApiController extends ApiBaseController
         if ($validator->fails()) {
             return $this->sendError($validator->errors(), "Validation error", 401);
         }
-
+        
+        $userId = Auth::id();
         $bid = Bid::where('uid', '=', $request->uid)
-            ->update(['status' => $request->new_status]);
+            ->update(['status' => $request->new_status, 'guard' => $userId]);
 
         if($bid > 0)
         {
