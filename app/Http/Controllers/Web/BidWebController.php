@@ -69,7 +69,7 @@ class BidWebController extends BaseWebController
                         default:
                             $bid->type = 'Неопределено';
                     };
-                    
+
                     switch ($bid->type) {
                         case 'Alert':
                             $bid->type = 'Тревога';
@@ -101,21 +101,8 @@ class BidWebController extends BaseWebController
                 $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
 
                 $response = [];
+                translateStatus($bids);
                 foreach ($bids as $bid) {
-
-                    switch ($bid->status) {
-                        case 'PendingAcceptance':
-                            $bid->status = 'Ожидает принятия';
-                            break;
-                        case 'Accepted':
-                            $bid->status = 'Принята';
-                            break;
-                        case 'Processed':
-                            $bid->status = 'Выполнена';
-                            break;
-                        default:
-                            $bid->type = 'Неопределено';
-                    };
 
                     switch ($bid->type) {
                         case 'Alert':
@@ -188,5 +175,30 @@ class BidWebController extends BaseWebController
         return view("dispatcher.bidDetail", [
             'bid' => $bid
         ]);
+    }
+
+    public function translateStatus($bids)
+    {
+        foreach ($bids as $bid) {
+            switch ($bid->status) {
+                case 'PendingAcceptance':
+                    $bid->status = 'Ожидает принятия';
+                    break;
+                case 'Accepted':
+                    $bid->status = 'Принята';
+                    break;
+                case 'Processed':
+                    $bid->status = 'Выполнена';
+                    break;
+                default:
+                    $bid->type = 'Неопределено';
+            };
+        }
+        return $bids;
+    }
+
+    public function translateType($bids)
+    {
+        
     }
 }
