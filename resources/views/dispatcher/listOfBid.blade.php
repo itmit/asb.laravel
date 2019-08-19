@@ -49,7 +49,7 @@
     <script>
         $(document).ready(function()
         {
-            let bidColor = 0;
+            let bidColor = true;
             setInterval(function(){ 
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
                 $.ajax({
@@ -72,17 +72,18 @@
                             result += '</tr>';
                         }
                         $('tbody').html(result);
+
                         let bidsCount = $('tbody').html();
                         if (bidsCount != ''){
-                            if(bidColor == 0)
+                            if(bidColor == true)
                             {
                                 $(".bid").css("background-color", "white");
-                                bidColor = 1;
+                                bidColor = false;
                             }
-                            if(bidColor == 1)
+                            if(bidColor == false)
                             {
                                 $(".bid").css("background-color", "red");
-                                bidColor = 0;
+                                bidColor = true;
                             }
                             console.log(bidColor);
                             // console.log("NOT NULL");
