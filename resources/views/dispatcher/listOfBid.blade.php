@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                 @foreach($bids as $bid)
-                    <tr class="bid">
+                    <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
                             <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
@@ -82,14 +82,12 @@
                                 {
                                     $(".bid").css("background-color", "white");
                                     // $(".bid").css("color", "white");
-                                    $(".bid").css("transition-duration", "1s");
                                     bidColor = false;
                                 }
                                 else
                                 {
                                     $(".bid").css("background-color", "#ff000061");
                                     $(".bid").css("color", "white");
-                                    $(".bid").css("transition-duration", "1s");
                                     bidColor = true;
                                 }
                                 // console.log(bidColor);
