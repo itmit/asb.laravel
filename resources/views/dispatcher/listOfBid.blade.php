@@ -84,7 +84,7 @@
                                 $(".bid").css("background-color", "red");
                                 bidColor = 0;
                             }
-                            
+                            console.log(bidColor);
                             // console.log("NOT NULL");
                         }
                         else{
