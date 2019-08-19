@@ -49,6 +49,7 @@
     <script>
         $(document).ready(function()
         {
+            let bidColor = 0;
             setInterval(function(){ 
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
                 $.ajax({
@@ -73,11 +74,21 @@
                         $('tbody').html(result);
                         let bidsCount = $('tbody').html();
                         if (bidsCount != ''){
-                            console.log("NOT NULL");
-                            $(".bid").css("color", "red");
+                            if(bidColor == 0)
+                            {
+                                $(".bid").css("background-color", "white");
+                                bidColor = 1;
+                            }
+                            if(bidColor == 1)
+                            {
+                                $(".bid").css("background-color", "red");
+                                bidColor = 0;
+                            }
+                            
+                            // console.log("NOT NULL");
                         }
                         else{
-                            console.log("NULL");
+                            // console.log("NULL");
                         }
                     },
                     error: function (xhr, err) { 
