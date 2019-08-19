@@ -100,6 +100,12 @@
                         }
                         $('tbody').html(result);
                         let bidsCount = $('tbody').html();
+                        if (bidsCount != ''){
+                            console.log("NOT NULL");
+                        }
+                        else{
+                            console.log("NULL");
+                        }
                         console.log(bidsCount);
                 },
                 error: function (xhr, err) { 
