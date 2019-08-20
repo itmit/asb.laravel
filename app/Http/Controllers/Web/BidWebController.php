@@ -124,21 +124,40 @@ class BidWebController extends BaseWebController
 
     public function translateStatus($bids)
     {
-        foreach ($bids as $bid) {
-            switch ($bid->status) {
+        if ($bids instanceof Illuminate\Database\Eloquent\Collection) {
+            foreach ($bids as $bid) {
+                switch ($bid->status) {
+                    case 'PendingAcceptance':
+                        $bid->status = 'Ожидает принятия';
+                        break;
+                    case 'Accepted':
+                        $bid->status = 'Принята';
+                        break;
+                    case 'Processed':
+                        $bid->status = 'Выполнена';
+                        break;
+                    default:
+                        $bid->type = 'Неопределено';
+                };
+            }
+        }
+        else
+        {
+            switch ($bids->status) {
                 case 'PendingAcceptance':
-                    $bid->status = 'Ожидает принятия';
+                    $bids->status = 'Ожидает принятия';
                     break;
                 case 'Accepted':
-                    $bid->status = 'Принята';
+                    $bisd->status = 'Принята';
                     break;
                 case 'Processed':
-                    $bid->status = 'Выполнена';
+                    $bids->status = 'Выполнена';
                     break;
                 default:
-                    $bid->type = 'Неопределено';
+                    $bids->type = 'Неопределено';
             };
         }
+        
         return $bids;
     }
 
