@@ -124,4 +124,28 @@ class ClientController extends ApiBaseController
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
+    public function updateCurrentLocation(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
+        $client = Client::where('id', '=', auth('api')->user()->id)
+            ->update(['latitude' => $request->latitude, 'longitude' => $request->longitude]);
+
+        if($client > 0)
+        {
+            return $this->sendResponse([
+                $client
+            ],
+                'Updated');
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+    
 }
