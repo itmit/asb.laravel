@@ -117,7 +117,7 @@ class BidWebController extends BaseWebController
         $bid = Bid::where('id', '=', $id)->first();
 
         self::translateStatus($bid);
-        self::translateType($bids);
+        self::translateType($bid);
 
         return view("dispatcher.bidDetail", [
             'bid' => $bid
