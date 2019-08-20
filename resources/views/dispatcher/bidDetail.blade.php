@@ -68,8 +68,7 @@
                 let bidID = $('h1').data('bidid');
                 setInterval(function()
                 { 
-                    console.log('a');
-                    // let selectBidsByStatus = $('#selectBidsByStatus').val();
+                    console.log(bidid);
                     // $.ajax({
                     //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     //     dataType: "json",
