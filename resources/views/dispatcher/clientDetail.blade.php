@@ -32,6 +32,7 @@
         <div>
             <button class="btn btn-primary display-location">Показать последнее местоположение</button>
         </div>
+        <div id="updated_at"></div>
         <div id="location" style="width: 600px; height: 400px"></div>
     </div>
 
@@ -48,7 +49,8 @@
                 method    : 'post',
                 success: function (response) {
                     $('#location').html('');
-                    $('#location').html(response['updated_at']);
+                    $('#updated_at').html('');
+                    $('#updated_at').html(response['updated_at']);
                     
                     // Функция ymaps.ready() будет вызвана, когда
                     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
