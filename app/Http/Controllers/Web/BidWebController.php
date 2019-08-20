@@ -197,6 +197,6 @@ class BidWebController extends BaseWebController
 
     public function updateCoordinates()
     {
-        
+        return 'a';
     }
 }

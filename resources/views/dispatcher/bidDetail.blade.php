@@ -68,7 +68,6 @@
                 let bidid = $('h1').data('bidid');
                 setInterval(function()
                 { 
-                    console.log(bidid);
                     $.ajax({
                         headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         dataType: "json",
@@ -76,7 +75,7 @@
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
-
+                            console.log(response)
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
