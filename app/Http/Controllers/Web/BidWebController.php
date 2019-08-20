@@ -179,8 +179,8 @@ class BidWebController extends BaseWebController
         return $bids;
     }
 
-    public function alarm()
+    public function updateCoordinates()
     {
-        return 'alarm';
+        
     }
 }
