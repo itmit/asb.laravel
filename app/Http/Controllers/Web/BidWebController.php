@@ -148,7 +148,7 @@ class BidWebController extends BaseWebController
                     $bids->status = 'Ожидает принятия';
                     break;
                 case 'Accepted':
-                    $bisd->status = 'Принята';
+                    $bids->status = 'Принята';
                     break;
                 case 'Processed':
                     $bids->status = 'Выполнена';
