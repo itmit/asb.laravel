@@ -117,6 +117,7 @@ class BidWebController extends BaseWebController
         $bid = Bid::where('id', '=', $id)->first();
 
         self::translateStatus($bid);
+        self::translateType($bids);
 
         return view("dispatcher.bidDetail", [
             'bid' => $bid
@@ -164,16 +165,31 @@ class BidWebController extends BaseWebController
 
     public function translateType($bids)
     {
-        foreach ($bids as $bid) {
-            switch ($bid->type) {
+        if ($bids instanceof Collection) {
+            foreach ($bids as $bid) {
+                switch ($bid->type) {
+                    case 'Alert':
+                        $bid->type = 'Тревога';
+                        break;
+                    case 'Call':
+                        $bid->type = 'Звонок';
+                        break;
+                    default:
+                        $bid->type = 'Неопределено';
+                };
+            }
+        }
+        else
+        {
+            switch ($bids->type) {
                 case 'Alert':
-                    $bid->type = 'Тревога';
+                    $bids->type = 'Тревога';
                     break;
                 case 'Call':
-                    $bid->type = 'Звонок';
+                    $bids->type = 'Звонок';
                     break;
                 default:
-                    $bid->type = 'Неопределено';
+                    $bids->type = 'Неопределено';
             };
         }
         return $bids;
