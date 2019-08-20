@@ -65,7 +65,7 @@
 
             if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
             {
-                let bidID = $('h1').data('bidid');
+                let bidid = $('h1').data('bidid');
                 setInterval(function()
                 { 
                     console.log(bidid);
