@@ -50,6 +50,9 @@
                 url     : '../clients/lastLocation',
                 method    : 'post',
                 success: function (response) {
+                    
+                    myMap.destroy();
+
                     $('#location').html('');
                     $('#updated_at').html('');
                     $('#updated_at').html('Последнее обновление: ' + response['updated_at']);
