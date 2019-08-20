@@ -139,7 +139,7 @@ class ClientWebController extends Controller
             'client' => $lastClientLocation->client,
             'latitude' => $lastClientLocation->latitude,
             'longitude' => $lastClientLocation->longitude,
-            'updated_at' => $lastClientLocation->updated_at,
+            'updated_at' => substr($lastClientLocation->updated_at->timezone('Europe/Moscow'), 0),
         ];
         
         return response()->json($lastLocation);
