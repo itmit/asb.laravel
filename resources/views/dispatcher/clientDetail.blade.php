@@ -50,7 +50,7 @@
                 success: function (response) {
                     $('#location').html('');
                     $('#updated_at').html('');
-                    $('#updated_at').html(response['updated_at']);
+                    $('#updated_at').html('Последнее обновление: ' + response['updated_at']);
                     
                     // Функция ymaps.ready() будет вызвана, когда
                     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
