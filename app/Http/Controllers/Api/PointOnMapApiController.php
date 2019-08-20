@@ -6,6 +6,7 @@ use App\Models\PointOnMap;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Bid;
 
 class PointOnMapApiController extends ApiBaseController
 {
@@ -16,7 +17,6 @@ class PointOnMapApiController extends ApiBaseController
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
             'longitude' => 'required',
@@ -26,10 +26,26 @@ class PointOnMapApiController extends ApiBaseController
             return $this->sendError($validator->errors(), "Validation error", 401);
         }
 
-        PointOnMap::create([
-            'client' => null,
-            'latitude' => $request->input('latitude'),
-            'longitude' => $request->input('longitude')
-        ]);
+        if($request->uid)
+        {
+            $pom = PointOnMap::create([
+                'client' => null,
+                'latitude' => $request->input('latitude'),
+                'longitude' => $request->input('longitude')
+            ]);
+
+            return $pom->id;
+
+            $bid = Bid::where('uid', '=', $request->uid)
+            ->update(['location' => $request->new_status]);
+        }
+        else
+        {
+            PointOnMap::create([
+                'client' => null,
+                'latitude' => $request->input('latitude'),
+                'longitude' => $request->input('longitude')
+            ]);
+        }
     }
 }
