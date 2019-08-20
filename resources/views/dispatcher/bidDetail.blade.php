@@ -1,12 +1,12 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    <h1 data-bidID="{{ $bid->id }}">Заявка {{ $bid->id }}</h1>
+    <h1 data-bidid="{{ $bid->id }}">Заявка {{ $bid->id }}</h1>
     <div class="col-sm-12">
         <a href="{{ url()->previous() }}">Назад</a>
     </div>
     <div class="col-sm-12">
-        <div data-bidstatus = {{ $bid->status }} class="bidstatus">
+        <div data-bidstatus = "{{ $bid->status }}" class="bidstatus">
             Статус: {{ $bid->status }}
             {{-- <select id="changeBidStatus" name="changeBidStatus">
                 <option value="Accepted">Accepted</option>
@@ -62,26 +62,30 @@
     $(document).ready(function()
         {
             let $bidStatus = $('.bidstatus');
+
+            if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
+            {
+                let bidID = $('h1').data('bidid');
+                setInterval(function()
+                { 
+                    console.log('a');
+                    // let selectBidsByStatus = $('#selectBidsByStatus').val();
+                    // $.ajax({
+                    //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    //     dataType: "json",
+                    //     data: {selectBidsByStatus: selectBidsByStatus},
+                    //     url     : '../bid/updateList',
+                    //     method    : 'post',
+                    //     success: function (response) {
+
+                    //     },
+                    //     error: function (xhr, err) { 
+                    //         console.log("Error: " + xhr + " " + err);
+                    //     }
+                    // });
+                }, 10000);
+            }
             
-            console.log($bidStatus.data('bidstatus'));
-            // if()
-            // setInterval(function(){ 
-            //     let selectBidsByStatus = $('#selectBidsByStatus').val();
-            //     $.ajax({
-            //         headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            //         dataType: "json",
-            //         data: {selectBidsByStatus: selectBidsByStatus},
-            //         url     : 'bid/updateList',
-            //         method    : 'post',
-            //         success: function (response) {
-
-            //         },
-            //         error: function (xhr, err) { 
-            //             console.log("Error: " + xhr + " " + err);
-            //         }
-            //     });
-
-            // }, 10000);
         })
 
     </script>
