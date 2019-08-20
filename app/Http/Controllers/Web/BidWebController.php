@@ -7,6 +7,7 @@ use App\Models\Bid;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class BidWebController extends BaseWebController
 {
@@ -124,7 +125,7 @@ class BidWebController extends BaseWebController
 
     public function translateStatus($bids)
     {
-        if ($bids instanceof Illuminate\Database\Eloquent\Model) {
+        if ($bids instanceof Collection) {
             foreach ($bids as $bid) {
                 switch ($bid->status) {
                     case 'PendingAcceptance':
