@@ -124,7 +124,7 @@ class BidWebController extends BaseWebController
 
     public function translateStatus($bids)
     {
-        if ($bids instanceof Illuminate\Database\Eloquent\Collection) {
+        if ($bids instanceof Illuminate\Database\Eloquent\Model) {
             foreach ($bids as $bid) {
                 switch ($bid->status) {
                     case 'PendingAcceptance':
