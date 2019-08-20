@@ -25,6 +25,9 @@ class CreateBidTable extends Migration
             $table->foreign('location')->references('id')->on('point_on_map')
                 ->onUpdate('cascade');
 
+            $table->foreign('guard')->references('id')->on('clients')
+                ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

@@ -26,6 +26,8 @@ class CreateClientTable extends Migration
             $table->string('user_picture')->nullable();
             $table->string('phone_number')->unique();
             $table->string('organization')->nullable();
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->string('note')->nullable();
             $table->boolean('is_guard')->default(0);
             $table->boolean('is_active')->default(1);

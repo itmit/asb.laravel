@@ -117,4 +117,13 @@ class GuardWebController extends Controller
 
         return response()->json(['Clients destroyed']);
     }
+
+    public function show($id)
+    {
+        $guard = Client::where('id', '=', $id)->first();
+
+        return view("representative.guardDetail", [
+            'guard' => $guard
+        ]);
+    }
 }
