@@ -195,8 +195,9 @@ class BidWebController extends BaseWebController
         return $bids;
     }
 
-    public function updateCoordinates()
+    public function updateCoordinates(Request $bidid)
     {
-        return response()->json('a');
+        $bid = Bid::where('id', '=', $bidid)->location()->latitude;
+        return response()->json($bid);
     }
 }
