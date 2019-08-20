@@ -6,7 +6,7 @@
         <a href="{{ url()->previous() }}">Назад</a>
     </div>
     <div class="col-sm-12">
-        <div data-bidStatus = {{ $bid->status }}>
+        <div data-bidstatus = {{ $bid->status }}>
             Статус: {{ $bid->status }}
             {{-- <select id="changeBidStatus" name="changeBidStatus">
                 <option value="Accepted">Accepted</option>
@@ -61,8 +61,9 @@
 
     $(document).ready(function()
         {
-            let bidStatus = $('div').data('bidStatus');
-            console.log(bidStatus);
+            let $bidStatus = $('div');
+            
+            console.log($bidStatus.data('bidstatus'));
             // if()
             // setInterval(function(){ 
             //     let selectBidsByStatus = $('#selectBidsByStatus').val();
