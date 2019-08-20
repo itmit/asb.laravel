@@ -41,6 +41,8 @@
     {
         let clientID = $('h1').data('clientid');
         $(document).on('click', '.display-location', function() {
+            $('#location').html('');
+            $('#updated_at').html('');
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
