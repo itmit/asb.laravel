@@ -5,7 +5,7 @@
         <h1>Заявки</h1>
         <div class="col-sm-12">
 
-            <div id="map" style="width: 600px; height: 400px"></div>
+            {{-- <div id="map" style="width: 600px; height: 400px"></div> --}}
 
             <select name="selectBidsByStatus" id="selectBidsByStatus">
                 <option value="PendingAcceptance" selected>Ожидает принятия</option>
