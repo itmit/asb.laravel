@@ -69,19 +69,19 @@
                 setInterval(function()
                 { 
                     console.log(bidid);
-                    $.ajax({
-                        headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        dataType: "json",
-                        data: {selectBidsByStatus: selectBidsByStatus},
-                        url     : '../bid/updateCoordinates',
-                        method    : 'post',
-                        success: function (response) {
+                    // $.ajax({
+                    //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    //     dataType: "json",
+                    //     data: {selectBidsByStatus: selectBidsByStatus},
+                    //     url     : '../bid/updateCoordinates',
+                    //     method    : 'post',
+                    //     success: function (response) {
 
-                        },
-                        error: function (xhr, err) { 
-                            console.log("Error: " + xhr + " " + err);
-                        }
-                    });
+                    //     },
+                    //     error: function (xhr, err) { 
+                    //         console.log("Error: " + xhr + " " + err);
+                    //     }
+                    // });
                 }, 10000);
             }
             
