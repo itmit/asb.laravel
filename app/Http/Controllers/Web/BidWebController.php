@@ -199,11 +199,11 @@ class BidWebController extends BaseWebController
     {
         $bids = Bid::all()->where('id', '=', $bidid->bidid);
 
-        return $bids;
-
         $response = [];
         self::translateStatus($bids);
         self::translateType($bids);
+
+        return $bids;
 
         $response = [
             'updated_at' => substr($bids->updated_at->timezone('Europe/Moscow'), 0),
