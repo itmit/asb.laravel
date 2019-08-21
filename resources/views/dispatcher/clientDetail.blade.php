@@ -39,31 +39,8 @@
     <script>
     $(document).ready(function()
     {
-        ymaps.ready(init);
-
-        function init() {
-            let $locations = $('.js-location');
-            // Создание карты.
-            myMap = new ymaps.Map("map", {
-                // Координаты центра карты.
-                // Порядок по умолчанию: «широта, долгота».
-                // Чтобы не определять координаты центра карты вручную,
-                // воспользуйтесь инструментом Определение координат.
-                center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
-                // Уровень масштабирования. Допустимые значения:
-                // от 0 (весь мир) до 19.
-                zoom: 15
-            });
-
-            $locations.each(function () {
-                let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
-                myMap.geoObjects.add(placeMark);
-            });
-        }
-
         let clientID = $('h1').data('clientid');
         $(document).on('click', '.display-location', function() {
-            $('#location').html('');
             $('#updated_at').html('');
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -72,10 +49,31 @@
                 url     : '../clients/lastLocation',
                 method    : 'post',
                 success: function (response) {
-                    
-                    myMap.destroy();
 
                     $('#location').html('');
+
+                    ymaps.ready(init);
+
+                    function init() {
+                        let $locations = $('.js-location');
+                        // Создание карты.
+                        myMap = new ymaps.Map("map", {
+                            // Координаты центра карты.
+                            // Порядок по умолчанию: «широта, долгота».
+                            // Чтобы не определять координаты центра карты вручную,
+                            // воспользуйтесь инструментом Определение координат.
+                            center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
+                            // Уровень масштабирования. Допустимые значения:
+                            // от 0 (весь мир) до 19.
+                            zoom: 15
+                        });
+
+                        $locations.each(function () {
+                            let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+                            myMap.geoObjects.add(placeMark);
+                        });
+                    }
+
                     $('#updated_at').html('');
                     $('#updated_at').html('Последнее обновление: ' + response['updated_at']);
                     
