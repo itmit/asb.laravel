@@ -49,9 +49,6 @@
                 url     : '../clients/lastLocation',
                 method    : 'post',
                 success: function (response) {
-
-                    $('#location').html('');
-
                     ymaps.ready(init);
 
                     function init() {
