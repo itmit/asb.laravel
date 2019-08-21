@@ -76,7 +76,7 @@
                         method    : 'post',
                         success: function (response) {
                             // console.log(response['updated_at']);
-                            $('.updated').html(response['updated_at']);
+                            $('.updated').html('Обновлена: ' + response['updated_at']);
                             $('.js-location').data('longitude', response['location']['longitude']);
                             $('.js-location').data('latitude', response['location']['latitude']);
                         },
