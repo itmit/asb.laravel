@@ -81,6 +81,7 @@
                             $('.js-location').data('latitude', response['location']['latitude']);
 
                             let placeMark = new ymaps.Placemark([response['location']['longitude'], response['location']['latitude']]);
+                            console.log(placeMark);
                             myMap.geoObjects.add(placeMark);
 
                         },
