@@ -35,32 +35,34 @@
         <div id="map" style="width: 600px; height: 400px"></div>
     </div>
     <script>
-    // Функция ymaps.ready() будет вызвана, когда
-    // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
-    ymaps.ready(init);
-
-    function init() {
-        let $locations = $('.js-location');
-        // Создание карты.
-        myMap = new ymaps.Map("map", {
-            // Координаты центра карты.
-            // Порядок по умолчанию: «широта, долгота».
-            // Чтобы не определять координаты центра карты вручную,
-            // воспользуйтесь инструментом Определение координат.
-            center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
-            // Уровень масштабирования. Допустимые значения:
-            // от 0 (весь мир) до 19.
-            zoom: 7
-        });
-
-        $locations.each(function () {
-            let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
-            myMap.geoObjects.add(placeMark);
-        });
-    }
+    
 
     $(document).ready(function()
         {
+            // Функция ymaps.ready() будет вызвана, когда
+            // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+            ymaps.ready(init);
+
+            function init() {
+                let $locations = $('.js-location');
+                // Создание карты.
+                myMap = new ymaps.Map("map", {
+                    // Координаты центра карты.
+                    // Порядок по умолчанию: «широта, долгота».
+                    // Чтобы не определять координаты центра карты вручную,
+                    // воспользуйтесь инструментом Определение координат.
+                    center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
+                    // Уровень масштабирования. Допустимые значения:
+                    // от 0 (весь мир) до 19.
+                    zoom: 7
+                });
+
+                $locations.each(function () {
+                    let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+                    myMap.geoObjects.add(placeMark);
+                });
+            }
+            
             let $bidStatus = $('.bidstatus');
 
             if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
@@ -90,7 +92,7 @@
                                 center: [response['location']['latitude'], response['location']['longitude']],
                                 // Уровень масштабирования. Допустимые значения:
                                 // от 0 (весь мир) до 19.
-                                zoom: 7
+                                zoom: 15
                             });
 
                             let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
