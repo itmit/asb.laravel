@@ -75,7 +75,7 @@
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
-                            console.log(response['location']['latitude']);
+                            console.log($('.js-location').data('latitude', response['location']['latitude']));
                             $('.updated').html('Обновлена: ' + response['updated_at']);
                             $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
                             $('.js-location').data('longitude', response['location']['longitude']);
