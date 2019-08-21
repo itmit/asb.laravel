@@ -75,7 +75,7 @@
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
-                            console.log(response)
+                            console.log(response['updated_at'])
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
