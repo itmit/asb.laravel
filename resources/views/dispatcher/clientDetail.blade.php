@@ -39,6 +39,28 @@
     <script>
     $(document).ready(function()
     {
+        ymaps.ready(init);
+
+        function init() {
+            let $locations = $('.js-location');
+            // Создание карты.
+            myMap = new ymaps.Map("map", {
+                // Координаты центра карты.
+                // Порядок по умолчанию: «широта, долгота».
+                // Чтобы не определять координаты центра карты вручную,
+                // воспользуйтесь инструментом Определение координат.
+                center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
+                // Уровень масштабирования. Допустимые значения:
+                // от 0 (весь мир) до 19.
+                zoom: 15
+            });
+
+            $locations.each(function () {
+                let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+                myMap.geoObjects.add(placeMark);
+            });
+        }
+
         let clientID = $('h1').data('clientid');
         $(document).on('click', '.display-location', function() {
             $('#location').html('');
@@ -62,19 +84,10 @@
                     ymaps.ready(init);
 
                     function init() {
-                        // Создание карты.
-                        myMap = new ymaps.Map("location", {
-                            // Координаты центра карты.
-                            // Порядок по умолчанию: «широта, долгота».
-                            // Чтобы не определять координаты центра карты вручную,
-                            // воспользуйтесь инструментом Определение координат.
-                            center: [response['latitude'], response['longitude']],
-                            // Уровень масштабирования. Допустимые значения:
-                            // от 0 (весь мир) до 19.
-                            zoom: 15
-                        });
-                            let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
-                            myMap.geoObjects.add(placeMark);
+                        myMap.geoObjects.removeAll()
+
+                        let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
+                        myMap.geoObjects.add(placeMark);
                     }
 
                 },

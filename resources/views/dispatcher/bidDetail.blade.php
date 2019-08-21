@@ -54,7 +54,7 @@
                     center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
                     // Уровень масштабирования. Допустимые значения:
                     // от 0 (весь мир) до 19.
-                    zoom: 7
+                    zoom: 15
                 });
 
                 $locations.each(function () {
@@ -81,19 +81,6 @@
                             $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
                             $('.js-location').data('longitude', response['location']['longitude']);
                             $('.js-location').data('latitude', response['location']['latitude']);
-
-                            // myMap.destroy();
-
-                            // myMap = new ymaps.Map("map", {
-                            //     // Координаты центра карты.
-                            //     // Порядок по умолчанию: «широта, долгота».
-                            //     // Чтобы не определять координаты центра карты вручную,
-                            //     // воспользуйтесь инструментом Определение координат.
-                            //     center: [response['location']['latitude'], response['location']['longitude']],
-                            //     // Уровень масштабирования. Допустимые значения:
-                            //     // от 0 (весь мир) до 19.
-                            //     zoom: 15
-                            // });
 
                             myMap.geoObjects.removeAll()
 
