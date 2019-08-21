@@ -71,6 +71,7 @@
 
                         let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
                         myMap.geoObjects.add(placeMark);
+                        myMap.setCenter([response['latitude'], response['longitude']], 15);
                     }
                     $('#updated_at').html('');
                     $('#updated_at').html('Последнее обновление: ' + response['updated_at']);
