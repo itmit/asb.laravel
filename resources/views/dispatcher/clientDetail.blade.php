@@ -49,11 +49,12 @@
                 url     : '../clients/lastLocation',
                 method    : 'post',
                 success: function (response) {
+
                     ymaps.ready(init);
 
                     function init() {
                         // Создание карты.
-                        myMap = new ymaps.Map("map", {
+                        myMap = new ymaps.Map("location", {
                             // Координаты центра карты.
                             // Порядок по умолчанию: «широта, долгота».
                             // Чтобы не определять координаты центра карты вручную,
@@ -63,7 +64,7 @@
                             // от 0 (весь мир) до 19.
                             zoom: 15
                         });
-                        
+
                             let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
                             myMap.geoObjects.add(placeMark);
 
