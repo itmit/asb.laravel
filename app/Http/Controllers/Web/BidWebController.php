@@ -197,16 +197,18 @@ class BidWebController extends BaseWebController
 
     public function updateCoordinates(Request $bidid)
     {
-        $bids = Bid::all()->where('id', '=', $bidid->bidid);
+        $bids = Bid::all()->where('id', '=', $bidid->bidid)-first();
 
         $response = [];
         self::translateStatus($bids);
         self::translateType($bids);
 
-        return $bids;
-
         $response = [
-            'id' => $bids->id,
+            'updated_at' => substr($bids->updated_at->timezone('Europe/Moscow'), 0),
+            'location' => [
+                'latitude' => $bids->location()->latitude,
+                'longitude' => $bids->location()->longitude
+            ],
         ];
         
         return response()->json($response);
