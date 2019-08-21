@@ -87,13 +87,13 @@
                                 // Порядок по умолчанию: «широта, долгота».
                                 // Чтобы не определять координаты центра карты вручную,
                                 // воспользуйтесь инструментом Определение координат.
-                                center: [response['location']['longitude'], response['location']['latitude']],
+                                center: [response['location']['latitude'], response['location']['longitude']],
                                 // Уровень масштабирования. Допустимые значения:
                                 // от 0 (весь мир) до 19.
                                 zoom: 7
                             });
 
-                            let placeMark = new ymaps.Placemark([response['location']['longitude'], response['location']['latitude']]);
+                            let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
                             myMap.geoObjects.add(placeMark);
 
                         },
