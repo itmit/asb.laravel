@@ -80,10 +80,9 @@
                             $('.js-location').data('longitude', response['location']['longitude']);
                             $('.js-location').data('latitude', response['location']['latitude']);
 
-                            $locations.each(function () {
-                                let placeMark = new ymaps.Placemark([response['location']['longitude'], response['location']['latitude']]);
-                                myMap.geoObjects.add(placeMark);
-                            });
+                            let placeMark = new ymaps.Placemark([response['location']['longitude'], response['location']['latitude']]);
+                            myMap.geoObjects.add(placeMark);
+
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
