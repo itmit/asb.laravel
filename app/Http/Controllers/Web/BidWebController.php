@@ -203,6 +203,8 @@ class BidWebController extends BaseWebController
         self::translateStatus($bids);
         self::translateType($bids);
 
+        return $bids['id'];
+
         $response = [
             'id' => $bids->id,
         ];
