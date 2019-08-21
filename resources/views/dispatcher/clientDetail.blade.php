@@ -62,31 +62,20 @@
                             // Порядок по умолчанию: «широта, долгота».
                             // Чтобы не определять координаты центра карты вручную,
                             // воспользуйтесь инструментом Определение координат.
-                            center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
+                            center: [response['latitude'], response['longitude']],
                             // Уровень масштабирования. Допустимые значения:
                             // от 0 (весь мир) до 19.
                             zoom: 15
                         });
 
                         $locations.each(function () {
-                            let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+                            let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
                             myMap.geoObjects.add(placeMark);
                         });
                     }
 
                     $('#updated_at').html('');
                     $('#updated_at').html('Последнее обновление: ' + response['updated_at']);
-                    
-                    // Функция ymaps.ready() будет вызвана, когда
-                    // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
-                    ymaps.ready(init);
-
-                    function init() {
-                        myMap.geoObjects.removeAll()
-
-                        let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
-                        myMap.geoObjects.add(placeMark);
-                    }
 
                 },
                 error: function (xhr, err) { 
