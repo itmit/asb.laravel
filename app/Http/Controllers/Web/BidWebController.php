@@ -199,6 +199,8 @@ class BidWebController extends BaseWebController
     {
         $bids = Bid::all()->where('id', '=', $bidid->bidid);
 
+        return $bidid->bidid;
+
         $response = [];
         self::translateStatus($bids);
         self::translateType($bids);
