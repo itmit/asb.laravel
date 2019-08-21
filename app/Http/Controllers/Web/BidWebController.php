@@ -203,10 +203,12 @@ class BidWebController extends BaseWebController
         self::translateStatus($bids);
         self::translateType($bids);
 
-        $response[] = [
+        $response = [
             'updated_at' => substr($bids->updated_at->timezone('Europe/Moscow'), 0),
-            'latitude' => $bids->location()->latitude,
-            'longitude' => $bids->location()->longitude
+            'location' => [
+                'latitude' => $bids->location()->latitude,
+                'longitude' => $bids->location()->longitude
+            ],
         ];
         
         return response()->json($response);
