@@ -40,8 +40,8 @@
     $(document).ready(function()
     {
         let clientID = $('h1').data('clientid');
+        let is_map_open = 0;
         $(document).on('click', '.display-location', function() {
-            $('#updated_at').html('');
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
@@ -50,26 +50,28 @@
                 method    : 'post',
                 success: function (response) {
 
-                    ymaps.ready(init);
+                    if(!is_map_open)
+                    {
+                        ymaps.ready(init);
 
-                    function init() {
-                        // Создание карты.
-                        myMap = new ymaps.Map("location", {
-                            // Координаты центра карты.
-                            // Порядок по умолчанию: «широта, долгота».
-                            // Чтобы не определять координаты центра карты вручную,
-                            // воспользуйтесь инструментом Определение координат.
-                            center: [response['latitude'], response['longitude']],
-                            // Уровень масштабирования. Допустимые значения:
-                            // от 0 (весь мир) до 19.
-                            zoom: 15
-                        });
+                        function init() {
+                            myMap = new ymaps.Map("location", {
+                                center: [response['latitude'], response['longitude']],
+                                zoom: 15
+                            });
 
-                            let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
-                            myMap.geoObjects.add(placeMark);
-
+                                let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
+                                myMap.geoObjects.add(placeMark);
+                        }
+                        is_map_open = 1;
                     }
+                    else
+                    {
+                        myMap.geoObjects.removeAll()
 
+                        let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
+                        myMap.geoObjects.add(placeMark);
+                    }
                     $('#updated_at').html('');
                     $('#updated_at').html('Последнее обновление: ' + response['updated_at']);
 
