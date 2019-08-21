@@ -52,7 +52,6 @@
                     ymaps.ready(init);
 
                     function init() {
-                        let $locations = $('.js-location');
                         // Создание карты.
                         myMap = new ymaps.Map("map", {
                             // Координаты центра карты.
@@ -64,11 +63,10 @@
                             // от 0 (весь мир) до 19.
                             zoom: 15
                         });
-
-                        $locations.each(function () {
+                        
                             let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
                             myMap.geoObjects.add(placeMark);
-                        });
+
                     }
 
                     $('#updated_at').html('');
