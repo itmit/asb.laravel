@@ -42,7 +42,7 @@
     function init() {
         let $locations = $('.js-location');
         // Создание карты.
-        var myMap = new ymaps.Map("map", {
+        myMap = new ymaps.Map("map", {
             // Координаты центра карты.
             // Порядок по умолчанию: «широта, долгота».
             // Чтобы не определять координаты центра карты вручную,
@@ -79,6 +79,19 @@
                             $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
                             $('.js-location').data('longitude', response['location']['longitude']);
                             $('.js-location').data('latitude', response['location']['latitude']);
+
+                            myMap.destroy();
+
+                            myMap = new ymaps.Map("map", {
+                                // Координаты центра карты.
+                                // Порядок по умолчанию: «широта, долгота».
+                                // Чтобы не определять координаты центра карты вручную,
+                                // воспользуйтесь инструментом Определение координат.
+                                center: [response['location']['longitude'], response['location']['latitude']],
+                                // Уровень масштабирования. Допустимые значения:
+                                // от 0 (весь мир) до 19.
+                                zoom: 7
+                            });
 
                             let placeMark = new ymaps.Placemark([response['location']['longitude'], response['location']['latitude']]);
                             myMap.geoObjects.add(placeMark);
