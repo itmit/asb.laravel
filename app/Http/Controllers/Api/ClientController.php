@@ -149,7 +149,7 @@ class ClientController extends ApiBaseController
             ],
                 'Updated');
         }
-        return $this->SendError('Update error', DB::getQueryLog(), 401);
+        return $this->SendError('Update error', [auth('api')->user()->id, $request->all(), DB::getQueryLog()], 401);
     }
     
 }
