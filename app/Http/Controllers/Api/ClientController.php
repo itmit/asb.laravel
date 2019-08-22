@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends ApiBaseController
 {
@@ -124,6 +125,7 @@ class ClientController extends ApiBaseController
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
+
     public function updateCurrentLocation(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
@@ -135,6 +137,8 @@ class ClientController extends ApiBaseController
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
+        DB::enableQueryLog();
+
         $client = Client::where('id', '=', auth('api')->user()->id)
             ->update(['latitude' => $request->latitude, 'longitude' => $request->longitude]);
 
@@ -145,7 +149,7 @@ class ClientController extends ApiBaseController
             ],
                 'Updated');
         }
-        return $this->SendError('Update error', 'Something gone wrong', 401);
+        return $this->SendError('Update error', DB::getQueryLog(), 401);
     }
     
 }
