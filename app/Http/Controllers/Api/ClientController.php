@@ -145,13 +145,13 @@ class ClientController extends ApiBaseController
         $latitude = $request->latitude;
         $longitude = $request->longitude;
 
-        DB::transaction(function () {
+        DB::beginTransaction();
             $record = Client::whereKey('id', '=', auth('api')->user()->id)->lockForUpdate()->first();
             usleep(10);
             $record->latitude = $latitude;
             $record->longitude = $longitude;
             $record->save();
-        });
+        DB::commit();
     
         return ['success' => true];
 
