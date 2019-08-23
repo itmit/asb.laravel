@@ -153,7 +153,7 @@ class ClientController extends ApiBaseController
             $record->save();
         DB::commit();
     
-        return ['success' => true];
+        // return ['success' => true];
 
         // $client = DB::table("clients")
         //     ->where('id', auth('api')->user()->id)
