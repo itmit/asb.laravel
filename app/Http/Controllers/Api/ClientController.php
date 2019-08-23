@@ -144,7 +144,7 @@ class ClientController extends ApiBaseController
 
         app('db')->transaction(function () {
             $record = Client::whereKey('id', '=', auth('api')->user()->id)->lockForUpdate()->first();
-            usleep(10000);
+            usleep(10);
             $record->latitude = $request->latitude;
             $record->longitude = $request->longitude;
             $record->save();
