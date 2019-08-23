@@ -159,10 +159,10 @@ class ClientController extends ApiBaseController
         //     ->where('id', auth('api')->user()->id)
         //     ->update(['latitude' => $request->latitude, 'longitude' => $request->longitude]);
 
-        if($client > 0)
+        if($record > 0)
         {
             return $this->sendResponse([
-                $client, DB::getQueryLog()
+                $record, DB::getQueryLog()
             ], 'Updated');
         }
         return $this->SendError('Update error', [auth('api')->user()->id, $request->all(), DB::getQueryLog()], 401);
