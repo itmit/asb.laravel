@@ -13,7 +13,7 @@ class CreatePointOnMapTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('point_on_map');
+        // Schema::dropIfExists('point_on_map');
         Schema::create('point_on_map', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client')->unsigned()->nullable();

@@ -13,7 +13,7 @@ class CreateDispatcherTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('dispatcher');
+        // Schema::dropIfExists('dispatcher');
         // Create table for associating roles to users (Many-to-Many)
         Schema::create('dispatcher', function (Blueprint $table) {
             $table->increments('id');

@@ -13,7 +13,7 @@ class CreateBidTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('bid');
+        // Schema::dropIfExists('bid');
         Schema::create('bid', function (Blueprint $table) {
             $table->increments('id');
             $table->string('uid');

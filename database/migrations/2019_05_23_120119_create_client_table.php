@@ -13,7 +13,7 @@ class CreateClientTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('clients');
+        // Schema::dropIfExists('clients');
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('representative')->unsigned();
