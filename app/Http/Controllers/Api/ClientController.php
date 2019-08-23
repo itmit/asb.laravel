@@ -139,12 +139,12 @@ class ClientController extends ApiBaseController
 
         DB::enableQueryLog();
 
-        // $client = Client::where('id', '=', auth('api')->user()->id)
-        //     ->update(['latitude' => $request->latitude, 'longitude' => $request->longitude]);
-
-        $client = DB::table("clients")
-            ->where('id', auth('api')->user()->id)
+        $client = Client::where('id', '=', auth('api')->user()->id)
             ->update(['latitude' => $request->latitude, 'longitude' => $request->longitude]);
+
+        // $client = DB::table("clients")
+        //     ->where('id', auth('api')->user()->id)
+        //     ->update(['latitude' => $request->latitude, 'longitude' => $request->longitude]);
 
         if($client > 0)
         {
