@@ -26,9 +26,11 @@
         <div>
             Клиент: <a href="../client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name }}</a>
         </div>
+        @if($bid->status != 'Ожидает принятия')
         <div>
-            Заявку принял: <a href="../guard/{{ $bid->guard }}">{{ $bid->guard }}</a>
+            Заявку принял: <a href="../guard/{{ $bid->guard }}">Экипаж №{{ $bid->guard }}</a>
         </div>
+        @endif
         <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
             Координаты: {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
         </div>
