@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Bid;
+use Illuminate\Support\Facades\DB;
 
 class PointOnMapApiController extends ApiBaseController
 {
