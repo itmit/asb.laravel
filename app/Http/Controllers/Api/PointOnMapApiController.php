@@ -29,6 +29,7 @@ class PointOnMapApiController extends ApiBaseController
 
         if($request->uid)
         {
+            $id = NULL;
             DB::beginTransaction();
                 $record = new PointOnMap;
                 usleep(10);
@@ -36,10 +37,11 @@ class PointOnMapApiController extends ApiBaseController
                 $record->latitude = $request->input('latitude');
                 $record->longitude = $request->input('longitude');
                 $record->save();
+                $id = $record->id;
 
                 $record = Bid::where('uid', '=', $request->uid)->lockForUpdate()->first();
                 sleep(1);
-                $record->location = $record->id;
+                $record->location = $id;
                 $record->save();
             DB::commit();
             // $pom = PointOnMap::create([
