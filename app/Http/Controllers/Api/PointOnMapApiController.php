@@ -28,14 +28,26 @@ class PointOnMapApiController extends ApiBaseController
 
         if($request->uid)
         {
-            $pom = PointOnMap::create([
-                'client' => auth('api')->user()->id,
-                'latitude' => $request->input('latitude'),
-                'longitude' => $request->input('longitude')
-            ]);
+            DB::beginTransaction();
+                $record = new PointOnMap;
+                $record->client = auth('api')->user()->id;
+                $record->latitude = $request->input('latitude');
+                $record->longitude = $request->input('longitude');
+                $record->save();
 
-            $bid = Bid::where('uid', '=', $request->uid)
-            ->update(['location' => $pom->id]);
+                $record = Bid::where('uid', '=', $request->uid)->lockForUpdate()->first();
+                sleep(1);
+                $record->location = $record->id;
+                $record->save();
+            DB::commit();
+            // $pom = PointOnMap::create([
+            //     'client' => auth('api')->user()->id,
+            //     'latitude' => $request->input('latitude'),
+            //     'longitude' => $request->input('longitude')
+            // ]);
+
+            // $bid = Bid::where('uid', '=', $request->uid)
+            // ->update(['location' => $pom->id]);
         }
         else
         {
