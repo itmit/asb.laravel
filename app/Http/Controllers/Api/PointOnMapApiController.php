@@ -31,6 +31,7 @@ class PointOnMapApiController extends ApiBaseController
         {
             DB::beginTransaction();
                 $record = new PointOnMap;
+                usleep(10);
                 $record->client = auth('api')->user()->id;
                 $record->latitude = $request->input('latitude');
                 $record->longitude = $request->input('longitude');
