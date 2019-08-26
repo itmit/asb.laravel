@@ -30,7 +30,7 @@
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
                             <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
-                                <a href="client/{{ $bid->location()->client()->id }}"> {{ $bid->location()->client()->email }} </a>
+                                <a href="client/{{ $bid->location()->client()->id }}"> {{ $bid->location()->client()->name }} </a>
                             </div>
                         </td>
                         <td>
