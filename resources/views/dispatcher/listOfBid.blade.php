@@ -118,7 +118,7 @@
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr>';
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
-                            result += '<td>' + response[i]['client']['name'] + '</td>';
+                            result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
                             result += '<td>' + response[i]['type'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
