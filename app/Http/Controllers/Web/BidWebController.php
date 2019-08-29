@@ -213,4 +213,23 @@ class BidWebController extends BaseWebController
         
         return response()->json($response);
     }
+
+    public function alarmSound()
+    {
+        // $bid = Bid::where('id', '=', $bidid->bidid)->first();
+
+        // $response = [];
+        // self::translateStatus($bid);
+        // self::translateType($bid);
+
+        // $response = [
+        //     'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+        //     'location' => [
+        //         'latitude' => $bid->location()->latitude,
+        //         'longitude' => $bid->location()->longitude
+        //     ],
+        // ];
+        
+        // return response()->json($response);
+    }
 }

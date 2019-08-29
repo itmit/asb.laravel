@@ -24,6 +24,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::resource('guard', 'Web\GuardWebController');
     Route::post('bid/updateList', 'Web\BidWebController@updateList');
     Route::post('bid/updateCoordinates', 'Web\BidWebController@updateCoordinates');
+    Route::post('bid/alarmSound', 'Web\BidWebController@alarmSound');
     Route::post('clients/lastLocation', 'Web\ClientWebController@lastLocation');
     Route::post('clients/changeActivity', 'Web\ClientWebController@changeActivity');
 

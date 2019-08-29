@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('pointOnMap', 'Api\PointOnMapApiController');
     Route::resource('bid', 'Api\BidApiController');
     Route::post('bid/changeStatus', 'Api\BidApiController@changeStatus');
+    Route::post('bid/updateCoordinates', 'Api\BidApiController@updateCoordinates');
     Route::post('client/changePhoto', 'Api\ClientController@changePhoto');
     Route::post('client/note', 'Api\ClientController@note');
     Route::post('client/updateCurrentLocation', 'Api\ClientController@updateCurrentLocation');

@@ -134,6 +134,28 @@ class BidApiController extends ApiBaseController
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 
+    public function updateCoordinates(Request $uid)
+    {
+        $bid = Bid::where('uid', '=', $uid)->first();
+
+        $response = [];
+        self::translateStatus($bid);
+        self::translateType($bid);
+
+        $response = [
+            'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+            'location' => [
+                'latitude' => $bid->location()->latitude,
+                'longitude' => $bid->location()->longitude
+            ],
+        ];
+        
+        return $this->sendResponse([
+            $response
+        ],
+            'Updated');
+    }
+
     // public function testFunc(Request $bidID)
     // {
     //     $bid = Bid::findOrFail($bidID)->first();
