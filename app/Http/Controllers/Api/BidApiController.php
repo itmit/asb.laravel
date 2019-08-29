@@ -161,10 +161,7 @@ class BidApiController extends ApiBaseController
             ],
         ];
         
-        return $this->sendResponse([
-            $response
-        ],
-            'Updated');
+        return $this->sendResponse($response, 'Updated');
     }
 
     // public function testFunc(Request $bidID)
