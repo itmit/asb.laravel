@@ -147,7 +147,7 @@ class BidApiController extends ApiBaseController
 
         $bid = Bid::where('uid', '=', $request->uid)->first();
 
-        return $bid;
+        // return $bid;
 
         $response = [];
         // self::translateStatus($bid);
