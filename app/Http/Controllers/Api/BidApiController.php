@@ -134,7 +134,7 @@ class BidApiController extends ApiBaseController
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 
-    public function updateCoordinates(Request $uid)
+    public function updateCoordinates(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'uid' => 'required|uuid',
@@ -145,7 +145,7 @@ class BidApiController extends ApiBaseController
             return $this->sendError($validator->errors(), "Validation error", 401);
         }
 
-        $bid = Bid::where('uid', '=', $uid)->first();
+        $bid = Bid::where('uid', '=', $request->uid)->first();
 
         return $bid;
 
