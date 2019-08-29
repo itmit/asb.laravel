@@ -139,8 +139,8 @@ class BidApiController extends ApiBaseController
         $bid = Bid::where('uid', '=', $uid)->first();
 
         $response = [];
-        self::translateStatus($bid);
-        self::translateType($bid);
+        // self::translateStatus($bid);
+        // self::translateType($bid);
 
         $response = [
             'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
