@@ -136,7 +136,18 @@ class BidApiController extends ApiBaseController
 
     public function updateCoordinates(Request $uid)
     {
+        $validator = Validator::make($request->all(), [
+            'uid' => 'required|uuid',
+
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors(), "Validation error", 401);
+        }
+
         $bid = Bid::where('uid', '=', $uid)->first();
+
+        return $bid;
 
         $response = [];
         // self::translateStatus($bid);
