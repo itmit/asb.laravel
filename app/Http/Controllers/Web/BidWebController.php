@@ -118,14 +118,15 @@ class BidWebController extends BaseWebController
     public function show($id)
     {
         $bid = Bid::where('id', '=', $id)->first();
-        $guard = Client::where('id', '=', $bid->guard)->first();
+        $guard = Client::where('id', '=', $bid->guard)->first('name');
         return $guard;
 
         self::translateStatus($bid);
         self::translateType($bid);
 
         return view("dispatcher.bidDetail", [
-            'bid' => $bid
+            'bid' => $bid,
+            'guard' => $guard
         ]);
     }
 
