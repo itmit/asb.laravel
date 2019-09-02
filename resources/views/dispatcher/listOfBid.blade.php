@@ -44,13 +44,15 @@
                 </tbody>
             </table>
         </div>
-        <input type="hidden" name="bmfkd" value="{{ $role }}">
+        <input type="hidden" id="bmfkd" value="{{ $role }}">
     </div>
 
     <script>
         $(document).ready(function()
         {
             let bidColor = true;
+            let role = $('#bmfkd').val();
+            console.log(role);
             setInterval(function(){ 
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
                 $.ajax({
