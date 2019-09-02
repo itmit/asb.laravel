@@ -227,13 +227,12 @@
                     url     : 'bid/alarmSound',
                     method    : 'post',
                     success: function (response) {
-                        console.log(response);
                         if(response == 1)
                         {
-                            console.log('alarm');
+                            let audio = new Audio('alert.mp3');
+                            audio.play();
                         }
-                        // let audio = new Audio('alert.mp3');
-                        // audio.play();
+                        
                     },
                     error: function (xhr, err) { 
                         console.log("Error: " + xhr + " " + err);
