@@ -220,23 +220,24 @@
             });
         });
 
-        // setInterval(function(){ 
-        //         $.ajax({
-        //             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        //             dataType: "json",
-        //             data: {selectBidsByStatus: selectBidsByStatus},
-        //             url     : 'bid/alarmSound',
-        //             method    : 'post',
-        //             success: function (response) {
-        //                 let audio = new Audio('alert.mp3');
-        //                 audio.play();
-        //             },
-        //             error: function (xhr, err) { 
-        //                 console.log("Error: " + xhr + " " + err);
-        //             }
-        //         });
+        setInterval(function(){ 
+                $.ajax({
+                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "json",
+                    data: {selectBidsByStatus: selectBidsByStatus},
+                    url     : 'bid/alarmSound',
+                    method    : 'post',
+                    success: function (response) {
+                        console.log(response);
+                        // let audio = new Audio('alert.mp3');
+                        // audio.play();
+                    },
+                    error: function (xhr, err) { 
+                        console.log("Error: " + xhr + " " + err);
+                    }
+                });
 
-        //     }, 3000);
+            }, 3000);
     });
 
 

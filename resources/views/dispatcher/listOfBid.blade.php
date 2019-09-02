@@ -94,8 +94,8 @@
                                     $(".bid").css("color", "white");
                                     bidColor = true;
                                 }
-                                let audio = new Audio('alert.mp3');
-                                audio.play();
+                                // let audio = new Audio('alert.mp3');
+                                // audio.play();
                             }
                         }
                         else{
