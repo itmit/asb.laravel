@@ -93,7 +93,7 @@
                     <li><a href="{{ route('auth.dispatcher.index') }}">Диспетчеры</a></li>                    
                     @endability
 
-                    @ability('super-admin,representative', 'show-guards')
+                    @ability('super-admin,representative, dispatcher', 'show-guards')
                     <li><a href="{{ route('auth.guard.index') }}">Охранники</a></li>                    
                     @endability
 
