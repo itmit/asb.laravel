@@ -52,7 +52,7 @@
         {
             let bidColor = true;
             let role = $('#bmfkd').val();
-            if(!role)
+            if(role == 0)
             {
                 setInterval(function(){ 
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
@@ -108,9 +108,7 @@
                 });
 
             }, 3000);
-            }
-            else console.log('0');
-            
+            }            
 
             $(document).on('change', '#selectBidsByStatus', function() {
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
