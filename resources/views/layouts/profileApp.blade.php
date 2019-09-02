@@ -224,7 +224,7 @@
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
-                    url     : 'bid/alarmSound',
+                    url     : '../bid/alarmSound',
                     method    : 'post',
                     success: function (response) {
                         if(response == 1)
