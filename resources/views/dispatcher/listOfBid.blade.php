@@ -52,8 +52,9 @@
         {
             let bidColor = true;
             let role = $('#bmfkd').val();
-            console.log(role);
-            setInterval(function(){ 
+            if(!role)
+            {
+                setInterval(function(){ 
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -107,6 +108,9 @@
                 });
 
             }, 3000);
+            }
+            else console.log('0');
+            
 
             $(document).on('change', '#selectBidsByStatus', function() {
                 let selectBidsByStatus = $('#selectBidsByStatus').val();
