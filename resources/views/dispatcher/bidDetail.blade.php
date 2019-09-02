@@ -28,7 +28,7 @@
         </div>
         @if($bid->status != 'Ожидает принятия')
         <div>
-            Заявку принял: <a href="../guard/{{ $bid->guard }}">Экипаж №{{ $bid->guard }}</a>
+            Заявку принял: <a href="../guard/{{ $bid->guard }}">Экипаж {{ $guard->name }}</a>
         </div>
         @endif
         <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
