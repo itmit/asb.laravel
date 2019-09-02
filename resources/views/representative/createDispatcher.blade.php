@@ -11,7 +11,7 @@
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required
-                           autofocus pattern="[A-Za-z]">
+                           autofocus pattern="^[a-zA-Z]+$">
 
                     @if ($errors->has('name'))
                         <span class="help-block">
