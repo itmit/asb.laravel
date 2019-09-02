@@ -219,32 +219,31 @@ class BidWebController extends BaseWebController
     public function alarmSound()
     {
         $user = Auth::user();
-        return $user;
-        if ($user instanceof User) {
-            if ($user->hasRole('dispatcher'))
-            {
-                $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
-                $bs = [];
-                foreach ($bids as $bid) {
-                    if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
-                        continue;
-                    }
-                    $bs[] = $bid;
-                }
-                $response = [];
 
-                if(count($bs) == 0)
-                {
-                    $response = 0;
-                    return response()->json($response);
+        if ($user->hasRole('dispatcher'))
+        {
+            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+            $bs = [];
+            foreach ($bids as $bid) {
+                if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+                    continue;
                 }
-                else
-                {
-                    $response = 1;
-                    return response()->json($response);
-                }
+                $bs[] = $bid;
             }
-        };
+            $response = [];
+
+            if(count($bs) == 0)
+            {
+                $response = 0;
+                return response()->json($response);
+            }
+            else
+            {
+                $response = 1;
+                return response()->json($response);
+            }
+        }
+
     return response()->json('Error');
     }
 }
