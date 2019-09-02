@@ -228,6 +228,10 @@
                     method    : 'post',
                     success: function (response) {
                         console.log(response);
+                        if(response == 1)
+                        {
+                            console.log('alarm');
+                        }
                         // let audio = new Audio('alert.mp3');
                         // audio.play();
                     },
