@@ -44,6 +44,7 @@
                 </tbody>
             </table>
         </div>
+        <input type="hidden" name="bmfkd" value="{{ $role }}">
     </div>
 
     <script>

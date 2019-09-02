@@ -21,7 +21,8 @@ class BidWebController extends BaseWebController
                 self::translateStatus($bids);
                 self::translateType($bids);
                 return view('dispatcher.listOfBid', [
-                    'bids' => $bids
+                    'bids' => $bids,
+                    'role' => 1
                 ]);
             }
             else
@@ -37,7 +38,8 @@ class BidWebController extends BaseWebController
                     $bs[] = $bid;
                 }
                 return view('dispatcher.listOfBid', [
-                    'bids' => $bs
+                    'bids' => $bs,
+                    'role' => 0
                 ]);
             };
         };
