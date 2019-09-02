@@ -230,14 +230,17 @@ class BidWebController extends BaseWebController
                     }
                     $bs[] = $bid;
                 }
+                $response = [];
 
                 if(count($bs) == 0)
                 {
-                    return response()->json(0);
+                    $response = 0;
+                    return response()->json($response);
                 }
                 else
                 {
-                    return response()->json(1);
+                    $response = 1;
+                    return response()->json($response);
                 }
             }
         };
