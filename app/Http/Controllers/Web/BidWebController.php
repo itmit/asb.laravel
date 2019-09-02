@@ -219,6 +219,7 @@ class BidWebController extends BaseWebController
     public function alarmSound()
     {
         $user = Auth::user();
+        return $user;
         if ($user instanceof User) {
             if ($user->hasRole('dispatcher'))
             {
@@ -244,6 +245,6 @@ class BidWebController extends BaseWebController
                 }
             }
         };
-        return response()->json('Error');
+    return response()->json('Error');
     }
 }
