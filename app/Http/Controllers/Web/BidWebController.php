@@ -233,11 +233,11 @@ class BidWebController extends BaseWebController
 
                 if(count($bs) == 0)
                 {
-                    return response()->json(0);
+                    return '0';
                 }
                 else
                 {
-                    return response()->json(1);
+                    return '1';
                 }
             }
         };
