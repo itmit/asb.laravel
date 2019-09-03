@@ -89,12 +89,11 @@
                             let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
                             myMap.geoObjects.add(placeMark);
 
-                            let placemark = new ymaps.Placemark([response['guard']['latitude'], response['guard']['longitude']], {}, {
+                            let placemark = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
                                 preset: "islands#circleDotIcon",
                                 iconColor: '#ff0000'
                             });
                             myMap.geoObjects.add(placemark);
-                            console.log(response['guard']['latitude']);
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
