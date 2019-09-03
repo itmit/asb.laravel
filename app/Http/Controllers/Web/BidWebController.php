@@ -245,5 +245,6 @@ class BidWebController extends BaseWebController
                 return response()->json(1);
             }
         }
+        else return response()->json('');
     }
 }
