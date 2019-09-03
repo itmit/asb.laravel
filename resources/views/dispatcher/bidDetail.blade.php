@@ -62,6 +62,8 @@
                 $locations.each(function () {
                     let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
 
+                    console.log([$('.guard').data('guardlongitude'));
+
                     let placeMarkGuard = new ymaps.Placemark([$('.guard').data('guardlongitude'), $('.guard').data('guardlatitude')], {}, {
                         // preset: "islands#circleDotIcon",
                         // iconColor: '#ff0000',
