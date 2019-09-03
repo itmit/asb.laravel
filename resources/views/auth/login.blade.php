@@ -15,7 +15,7 @@
                             <label for="name" class="col-md-4 control-label">Логин</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus pattern="^[a-zA-Z]+$">
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
