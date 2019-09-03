@@ -204,8 +204,6 @@ class BidWebController extends BaseWebController
     {
         $bid = Bid::where('id', '=', $bidid->bidid)->first();
 
-        return response()->json($bid->guard);
-
         $guard = Client::where('id', '=', $bid->guard)->first();
 
         $response = [];
