@@ -206,6 +206,8 @@ class BidWebController extends BaseWebController
 
         $guard = Client::where('id', '=', $bid->guard)->first();
 
+        return $guard;
+
         $response = [];
         self::translateStatus($bid);
         self::translateType($bid);
