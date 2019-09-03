@@ -100,10 +100,10 @@
                                 // Своё изображение иконки метки.
                                 iconImageHref: '../storage/caricon.png',
                                 // Размеры метки.
-                                iconImageSize: [40, 30],
+                                iconImageSize: [40, 35],
                                 // Смещение левого верхнего угла иконки относительно
                                 // её "ножки" (точки привязки).
-                                iconImageOffset: [-5, -38]
+                                iconImageOffset: [0, 0]
                             });
 
                             myMap.geoObjects
