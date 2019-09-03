@@ -94,6 +94,7 @@
                                 iconColor: '#ff0000'
                             });
                             myMap.geoObjects.add(placemark);
+                            console.log(response['guard']['latitude']);
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
