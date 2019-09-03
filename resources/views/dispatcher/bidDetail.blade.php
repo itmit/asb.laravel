@@ -86,14 +86,29 @@
 
                             myMap.geoObjects.removeAll()
 
-                            let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
-                            myMap.geoObjects.add(placeMark);
+                            MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                            '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+                            ),
 
-                            let placemark = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
-                                preset: "islands#circleDotIcon",
-                                iconColor: '#ff0000'
+                            let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
+
+                            let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
+                                // preset: "islands#circleDotIcon",
+                                // iconColor: '#ff0000',
+                                // Необходимо указать данный тип макета.
+                                iconLayout: 'default#image',
+                                // Своё изображение иконки метки.
+                                iconImageHref: 'caricon.png',
+                                // Размеры метки.
+                                iconImageSize: [30, 42],
+                                // Смещение левого верхнего угла иконки относительно
+                                // её "ножки" (точки привязки).
+                                iconImageOffset: [-5, -38]
                             });
-                            myMap.geoObjects.add(placemark);
+
+                            myMap.geoObjects
+                                .add(placeMark)
+                                .add(placeMarkGuard);
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
