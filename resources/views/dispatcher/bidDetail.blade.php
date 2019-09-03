@@ -88,7 +88,7 @@
 
                             MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
                             '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
-                            ),
+                            );
 
                             let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
 
