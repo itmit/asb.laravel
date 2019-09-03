@@ -88,7 +88,7 @@
 
                             let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
                             myMap.geoObjects.add(placeMark);
-
+                            console.log(response);
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
