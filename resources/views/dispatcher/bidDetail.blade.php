@@ -79,16 +79,21 @@
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
-                            // $('.updated').html('Обновлена: ' + response['updated_at']);
-                            // $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
-                            // $('.js-location').data('longitude', response['location']['longitude']);
-                            // $('.js-location').data('latitude', response['location']['latitude']);
+                            $('.updated').html('Обновлена: ' + response['updated_at']);
+                            $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
+                            $('.js-location').data('longitude', response['location']['longitude']);
+                            $('.js-location').data('latitude', response['location']['latitude']);
 
-                            // myMap.geoObjects.removeAll()
+                            myMap.geoObjects.removeAll()
 
-                            // let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
-                            // myMap.geoObjects.add(placeMark);
-                            console.log(response);
+                            let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
+                            myMap.geoObjects.add(placeMark);
+
+                            let placemark = new ymaps.Placemark([response['guard']['latitude'], response['guard']['longitude']], {}, {
+                                preset: "islands#circleDotIcon",
+                                iconColor: '#ff0000'
+                            });
+                            myMap.geoObjects.add(placemark);
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);
