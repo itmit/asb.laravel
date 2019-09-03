@@ -27,7 +27,7 @@
             Клиент: <a href="../client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name }}</a>
         </div>
         @if($bid->status != 'Ожидает принятия')
-        <div>
+        <div id="guard" data-guardlongitude="{{ $guard->longitude }}" data-guardlatitude="{{ $guard->latitude }}">
             Заявку принял: <a href="../guard/{{ $bid->guard }}">Экипаж {{ $guard->name }}</a>
         </div>
         @endif
@@ -61,7 +61,24 @@
 
                 $locations.each(function () {
                     let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
-                    myMap.geoObjects.add(placeMark);
+
+                    let placeMarkGuard = new ymaps.Placemark([$('.guard').data('guardlongitude'), $('.guard').data('guardlatitude')], {}, {
+                        // preset: "islands#circleDotIcon",
+                        // iconColor: '#ff0000',
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#image',
+                        // Своё изображение иконки метки.
+                        iconImageHref: '../storage/caricon.png',
+                        // Размеры метки.
+                        iconImageSize: [40, 35],
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: [0, 0]
+                    });
+
+                    myMap.geoObjects
+                        .add(placeMark)
+                        .add(placeMarkGuard);
                 });
             }
 
