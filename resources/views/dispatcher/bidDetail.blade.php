@@ -50,6 +50,8 @@
 
     $(document).ready(function()
         {
+            let $bidStatus = $('.bidstatus');
+
             // Функция ymaps.ready() будет вызвана, когда
             // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
             ymaps.ready(init);
@@ -71,27 +73,34 @@
                 $locations.each(function () {
                     let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
 
-                    let placeMarkGuard = new ymaps.Placemark([$('#guard').data('guardlongitude'), $('#guard').data('guardlatitude')], {}, {
-                        // preset: "islands#circleDotIcon",
-                        // iconColor: '#ff0000',
-                        // Необходимо указать данный тип макета.
-                        iconLayout: 'default#image',
-                        // Своё изображение иконки метки.
-                        iconImageHref: '../storage/caricon.png',
-                        // Размеры метки.
-                        iconImageSize: [40, 35],
-                        // Смещение левого верхнего угла иконки относительно
-                        // её "ножки" (точки привязки).
-                        iconImageOffset: [0, 0]
-                    });
+                    if($bidStatus.data('bidstatus') == 'Принята')
+                    {
 
-                    myMap.geoObjects
-                        .add(placeMark)
-                        .add(placeMarkGuard);
+                        let placeMarkGuard = new ymaps.Placemark([$('#guard').data('guardlongitude'), $('#guard').data('guardlatitude')], {}, {
+                            // preset: "islands#circleDotIcon",
+                            // iconColor: '#ff0000',
+                            // Необходимо указать данный тип макета.
+                            iconLayout: 'default#image',
+                            // Своё изображение иконки метки.
+                            iconImageHref: '../storage/caricon.png',
+                            // Размеры метки.
+                            iconImageSize: [40, 35],
+                            // Смещение левого верхнего угла иконки относительно
+                            // её "ножки" (точки привязки).
+                            iconImageOffset: [0, 0]
+                        });
+
+                        myMap.geoObjects
+                            .add(placeMark)
+                            .add(placeMarkGuard);
+                    }
+                    else
+                    {
+                        myMap.geoObjects
+                        .add(placeMark);
+                    }
                 });
             }
-
-            let $bidStatus = $('.bidstatus');
 
             if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
             {
@@ -101,7 +110,7 @@
                     $.ajax({
                         headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         dataType: "json",
-                        data: {bidid: bidid},
+                        data: {bidid: bidid, bidStatus: bidStatus},
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
@@ -118,23 +127,31 @@
 
                             let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
 
-                            let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
-                                // preset: "islands#circleDotIcon",
-                                // iconColor: '#ff0000',
-                                // Необходимо указать данный тип макета.
-                                iconLayout: 'default#image',
-                                // Своё изображение иконки метки.
-                                iconImageHref: '../storage/caricon.png',
-                                // Размеры метки.
-                                iconImageSize: [40, 35],
-                                // Смещение левого верхнего угла иконки относительно
-                                // её "ножки" (точки привязки).
-                                iconImageOffset: [0, 0]
-                            });
+                            if($bidStatus.data('bidstatus') == 'Принята')
+                            {
+                                let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
+                                    // preset: "islands#circleDotIcon",
+                                    // iconColor: '#ff0000',
+                                    // Необходимо указать данный тип макета.
+                                    iconLayout: 'default#image',
+                                    // Своё изображение иконки метки.
+                                    iconImageHref: '../storage/caricon.png',
+                                    // Размеры метки.
+                                    iconImageSize: [40, 35],
+                                    // Смещение левого верхнего угла иконки относительно
+                                    // её "ножки" (точки привязки).
+                                    iconImageOffset: [0, 0]
+                                });
 
-                            myMap.geoObjects
-                                .add(placeMark)
-                                .add(placeMarkGuard);
+                                myMap.geoObjects
+                                    .add(placeMark)
+                                    .add(placeMarkGuard);
+                            }
+                            else
+                            {
+                                myMap.geoObjects
+                                .add(placeMark);
+                            }
                         },
                         error: function (xhr, err) { 
                             console.log("Error: " + xhr + " " + err);

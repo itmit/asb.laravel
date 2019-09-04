@@ -204,24 +204,41 @@ class BidWebController extends BaseWebController
     {
         $bid = Bid::where('id', '=', $bidid->bidid)->first();
 
-        $guard = Client::where('id', '=', $bid->guard)->first();
+        if($bidid->bidStatus == 'Принята')
+        {
+            $guard = Client::where('id', '=', $bid->guard)->first();
 
-        $response = [];
-        self::translateStatus($bid);
-        self::translateType($bid);
+            $response = [];
+            self::translateStatus($bid);
+            self::translateType($bid);
 
-        $response = [
-            'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
-            'location' => [
-                'latitude' => $bid->location()->latitude,
-                'longitude' => $bid->location()->longitude
-            ],
-            'guard' => [
-                'guard_latitude' => $guard->latitude,
-                'guard_longitude' => $guard->longitude
-            ]
-        ];
-        
+            $response = [
+                'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+                'location' => [
+                    'latitude' => $bid->location()->latitude,
+                    'longitude' => $bid->location()->longitude
+                ],
+                'guard' => [
+                    'guard_latitude' => $guard->latitude,
+                    'guard_longitude' => $guard->longitude
+                ]
+            ];
+        }
+        else
+        {
+            $response = [];
+            self::translateStatus($bid);
+            self::translateType($bid);
+
+            $response = [
+                'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+                'location' => [
+                    'latitude' => $bid->location()->latitude,
+                    'longitude' => $bid->location()->longitude
+                ]
+            ];
+        }
+
         return response()->json($response);
     }
 
