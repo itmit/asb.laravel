@@ -75,7 +75,7 @@ class DispatcherWebController extends BaseWebController
         if (Auth::user()->ability(['super-admin', 'representative'], ['create-dispatcher'])) {
 
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255|regex:/^[a-z]+$/i',
+                'name' => 'required|string|max:255|regex:/^[a-zA-Z]+$/i',
                 'fio' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
