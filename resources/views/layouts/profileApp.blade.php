@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWrxs1776GRtqwZddV5ImvjIfDQfLv_qk&callback=initMap"
-    type="text/javascript"></script>
+    {{-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWrxs1776GRtqwZddV5ImvjIfDQfLv_qk&callback=initMap"
+    type="text/javascript"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/jquery.mask.js') }}"></script>
