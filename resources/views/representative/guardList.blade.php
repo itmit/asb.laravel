@@ -12,7 +12,9 @@
         <table class="table table-bordered">
             <thead>
             <tr>
+                @ability('super-admin,representative', 'destroy')
                 <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>
+                @endability
                 <th>Имя</th>
                 <th>Почта</th>
                 <th>Телефон</th>
@@ -23,7 +25,9 @@
             <tbody>
                 @foreach($guards as $guard)
                 <tr>
+                    @ability('super-admin,representative', 'destroy')
                     <td><input type="checkbox" data-place-id="{{ $guard->id }}" name="destoy-place-{{ $guard->id }}" class="js-destroy"/></td>
+                    @endability
                     <td>{{ $guard->name }}</td>
                     <td>{{ $guard->email }}</td>
                     <td>{{ $guard->phone_number }}</td>
