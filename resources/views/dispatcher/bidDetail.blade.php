@@ -50,8 +50,7 @@
 
     $(document).ready(function()
         {
-            let bidStatus = $('.bidstatus');
-            console.log(bidStatus);
+            let $bidStatus = $('.bidstatus');
 
             // Функция ymaps.ready() будет вызвана, когда
             // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
@@ -111,7 +110,7 @@
                     $.ajax({
                         headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         dataType: "json",
-                        data: {bidid: bidid, bidStatus: bidStatus},
+                        data: {bidid: bidid, bidStatus: $bidStatus.data('bidstatus')},
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
