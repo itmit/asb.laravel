@@ -37,12 +37,21 @@
         <div id="map" style="width: 600px; height: 400px"></div>
     </div>
     <script>
-    
+
+    // let $locations = $('.js-location');
+    // var map;
+    // console.log($locations.first().data('latitude'));
+    // function initMap() {
+    // map = new google.maps.Map(document.getElementById('map'), {
+    //     center: {lat: $locations.first().data('latitude'), lng: $locations.first().data('longitude')},
+    //     zoom: 15
+    // });
+    // }
 
     $(document).ready(function()
         {
-            // Функция ymaps.ready() будет вызвана, когда
-            // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+            Функция ymaps.ready() будет вызвана, когда
+            загрузятся все компоненты API, а также когда будет готово DOM-дерево.
             ymaps.ready(init);
 
             function init() {
