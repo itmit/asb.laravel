@@ -50,7 +50,8 @@
 
     $(document).ready(function()
         {
-            let $bidStatus = $('.bidstatus');
+            let bidStatus = $('.bidstatus');
+            console.log(bidStatus);
 
             // Функция ymaps.ready() будет вызвана, когда
             // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
