@@ -48,6 +48,8 @@
         $('.left-menu > .nav > *:nth-child(6)').addClass('active');
         $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
 
+        $(document).ready(function()
+        {
         $(document).on('change', '#selectClientsByType', function() {
             let selectClientsByType = $('#selectClientsByType').val();
             $.ajax({
@@ -67,14 +69,15 @@
                     //     result += '<td>' + response[i]['created_at'] + '</td>';
                     //     result += '<td>' + response[i]['updated_at'] + '</td>';
                     //     result += '</tr>';
-                    console.log(response);
+                        console.log(response);
                     }
                     // $('tbody').html(result);
                 },
                 error: function (xhr, err) { 
                     console.log(err + " " + xhr);
                 }
-            });
+        });
+        });
         });
     </script>
 @endsection
