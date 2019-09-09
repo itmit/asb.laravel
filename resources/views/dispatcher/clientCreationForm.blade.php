@@ -126,5 +126,13 @@
     <script>
         $('.left-menu > .nav > *:nth-child(6)').addClass('active');
         $('.left-menu > .nav > *:nth-child(1)').removeClass('active');
+
+        $(document).ready(function()
+        {
+            $(document).on('change', '#clientType', function() {
+                let clientType = $('#clientType').val();
+                console.log(clientType);
+            });
+        });
     </script>
 @endsection
