@@ -82,22 +82,8 @@ class ClientWebController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->clientType;
-        
-        $number = $request->input('phone_number');
-        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
-        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
-        $request['phone_number'] = $number;
-
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:clients',
-            'password' => 'required|string|min:6|confirmed',
-            'password' => 'required|string|min:6|confirmed|same:password',
-            'phone_number' => 'required|string|min:11|unique:clients,phone_number',
-            'representative' => 'required',
-            'organization' => 'required'
+            'clientType' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -107,15 +93,90 @@ class ClientWebController extends Controller
                 ->withInput();
         }
 
-        Client::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'phone_number' => $number,
-            'representative' => $request->input('representative')
-        ]);
+        if($request->clientType == 'Individual')
+        {
+            self::storeIndividual($request);
+        }
 
-        return redirect()->route('auth.client.index');
+        if($request->clientType == 'Entity')
+        {
+            self::storeEntity($request);
+        }
+        return 'Ошибка при регистрации';
+    }
+
+    public function storeIndividual($request)
+    {
+        return 'stored ind';
+        // $number = $request->input('phone_number');
+        // $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        // $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        // $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        // $request['phone_number'] = $number;
+
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:clients',
+        //     'password' => 'required|string|min:6|confirmed',
+        //     'password' => 'required|string|min:6|confirmed|same:password',
+        //     'phone_number' => 'required|string|min:11|unique:clients,phone_number',
+        //     'representative' => 'required',
+        //     'organization' => 'required'
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return redirect()
+        //         ->route('auth.client.create')
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+
+        // Client::create([
+        //     'name' => $request->input('name'),
+        //     'email' => $request->input('email'),
+        //     'password' => bcrypt($request->input('password')),
+        //     'phone_number' => $number,
+        //     'representative' => $request->input('representative')
+        // ]);
+
+        // return redirect()->route('auth.client.index');
+    }
+
+    public function storeEntity($request)
+    {
+        return 'stored ent';
+        // $number = $request->input('phone_number');
+        // $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        // $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        // $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        // $request['phone_number'] = $number;
+
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:clients',
+        //     'password' => 'required|string|min:6|confirmed',
+        //     'password' => 'required|string|min:6|confirmed|same:password',
+        //     'phone_number' => 'required|string|min:11|unique:clients,phone_number',
+        //     'representative' => 'required',
+        //     'organization' => 'required'
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return redirect()
+        //         ->route('auth.client.create')
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+
+        // Client::create([
+        //     'name' => $request->input('name'),
+        //     'email' => $request->input('email'),
+        //     'password' => bcrypt($request->input('password')),
+        //     'phone_number' => $number,
+        //     'representative' => $request->input('representative')
+        // ]);
+
+        // return redirect()->route('auth.client.index');
     }
 
     public function destroy(Request $request)
