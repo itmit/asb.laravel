@@ -53,13 +53,13 @@
             $(document).on('change', '#selectClientsByType', function() {
                 let selectClientsByType = $('#selectClientsByType').val();
                 console.log(selectClientsByType);
-                // $.ajax({
-                //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                //     dataType: "json",
-                //     data: {selectClientsByType: selectClientsByType},
-                //     url     : 'clients/selectClientsByType',
-                //     method    : 'post',
-                //     success: function (response) {
+                $.ajax({
+                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "json",
+                    data: {selectClientsByType: selectClientsByType},
+                    url     : 'clients/selectClientsByType',
+                    method    : 'post',
+                    success: function (response) {
                 //         // let result = '';
                 //         // for(var i = 0; i < response.length; i++) {
                 //         //     result += '<tr>';
@@ -72,12 +72,12 @@
                 //         //     result += '</tr>'; 
                 //         // }
                 //         // $('tbody').html(result);
-                //         console.log(response);
-                //     },
-                //     error: function (xhr, err) { 
-                //         console.log(err + " " + xhr);
-                //     }
-                // });
+                        console.log(response);
+                    },
+                    error: function (xhr, err) { 
+                        console.log(err + " " + xhr);
+                    }
+                });
             });
         });
     </script>
