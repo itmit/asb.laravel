@@ -107,7 +107,7 @@ class ClientWebController extends Controller
 
     public function storeIndividual($request)
     {
-        return 'stored ind';
+        return $request->indv_passport;
         // $number = $request->input('phone_number');
         // $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         // $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');

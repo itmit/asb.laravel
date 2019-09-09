@@ -1,54 +1,48 @@
 <div class="form-group">
-    <label for="organization" class="col-md-4 control-label">Наименование организации</label>
+    <label for="ent_organization" class="col-md-4 control-label">Наименование организации</label>
 
     <div class="col-md-6">
-        <input id="organization" type="text" class="form-control" name="organization" value="" required
-               autofocus>
+        <input id="ent_organization" type="text" class="form-control" name="ent_organization" required autofocus>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="email" class="col-md-4 control-label">ИНН</label>
+    <label for="ent_INN" class="col-md-4 control-label">ИНН</label>
 
     <div class="col-md-6">
-        <input id="email" type="email" class="form-control" name="email" value=""
-               required>
+        <input id="ent_INN" type="text" class="form-control" name="ent_INN" required>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="email" class="col-md-4 control-label">ОГРН</label>
+    <label for="ent_OGRN" class="col-md-4 control-label">ОГРН</label>
 
     <div class="col-md-6">
-        <input id="email" type="email" class="form-control" name="email" value=""
-               required>
+        <input id="ent_OGRN" type="text" class="form-control" name="ent_OGRN" required>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="email" class="col-md-4 control-label">E-Mail адрес</label>
+    <label for="ent_email" class="col-md-4 control-label">E-Mail адрес</label>
 
     <div class="col-md-6">
-        <input id="email" type="email" class="form-control" name="email" value=""
-               required>
+        <input id="ent_email" type="email" class="form-control" name="ent_email" required>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="phone_number" class="col-md-4 control-label">Номер телефона</label>
+    <label for="ent_phone_number" class="col-md-4 control-label">Номер телефона</label>
 
     <div class="col-md-6">
-        <input id="phone_number" type="tel" class="form-control" name="phone_number"
-               value="" required>
+        <input id="ent_phone_number" type="tel" class="form-control" name="ent_phone_number" required>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="gendir" class="col-md-4 control-label">Генеральный директор ФИО</label>
+    <label for="ent_gendir" class="col-md-4 control-label">Генеральный директор ФИО</label>
 
     <div class="col-md-6">
-        <input id="gendir" type="text" class="form-control" name="gendir"
-               value="" required>
+        <input id="ent_gendir" type="text" class="form-control" name="ent_gendir" required>
     </div>
 </div>
 

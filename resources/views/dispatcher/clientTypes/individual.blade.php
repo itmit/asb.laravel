@@ -1,36 +1,32 @@
 <div class="form-group">
-    <label for="name" class="col-md-4 control-label">ФИО</label>
+    <label for="indv_name" class="col-md-4 control-label">ФИО</label>
 
     <div class="col-md-6">
-        <input id="name" type="text" class="form-control" name="name" value="" required
-               autofocus>
+        <input id="indv_name" type="text" class="form-control" name="indv_name" required autofocus>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="email" class="col-md-4 control-label">E-Mail адрес</label>
+    <label for="indv_email" class="col-md-4 control-label">E-Mail адрес</label>
 
     <div class="col-md-6">
-        <input id="email" type="email" class="form-control" name="email" value=""
-               required>
+        <input id="indv_email" type="email" class="form-control" name="indv_email" required>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="phone_number" class="col-md-4 control-label">Номер телефона</label>
+    <label for="indv_phone_number" class="col-md-4 control-label">Номер телефона</label>
 
     <div class="col-md-6">
-        <input id="phone_number" type="tel" class="form-control" name="phone_number"
-               value="" required>
+        <input id="indv_phone_number" type="tel" class="form-control" name="indv_phone_number" required>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="passport" class="col-md-4 control-label">Серия и номер паспорта</label>
+    <label for="indv_passport" class="col-md-4 control-label">Серия и номер паспорта</label>
 
     <div class="col-md-6">
-        <input id="passport" type="text" class="form-control" name="passport"
-               value="" required>
+        <input id="indv_passport" type="text" class="form-control" name="indv_passport" required>
     </div>
 </div>
 
