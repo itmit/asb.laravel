@@ -159,4 +159,10 @@ class ClientWebController extends Controller
         }
         else return 'Что-то пошло не так :(';
     }
+
+    public function selectClientsByType(Request $request)
+    {
+        return $request->selectClientsByType;
+    }
+    
 }

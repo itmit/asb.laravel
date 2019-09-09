@@ -18,14 +18,19 @@ class CreateClientTable extends Migration
             $table->increments('id');
             $table->integer('representative')->unsigned();
             
-            $table->string('name');
+            $table->string('name')->nullable(); // ФИО ДЛЯ ФИЗ ЛИЦ
+            $table->string('passport')->unique()->nullable(); // ПАСПОРТ ДЛЯ ФИЗ ЛИЦ
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
             
-            $table->string('user_picture')->nullable();
+            $table->string('user_picture')->nullable()->default(NULL);
+            $table->enum('type', ['Individual', 'Entity', 'Guard']); // ВЫБОР ТИПА КЛИЕНТА (ФИЗ ЛИЦО, ЮР ЛИЦО, ОХРАНА)
             $table->string('phone_number')->unique();
-            $table->string('organization')->nullable();
+            $table->string('organization')->nullable()->default(NULL); // НАИМЕНОВАНИЕ ОРГАЗИНАЦИИ ДЛЯ ЮР ЛИЦ
+            $table->string('INN')->nullable()->default(NULL); // ИНН ДЛЯ ЮР ЛИЦ
+            $table->string('OGRN')->nullable()->default(NULL); // ОГРН ДЛЯ ЮР ЛИЦ
+            $table->string('director')->nullable()->default(NULL); // ДИРЕКТОР ДЛЯ ЮР ЛИЦ
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->string('note')->nullable();
