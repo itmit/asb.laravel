@@ -154,8 +154,6 @@ class ClientWebController extends Controller
         $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
         $request['ent_phone_number'] = $number;
 
-        return $number;
-
         $validator = Validator::make($request->all(), [
             'ent_organization' => 'required|string|max:255',
             'ent_INN' => 'required|string|min:10',
@@ -174,6 +172,8 @@ class ClientWebController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        return $request['ent_INN'];
 
         Client::create([
             'organization' => $request['ent_organization'],
