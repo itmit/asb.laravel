@@ -139,5 +139,8 @@
 
             });
         });
+
+    $('input[id=indv_passport]').mask("99 99 999999");
+
     </script>
 @endsection
