@@ -162,8 +162,40 @@ class ClientWebController extends Controller
 
     public function selectClientsByType(Request $request)
     {
-        return response()->json([$request->selectClientsByType]);
-         
+        $clients = Client::where('type', '=', $request->selectClientsByType);
+        self::translateType($clients);
+        return response()->json([$clients]); 
     }
     
+    public function translateType($clients)
+    {
+        if ($clients instanceof Collection) {
+            foreach ($clients as $client) {
+                switch ($client->type) {
+                    case 'Individual':
+                        $client->type = 'Физическое лицо';
+                        break;
+                    case 'Entity':
+                        $client->type = 'Юридическое лицо';
+                        break;
+                    default:
+                        $client->type = 'Неопределено';
+                };
+            }
+        }
+        else
+        {
+            switch ($clients->client) {
+                case 'Alert':
+                    $client->client = 'Физическое лицо';
+                    break;
+                case 'Call':
+                    $client->client = 'Юридическое лицо';
+                    break;
+                default:
+                    $client->client = 'Неопределено';
+            };
+        }
+        return $clients;
+    }
 }
