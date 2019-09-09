@@ -156,8 +156,8 @@ class ClientWebController extends Controller
 
         $validator = Validator::make($request->all(), [
             'ent_organization' => 'required|string|max:255',
-            'ent_INN' => 'required|string|min:10',
-            'ent_OGRN' => 'required|string|min:13',
+            'ent_INN' => 'required|string|min:9',
+            'ent_OGRN' => 'required|string|min:12',
             'ent_email' => 'required|string|email|max:255|unique:clients,email',
             'password' => 'required|string|min:6|confirmed',
             'password' => 'required|string|min:6|confirmed|same:password',
@@ -172,8 +172,6 @@ class ClientWebController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        return $request['ent_INN'];
 
         Client::create([
             'organization' => $request['ent_organization'],
