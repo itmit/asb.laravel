@@ -134,11 +134,37 @@
                 let clientType = $('#clientType').val();
                 if(clientType == 'Entity')
                 {
-                    $('#clientCreateForm').html('1');
+                    $.ajax({
+                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "html",
+                    data: {clientType: clientType},
+                    url     : 'clients/clientType',
+                    method    : 'post',
+                    success: function (response) {
+                        $('#clientCreateForm').html(response);
+                        // console.log(response);
+                    },
+                    error: function (xhr, err) { 
+                        console.log(err + " " + xhr);
+                    }
+                    });
                 }
                 if(clientType == 'Individual')
                 {
-                    $('#clientCreateForm').html('2');
+                    $.ajax({
+                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "html",
+                    data: {clientType: clientType},
+                    url     : 'clients/clientType',
+                    method    : 'post',
+                    success: function (response) {
+                        $('#clientCreateForm').html(response);
+                        // console.log(response);
+                    },
+                    error: function (xhr, err) { 
+                        console.log(err + " " + xhr);
+                    }
+                    });
                 }
 
             });

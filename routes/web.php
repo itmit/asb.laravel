@@ -28,6 +28,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::post('clients/lastLocation', 'Web\ClientWebController@lastLocation');
     Route::post('clients/changeActivity', 'Web\ClientWebController@changeActivity');
     Route::post('clients/selectClientsByType', 'Web\ClientWebController@selectClientsByType');
+    Route::post('clients/clientType', 'Web\ClientWebController@clientType');
 
     Route::delete('clients/delete', 'Web\ClientWebController@destroy');
     Route::delete('dispatcher/delete', 'Web\DispatcherWebController@destroy');

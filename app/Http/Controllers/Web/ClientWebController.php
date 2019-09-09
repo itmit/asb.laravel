@@ -167,6 +167,18 @@ class ClientWebController extends Controller
         self::translateType($clients);
         return response()->json([$clients]); 
     }
+
+    public function clientType(Request $request)
+    {
+        if($request->clientType == 'Entity')
+        {
+            return 'Entity';
+        }
+        if($request->clientType == 'Individual')
+        {
+            return 'Individual';
+        }
+    }
     
     public function translateType($clients)
     {
