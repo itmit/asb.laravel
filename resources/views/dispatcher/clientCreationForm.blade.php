@@ -138,7 +138,7 @@
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "html",
                     data: {clientType: clientType},
-                    url     : 'clients/clientType',
+                    url     : '../clients/clientType',
                     method    : 'post',
                     success: function (response) {
                         $('#clientCreateForm').html(response);
@@ -155,7 +155,7 @@
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "html",
                     data: {clientType: clientType},
-                    url     : 'clients/clientType',
+                    url     : '../clients/clientType',
                     method    : 'post',
                     success: function (response) {
                         $('#clientCreateForm').html(response);
