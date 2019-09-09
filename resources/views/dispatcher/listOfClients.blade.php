@@ -52,31 +52,32 @@
         {
             $(document).on('change', '#selectClientsByType', function() {
                 let selectClientsByType = $('#selectClientsByType').val();
-                $.ajax({
-                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "json",
-                    data: {selectClientsByType: selectClientsByType},
-                    url     : 'clients/selectClientsByType',
-                    method    : 'post',
-                    success: function (response) {
-                        // let result = '';
-                        // for(var i = 0; i < response.length; i++) {
-                        //     result += '<tr>';
-                        //     result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
-                        //     result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
-                        //     result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
-                        //     result += '<td>' + response[i]['type'] + '</td>';
-                        //     result += '<td>' + response[i]['created_at'] + '</td>';
-                        //     result += '<td>' + response[i]['updated_at'] + '</td>';
-                        //     result += '</tr>'; 
-                        // }
-                        // $('tbody').html(result);
-                        console.log(response);
-                    },
-                    error: function (xhr, err) { 
-                        console.log(err + " " + xhr);
-                    }
-                });
+                console.log(selectClientsByType);
+                // $.ajax({
+                //     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                //     dataType: "json",
+                //     data: {selectClientsByType: selectClientsByType},
+                //     url     : 'clients/selectClientsByType',
+                //     method    : 'post',
+                //     success: function (response) {
+                //         // let result = '';
+                //         // for(var i = 0; i < response.length; i++) {
+                //         //     result += '<tr>';
+                //         //     result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
+                //         //     result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
+                //         //     result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
+                //         //     result += '<td>' + response[i]['type'] + '</td>';
+                //         //     result += '<td>' + response[i]['created_at'] + '</td>';
+                //         //     result += '<td>' + response[i]['updated_at'] + '</td>';
+                //         //     result += '</tr>'; 
+                //         // }
+                //         // $('tbody').html(result);
+                //         console.log(response);
+                //     },
+                //     error: function (xhr, err) { 
+                //         console.log(err + " " + xhr);
+                //     }
+                // });
             });
         });
     </script>
