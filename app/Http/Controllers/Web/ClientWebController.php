@@ -162,7 +162,8 @@ class ClientWebController extends Controller
 
     public function selectClientsByType(Request $request)
     {
-        return $request->selectClientsByType;
+        return response()->json([$request->selectClientsByType]);
+         
     }
     
 }
