@@ -137,7 +137,7 @@ class ClientWebController extends Controller
             'password' => bcrypt($request['password']),
             'phone_number' => $number,
             'representative' => $request['representative'],
-            'indv_passport' => $request['representative']
+            'indv_passport' => $request['indv_passport']
         ]);
 
         return redirect()->route('auth.client.index');
