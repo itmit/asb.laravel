@@ -31,83 +31,53 @@
 
             <div id="clientCreateForm">
     
-                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                    <label for="name" class="col-md-4 control-label">Имя</label>
-    
+                <div class="form-group">
+                    <label for="name" class="col-md-4 control-label">ФИО</label>
+                
                     <div class="col-md-6">
-                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required
+                        <input id="name" type="text" class="form-control" name="name" value="" required
                                autofocus>
-    
-                        @if ($errors->has('name'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('name') }}</strong>
-                            </span>
-                        @endif
                     </div>
                 </div>
-    
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                
+                <div class="form-group">
                     <label for="email" class="col-md-4 control-label">E-Mail адрес</label>
-    
+                
                     <div class="col-md-6">
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
+                        <input id="email" type="email" class="form-control" name="email" value=""
                                required>
-    
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </span>
-                        @endif
                     </div>
                 </div>
-    
-                <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
+                
+                <div class="form-group">
                     <label for="phone_number" class="col-md-4 control-label">Номер телефона</label>
-    
+                
                     <div class="col-md-6">
                         <input id="phone_number" type="tel" class="form-control" name="phone_number"
-                               value="{{ old('phone_number') }}" required>
-    
-                        @if ($errors->has('phone_number'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('phone_number') }}</strong>
-                            </span>
-                        @endif
+                               value="" required>
                     </div>
                 </div>
-    
-                <div class="form-group{{ $errors->has('organization') ? ' has-error' : '' }}">
-                    <label for="organization" class="col-md-4 control-label">Организация</label>
-    
+                
+                <div class="form-group">
+                    <label for="passport" class="col-md-4 control-label">Серия и номер паспорта</label>
+                
                     <div class="col-md-6">
-                        <input id="organization" type="text" class="form-control" name="organization"
-                               value="{{ old('organization') }}" required>
-    
-                        @if ($errors->has('organization'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('organization') }}</strong>
-                            </span>
-                        @endif
+                        <input id="passport" type="text" class="form-control" name="passport"
+                               value="" required>
                     </div>
                 </div>
-    
-                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                
+                <div class="form-group">
                     <label for="password" class="col-md-4 control-label">Пароль</label>
-    
+                
                     <div class="col-md-6">
                         <input id="password" type="password" class="form-control" name="password" required>
-    
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
                     </div>
                 </div>
-    
+                
                 <div class="form-group">
                     <label for="password-confirm" class="col-md-4 control-label">Повторите пароль</label>
-    
+                
                     <div class="col-md-6">
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
                                required>
