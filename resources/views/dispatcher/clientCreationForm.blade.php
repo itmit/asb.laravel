@@ -20,6 +20,11 @@
 
             <input type="hidden" name="representative" value="{{ $repId }}">
 
+            <select name="clientType" id="clientType" class="form-control">
+                <option value="Individual">Физическое лицо</option>
+                <option value="Entity">Юридическое лицо</option>
+            </select>
+
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                 <label for="name" class="col-md-4 control-label">Имя</label>
 
