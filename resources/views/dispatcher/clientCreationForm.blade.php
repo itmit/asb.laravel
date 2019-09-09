@@ -20,11 +20,15 @@
 
             <input type="hidden" name="representative" value="{{ $repId }}">
 
-            <div class="col-md-6">
-                <select name="clientType" id="clientType" class="form-control">
-                    <option value="Individual">Физическое лицо</option>
-                    <option value="Entity">Юридическое лицо</option>
-                </select>
+            
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <select name="clientType" id="clientType" class="form-control">
+                        <option value="Individual">Физическое лицо</option>
+                        <option value="Entity">Юридическое лицо</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
