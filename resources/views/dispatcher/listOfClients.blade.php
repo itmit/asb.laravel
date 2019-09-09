@@ -60,19 +60,28 @@
                     url     : 'clients/selectClientsByType',
                     method    : 'post',
                     success: function (response) {
-                //         // let result = '';
-                //         // for(var i = 0; i < response.length; i++) {
-                //         //     result += '<tr>';
-                //         //     result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
-                //         //     result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
-                //         //     result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
-                //         //     result += '<td>' + response[i]['type'] + '</td>';
-                //         //     result += '<td>' + response[i]['created_at'] + '</td>';
-                //         //     result += '<td>' + response[i]['updated_at'] + '</td>';
-                //         //     result += '</tr>'; 
-                //         // }
-                //         // $('tbody').html(result);
-                        console.log(response);
+                        let result = '';
+                        result += '<tr>';
+                        result += '<th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>';
+                        result += '<th>Название</th>';
+                        result += '<th>Почта</th>';
+                        result += '<th>Номер телефона</th>';
+                        result += '<th>Статус активности</th>';
+                        result += '<th>Дата создания</th>';
+                        result += '</tr>';
+                        $('thead').html(result);
+                        // for(var i = 0; i < response.length; i++) {
+                        //     result += '<tr>';
+                        //     result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
+                        //     result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
+                        //     result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
+                        //     result += '<td>' + response[i]['type'] + '</td>';
+                        //     result += '<td>' + response[i]['created_at'] + '</td>';
+                        //     result += '<td>' + response[i]['updated_at'] + '</td>';
+                        //     result += '</tr>'; 
+                        // }
+                        // $('tbody').html(result);
+                        // console.log(response);
                     },
                     error: function (xhr, err) { 
                         console.log(err + " " + xhr);

@@ -96,7 +96,6 @@ class ClientWebController extends Controller
 
         if($request->clientType == 'Individual')
         {
-            return 'Individual';
             return self::storeIndividual($request);
         }
 
