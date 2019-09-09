@@ -131,7 +131,15 @@
         {
             $(document).on('change', '#clientType', function() {
                 let clientType = $('#clientType').val();
-                console.log(clientType);
+                if(clientType == 'Entity')
+                {
+                    $('#clientCreateForm').html('1');
+                }
+                if(clientType == 'Individual')
+                {
+                    $('#clientCreateForm').html('2');
+                }
+
             });
         });
     </script>
