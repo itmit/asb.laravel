@@ -82,6 +82,8 @@ class ClientWebController extends Controller
      */
     public function store(Request $request)
     {
+        return $request->clientType;
+        
         $number = $request->input('phone_number');
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');

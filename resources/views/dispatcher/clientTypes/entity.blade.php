@@ -44,7 +44,7 @@
 </div>
 
 <div class="form-group">
-    <label for="gendir" class="col-md-4 control-label">Генеральный директор</label>
+    <label for="gendir" class="col-md-4 control-label">Генеральный директор ФИО</label>
 
     <div class="col-md-6">
         <input id="gendir" type="text" class="form-control" name="gendir"
