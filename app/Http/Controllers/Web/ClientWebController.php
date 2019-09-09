@@ -96,11 +96,13 @@ class ClientWebController extends Controller
 
         if($request->clientType == 'Individual')
         {
+            return 'Individual';
             return self::storeIndividual($request);
         }
 
         if($request->clientType == 'Entity')
         {
+            return 'Entity';
             return self::storeEntity($request);
         }
         return 'Ошибка при регистрации';
