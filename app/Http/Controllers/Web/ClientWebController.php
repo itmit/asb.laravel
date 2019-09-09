@@ -102,7 +102,6 @@ class ClientWebController extends Controller
 
         if($request->clientType == 'Entity')
         {
-            return 'Entity';
             return self::storeEntity($request);
         }
         return 'Ошибка при регистрации';
@@ -149,6 +148,7 @@ class ClientWebController extends Controller
 
     public function storeEntity($request)
     {
+        return $request['ent_organization'];
         $number = $request['ent_phone_number'];
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
