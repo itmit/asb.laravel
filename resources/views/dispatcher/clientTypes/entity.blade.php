@@ -67,4 +67,12 @@
     $(document).ready(function () {
         $('input[type=tel]').mask("+7 (999) 999-99-99");
     });
+
+    $(document).ready(function () {
+        $('input[id=ent_INN]').mask("9999999999");
+    });
+
+    $(document).ready(function () {
+        $('input[id=ent_OGRN]').mask("9999999999999");
+    });
 </script>

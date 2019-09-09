@@ -107,7 +107,6 @@ class ClientWebController extends Controller
 
     public function storeIndividual($request)
     {
-        // return $request['indv_passport'];
         $number = $request['indv_phone_number'];
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
@@ -137,7 +136,9 @@ class ClientWebController extends Controller
             'password' => bcrypt($request['password']),
             'phone_number' => $number,
             'representative' => $request['representative'],
-            'indv_passport' => $request['indv_passport']
+            'passport' => $request['indv_passport'],
+            'type' => 'Individual',
+            'is_active' => 0
         ]);
 
         return redirect()->route('auth.client.index');
@@ -145,39 +146,45 @@ class ClientWebController extends Controller
 
     public function storeEntity($request)
     {
-        return 'stored ent';
-        // $number = $request->input('phone_number');
-        // $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        // $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
-        // $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
-        // $request['phone_number'] = $number;
+        $number = $request['ent_phone_number'];
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        $request['ent_phone_number'] = $number;
 
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:clients',
-        //     'password' => 'required|string|min:6|confirmed',
-        //     'password' => 'required|string|min:6|confirmed|same:password',
-        //     'phone_number' => 'required|string|min:11|unique:clients,phone_number',
-        //     'representative' => 'required',
-        //     'organization' => 'required'
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'ent_organization' => 'required|string|max:255',
+            'ent_INN' => 'required|string|min:10',
+            'ent_OGRN' => 'required|string|min:13',
+            'ent_email' => 'required|string|email|max:255|unique:clients,email',
+            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed|same:password',
+            'ent_phone_number' => 'required|string|min:11|unique:clients,phone_number',
+            'representative' => 'required',
+            'ent_gendir' => 'required|string|max:255'
+        ]);
 
-        // if ($validator->fails()) {
-        //     return redirect()
-        //         ->route('auth.client.create')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        if ($validator->fails()) {
+            return redirect()
+                ->route('auth.client.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        // Client::create([
-        //     'name' => $request->input('name'),
-        //     'email' => $request->input('email'),
-        //     'password' => bcrypt($request->input('password')),
-        //     'phone_number' => $number,
-        //     'representative' => $request->input('representative')
-        // ]);
+        Client::create([
+            'organization' => $request['ent_organization'],
+            'email' => $request['ent_email'],
+            'password' => bcrypt($request['password']),
+            'phone_number' => $number,
+            'representative' => $request['representative'],
+            'INN' => $request['ent_INN'],
+            'OGRN' => $request['ent_OGRN'],
+            'director' => $request['ent_gendir'],
+            'type' => 'Entity',
+            'is_active' => 0
+        ]);
 
-        // return redirect()->route('auth.client.index');
+        return redirect()->route('auth.client.index');
     }
 
     public function destroy(Request $request)
