@@ -94,6 +94,8 @@ class ClientWebController extends Controller
                 ->withInput();
         }
 
+        return $request->clientType;
+
         if($request->clientType == 'Individual')
         {
             return self::storeIndividual($request);
