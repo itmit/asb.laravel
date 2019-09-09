@@ -14,10 +14,10 @@
                 <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>                  
                 @endability
                 <th>Имя</th>
+                <th>Логин</th>
                 <th>Почта</th>
                 <th>Город</th>
                 <th>Дата создания</th>
-                <th>Дата обновления</th>
             </tr>
             </thead>
             <tbody>
@@ -26,11 +26,11 @@
                     @ability('super-admin', 'destroy')
                     <td><input type="checkbox" data-place-id="{{ $representative->id }}" name="destoy-place-{{ $representative->id }}" class="js-destroy"/></td>            
                     @endability
+                    <td>{{ $representative->fio }}</td>
                     <td>{{ $representative->name }}</td>
                     <td>{{ $representative->email }}</td>
                     <td>{{ $representative->city }}</td>
                     <td>{{ $representative->created_at->timezone('Europe/Moscow') }}</td>
-                    <td>{{ $representative->updated_at->timezone('Europe/Moscow') }}</td>
                 </tr>
             @endforeach
             </tbody>
