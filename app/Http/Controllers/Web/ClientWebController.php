@@ -148,12 +148,13 @@ class ClientWebController extends Controller
 
     public function storeEntity($request)
     {
-        return $request['ent_organization'];
         $number = $request['ent_phone_number'];
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
         $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
         $request['ent_phone_number'] = $number;
+
+        return $number;
 
         $validator = Validator::make($request->all(), [
             'ent_organization' => 'required|string|max:255',
