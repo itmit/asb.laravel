@@ -76,6 +76,7 @@ class RepresentativeWebController extends Controller
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'city' => $request->input('city'),
+                'fio' => $request->input('fio'),
                 'password' => bcrypt($request->input('password')),
             ]);
 
@@ -100,6 +101,7 @@ class RepresentativeWebController extends Controller
             'city' => 'required|string|max:150',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'fio' => 'required|string|min:2',
         ]);
     }
 

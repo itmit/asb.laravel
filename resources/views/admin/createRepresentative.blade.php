@@ -7,15 +7,30 @@
             {{ csrf_field() }}
 
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                <label for="name" class="col-md-4 control-label">Имя</label>
+                <label for="name" class="col-md-4 control-label">Логин</label>
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required
-                           autofocus>
+                           autofocus pattern="^[a-zA-Z]+$">
 
                     @if ($errors->has('name'))
                         <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('fio') ? ' has-error' : '' }}">
+                <label for="fio" class="col-md-4 control-label">Имя</label>
+
+                <div class="col-md-6">
+                    <input id="fio" type="text" class="form-control" name="fio" value="{{ old('fio') }}" required
+                           autofocus>
+
+                    @if ($errors->has('fio'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('fio') }}</strong>
                                     </span>
                     @endif
                 </div>
