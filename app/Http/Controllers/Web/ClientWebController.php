@@ -32,6 +32,7 @@ class ClientWebController extends Controller
                 return view('dispatcher.listOfClients', [
                     'clients' => Client::select('*')
                         ->where('is_guard', '<>', 1)
+                        ->where('type', '=', 'Individual')
                         ->orderBy('created_at', 'desc')->get()
                 ]
             );

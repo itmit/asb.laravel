@@ -18,7 +18,7 @@ class CreateClientTable extends Migration
             $table->increments('id');
             $table->integer('representative')->unsigned();
             
-            $table->string('name')->nullable(); // ФИО ДЛЯ ФИЗ ЛИЦ
+            $table->string('name')->nullable()->default(NULL);; // ФИО ДЛЯ ФИЗ ЛИЦ
             $table->string('passport')->unique()->nullable(); // ПАСПОРТ ДЛЯ ФИЗ ЛИЦ
             $table->string('email')->unique();
             $table->string('password');
