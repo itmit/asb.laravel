@@ -51,4 +51,8 @@
     $(document).ready(function () {
         $('input[type=tel]').mask("+7 (999) 999-99-99");
     });
+
+    $(document).ready(function () {
+        $('input[id=indv_passport]').mask("99 99 999999");
+    });
 </script>

@@ -107,39 +107,40 @@ class ClientWebController extends Controller
 
     public function storeIndividual($request)
     {
-        return $request['indv_passport'];
-        // $number = $request->input('phone_number');
-        // $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        // $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
-        // $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
-        // $request['phone_number'] = $number;
+        // return $request['indv_passport'];
+        $number = $request['indv_phone_number'];
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        $request['indv_phone_number'] = $number;
 
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:clients',
-        //     'password' => 'required|string|min:6|confirmed',
-        //     'password' => 'required|string|min:6|confirmed|same:password',
-        //     'phone_number' => 'required|string|min:11|unique:clients,phone_number',
-        //     'representative' => 'required',
-        //     'organization' => 'required'
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'indv_name' => 'required|string|max:255',
+            'indv_email' => 'required|string|email|max:255|unique:clients,email',
+            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed|same:password',
+            'indv_phone_number' => 'required|string|min:11|unique:clients,phone_number',
+            'representative' => 'required',
+            'indv_passport' => 'required|min:12'
+        ]);
 
-        // if ($validator->fails()) {
-        //     return redirect()
-        //         ->route('auth.client.create')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        if ($validator->fails()) {
+            return redirect()
+                ->route('auth.client.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        // Client::create([
-        //     'name' => $request->input('name'),
-        //     'email' => $request->input('email'),
-        //     'password' => bcrypt($request->input('password')),
-        //     'phone_number' => $number,
-        //     'representative' => $request->input('representative')
-        // ]);
+        Client::create([
+            'name' => $request['indv_name'],
+            'email' => $request['indv_email'],
+            'password' => bcrypt($request['password']),
+            'phone_number' => $number,
+            'representative' => $request['representative'],
+            'indv_passport' => $request['representative']
+        ]);
 
-        // return redirect()->route('auth.client.index');
+        return redirect()->route('auth.client.index');
     }
 
     public function storeEntity($request)
