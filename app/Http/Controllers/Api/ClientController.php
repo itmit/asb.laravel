@@ -86,7 +86,6 @@ class ClientController extends ApiBaseController
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:6',
             'phone_number' => 'required|string|min:11|unique:clients,phone_number',
-            'representative' => 'required'
         ]);
 
         if ($validator->fails()) {
