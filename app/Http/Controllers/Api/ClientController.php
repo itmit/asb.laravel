@@ -69,11 +69,19 @@ class ClientController extends ApiBaseController
 
     public function storeEntity($request)
     {
-        $number = $request['ent_phone_number'];
+        $validator = Validator::make($request->all(), [
+            'phone_number' => 'required|string|min:11',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
+        $number = $request['phone_number'];
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
         $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
-        $request['ent_phone_number'] = $number;
+        $request['phone_number'] = $number;
 
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:6',
