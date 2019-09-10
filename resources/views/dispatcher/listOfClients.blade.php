@@ -26,8 +26,8 @@
             @foreach($clients as $client)
                 <tr>
                     <td><input type="checkbox" data-place-id="{{ $client->id }}" name="destoy-place-{{ $client->id }}" class="js-destroy"/></td>
-                <td><a href="client/{{ $client->id }}"> {{ $client->name }} </a></td>
-                    <td>{{ $client->email }}</td>
+                <td><a href="client/{{ $client->id }}"> {{ $client->name ?? "Имя неизвестно" }} </a></td>
+                    <td>{{ $client->email ?? "Почта неизвестна"}}</td>
                     <td>{{ $client->phone_number }}</td>
                     <td>
                         @if($client->is_active)
