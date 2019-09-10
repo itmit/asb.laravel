@@ -11,19 +11,19 @@
                 <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
             </div>
             <div>
-                {{ $client->note }}
+                Примечание о клиенте: {{ $client->note }}
             </div>
             <div>
-                {{ $client->passport }}
+                Паспорт: {{ $client->passport }}
             </div>
             <div>
-                {{ $client->email }}
+                Электронная почта: {{ $client->email }}
             </div>
             <div>
                 {{ $client->type }}
             </div>
             <div>
-                {{ $client->phone_number }}
+                Номер телефона: {{ $client->phone_number }}
             </div>
             <div>
                 <span class="clientActiveStatus">
@@ -59,22 +59,22 @@
                 <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
             </div>
             <div>
-                {{ $client->director }}
+                Генеральный директор: {{ $client->director }}
             </div>
             <div>
-                {{ $client->email }}
+                Электронная почта: {{ $client->email }}
             </div>
             <div>
                 {{ $client->type }}
             </div>
             <div>
-                {{ $client->phone_number }}
+                Номер телефона: {{ $client->phone_number }}
             </div>
             <div>
-                {{ $client->INN }}
+                ИНН: {{ $client->INN }}
             </div>
             <div>
-                {{ $client->OGRN }}
+                ОГРН: {{ $client->OGRN }}
             </div>
             <div>
                 <span class="clientActiveStatus">
