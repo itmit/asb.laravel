@@ -172,7 +172,7 @@ class ClientWebController extends Controller
                 ->withInput();
         }
 
-        Client::create([
+        $client = Client::create([
             'organization' => $request['ent_organization'],
             'email' => $request['ent_email'],
             'password' => bcrypt($request['password']),
@@ -184,6 +184,8 @@ class ClientWebController extends Controller
             'type' => 'Entity',
             'is_active' => 0
         ]);
+
+        return $client;
 
         return redirect()->route('auth.client.index');
     }
