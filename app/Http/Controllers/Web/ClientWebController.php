@@ -248,8 +248,17 @@ class ClientWebController extends Controller
     {
         $clients = Client::all()->where('type', '=', $request->selectClientsByType)->sortByDesc('created_at');
         self::translateType($clients);
-        $clients = collect($clients);
-        return response()->json($clients); 
+        $response = [];
+        foreach ($clients as $client) {
+            $response[] = [
+                'id'   => $client->id,
+                'name' => $client->status,
+                'email' => $client->type,
+                'created_at' => substr($client->created_at->timezone('Europe/Moscow'), 0),
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function clientType(Request $request)
