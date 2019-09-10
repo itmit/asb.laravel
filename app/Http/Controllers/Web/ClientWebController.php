@@ -272,7 +272,6 @@ class ClientWebController extends Controller
         }
         else
         {
-            return $clients;
             switch ($clients->client) {
                 case 'Individual':
                     $client->type = 'Физическое лицо';
