@@ -50,7 +50,6 @@
         {
             $(document).on('change', '#selectClientsByType', function() {
                 let selectClientsByType = $('#selectClientsByType').val();
-                console.log(selectClientsByType);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
@@ -69,8 +68,8 @@
                         result += '</tr>';
                         $('thead').html(result);
                         result = '';
-                        console.log(response.length);
-                        // for(var i = 0; i < response.length; i++) {
+                        for(var i = 0; i < response.length; i++) {
+                            console.log(response[i]);
                         //     result += '<tr>';
                         //     result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
                         //     result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
@@ -80,7 +79,7 @@
                         //     result += '<td>' + response[i]['updated_at'] + '</td>';
                         //     result += '</tr>'; 
                         // }
-                        // $('tbody').html(result);
+                        $('tbody').html(result);
                         // console.log(response);
                     },
                     error: function (xhr, err) { 
