@@ -106,7 +106,15 @@
                                 result += '<td><a href="client/' + response[i]['id'] + '">' + response[i]['name'] + '</a></td>';
                                 result += '<td>' + response[i]['email'] + '</td>';
                                 result += '<td>' + response[i]['phone_number'] + '</td>';
-                                result += '<td>' + response[i]['is_active'] + '</td>';
+                                if(response[i]['is_active'] == 1)
+                                {
+                                    result += '<td>Активен</td>';
+                                }
+                                else
+                                {
+                                    result += '<td>Не активен</td>';
+                                }
+                                
                                 result += '<td>' + response[i]['created_at'] + '</td>';
                                 result += '</tr>'; 
                             }
