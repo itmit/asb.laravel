@@ -17,6 +17,96 @@ class ClientController extends ApiBaseController
 {
     public $successStatus = 200;
 
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'clientType' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('auth.client.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        if($request->clientType == 'Individual')
+        {
+            return self::storeIndividual($request);
+        }
+
+        if($request->clientType == 'Entity')
+        {
+            return self::storeEntity($request);
+        }
+        return 'Ошибка при регистрации';
+    }
+
+    public function storeIndividual($request)
+    {
+        return 'ind';
+        $number = $request['phone_number'];
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        $request['phone_number'] = $number;
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:6',
+            'phone_number' => 'required|string|min:11|unique:clients,phone_number'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('auth.client.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        Client::create([
+            'password' => bcrypt($request['password']),
+            'phone_number' => $number,
+            // 'representative' => $request['representative'],
+            'type' => 'Individual',
+            'is_active' => 0
+        ]);
+
+        return redirect()->route('auth.client.index');
+    }
+
+    public function storeEntity($request)
+    {
+        return 'ent';
+        $number = $request['ent_phone_number'];
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        $request['ent_phone_number'] = $number;
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:6',
+            'phone_number' => 'required|string|min:11|unique:clients,phone_number',
+            'representative' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('auth.client.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $client = Client::create([
+            'password' => bcrypt($request['password']),
+            'phone_number' => $number,
+            // 'representative' => $request['representative'],
+            'type' => 'Entity',
+            'is_active' => 0
+        ]);
+
+        return redirect()->route('auth.client.index');
+    }
+
     /**
      * login api
      *

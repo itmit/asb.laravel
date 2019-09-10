@@ -101,8 +101,6 @@
         </div>
     @endif
     
-    
-
     <script>
     $(document).ready(function()
     {
