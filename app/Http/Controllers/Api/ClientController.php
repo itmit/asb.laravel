@@ -72,7 +72,7 @@ class ClientController extends ApiBaseController
             return response()->json(['error'], 401);
         }
 
-        Client::create([
+        $client = Client::create([
             'password' => bcrypt($request['password']),
             'phone_number' => $number,
             'representative' => $asb->id,
