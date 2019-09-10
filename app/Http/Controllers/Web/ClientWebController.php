@@ -252,8 +252,11 @@ class ClientWebController extends Controller
         foreach ($clients as $client) {
             $response[] = [
                 'id'   => $client->id,
-                'name' => $client->status,
-                'email' => $client->type,
+                'name' => $client->name,
+                'organization' => $client->organization,
+                'email' => $client->email,
+                'phone_number' => $client->phone_number,
+                'is_active' => $client->is_active,
                 'created_at' => substr($client->created_at->timezone('Europe/Moscow'), 0),
             ];
         }
