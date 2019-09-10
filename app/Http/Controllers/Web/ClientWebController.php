@@ -26,6 +26,13 @@ class ClientWebController extends Controller
     {
         $repId = false;
         $user = Auth::user();
+        $asb = User::where('name', '=', 'dispASB')->first(['id']);
+
+        if($asb == NULL)
+        {
+            return response()->json(['error'], 401);
+        }
+
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
@@ -41,6 +48,7 @@ class ClientWebController extends Controller
                 $repId = $user->dispatcher->representative;
                 return view('dispatcher.listOfClients', [
                     'clients' => Client::where('representative', '=', $repId)
+                        ->orWhere('representative', '=', $asb->id)
                         ->where('is_guard', '<>', 1)
                         ->orderBy('created_at', 'desc')->get()
                 ]
@@ -50,6 +58,7 @@ class ClientWebController extends Controller
                 $userId = Auth::id();
                 return view('dispatcher.listOfClients', [
                     'clients' => Client::where('representative', '=', $userId)
+                        ->orWhere('representative', '=', $asb->id)
                         ->where('is_guard', '<>', 1)
                         ->orderBy('created_at', 'desc')->get()
                 ]
