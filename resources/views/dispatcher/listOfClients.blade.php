@@ -4,6 +4,8 @@
     <h1>Клиенты</h1>
     <div class="col-sm-12">
 
+        <a href="{{ route('auth.client.create') }}" class="btn btn-primary">Добавить клиентов</a>
+
         <input type="button" value="Удалить" class="js-destroy-button btn btn-primary">
 
         <select name="selectClientsByType" id="selectClientsByType" class="form-control">
