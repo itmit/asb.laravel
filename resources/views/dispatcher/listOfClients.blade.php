@@ -103,11 +103,11 @@
                                 console.log(response[i]);
                                 result += '<tr>';
                                 result += '<td><input type="checkbox" name="destroy-all-clients" class="js-destroy-all"/></td>';
-                            //     result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
-                            //     result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
-                            //     result += '<td>' + response[i]['type'] + '</td>';
-                            //     result += '<td>' + response[i]['created_at'] + '</td>';
-                            //     result += '<td>' + response[i]['updated_at'] + '</td>';
+                                result += '<td><a href="client/' + response[i]['id'] + '">' + response[i]['name'] + '</a></td>';
+                                result += '<td>' + response[i]['email'] + '</td>';
+                                result += '<td>' + response[i]['phone_number'] + '</td>';
+                                result += '<td>' + response[i]['is_active'] + '</td>';
+                                result += '<td>' + response[i]['created_at'] + '</td>';
                                 result += '</tr>'; 
                             }
                             $('tbody').html(result);
