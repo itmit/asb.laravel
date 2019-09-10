@@ -198,6 +198,7 @@ class ClientWebController extends Controller
     public function show($id)
     {
         $client = Client::where('id', '=', $id)->first();
+
         self::translateType($client);
 
         return view("dispatcher.clientDetail", [
@@ -272,14 +273,14 @@ class ClientWebController extends Controller
         else
         {
             switch ($clients->client) {
-                case 'Alert':
-                    $client->client = 'Физическое лицо';
+                case 'Individual':
+                    $client->type = 'Физическое лицо';
                     break;
-                case 'Call':
-                    $client->client = 'Юридическое лицо';
+                case 'Entity':
+                    $client->type = 'Юридическое лицо';
                     break;
                 default:
-                    $client->client = 'Неопределено';
+                    $client->type = 'Неопределено';
             };
         }
         return $clients;
