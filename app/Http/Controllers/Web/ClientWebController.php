@@ -185,8 +185,6 @@ class ClientWebController extends Controller
             'is_active' => 0
         ]);
 
-        return $request['ent_gendir'];
-
         return redirect()->route('auth.client.index');
     }
 
