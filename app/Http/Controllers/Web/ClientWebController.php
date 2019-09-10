@@ -201,8 +201,6 @@ class ClientWebController extends Controller
 
         self::translateType($client);
 
-        return $client;
-
         return view("dispatcher.clientDetail", [
             'client' => $client
         ]);

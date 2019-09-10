@@ -1,7 +1,7 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    @if($client->type == 'Individual')
+    @if($client->type == 'Физическое лицо')
         <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->name }}</h1>
         <div class="col-sm-12">
             <a href="{{ url()->previous() }}" class="btn btn-primary client-back">Назад</a>
@@ -49,7 +49,7 @@
             <div id="location" style="width: 600px; height: 400px"></div>
         </div>
 
-    @elseif($client->type == 'Entity')
+    @elseif($client->type == 'Юридическое лицо')
         <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->organization }}</h1>
         <div class="col-sm-12">
             <a href="{{ url()->previous() }}" class="btn btn-primary client-back">Назад</a>
