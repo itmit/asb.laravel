@@ -198,6 +198,7 @@ class ClientWebController extends Controller
     public function show($id)
     {
         $client = Client::where('id', '=', $id)->first();
+        self::translateType($client);
 
         return view("dispatcher.clientDetail", [
             'client' => $client
@@ -236,7 +237,7 @@ class ClientWebController extends Controller
     public function selectClientsByType(Request $request)
     {
         $clients = Client::all()->where('type', '=', $request->selectClientsByType)->sortByDesc('created_at');
-        // self::translateType($clients);
+        self::translateType($clients);
         return response()->json($clients); 
     }
 

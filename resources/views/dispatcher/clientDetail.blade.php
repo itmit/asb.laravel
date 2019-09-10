@@ -3,43 +3,105 @@
 @section('content')
     @if($client->type == 'Individual')
         <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->name }}</h1>
+        <div class="col-sm-12">
+            <a href="{{ url()->previous() }}" class="btn btn-primary client-back">Назад</a>
+        </div>
+        <div class="col-sm-12">
+            <div>
+                <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
+            </div>
+            <div>
+                {{ $client->note }}
+            </div>
+            <div>
+                {{ $client->passport }}
+            </div>
+            <div>
+                {{ $client->email }}
+            </div>
+            <div>
+                {{ $client->type }}
+            </div>
+            <div>
+                {{ $client->phone_number }}
+            </div>
+            <div>
+                <span class="clientActiveStatus">
+                    @if($client->is_active)
+                        Активен
+                    @else
+                        Не активен
+                    @endif 
+                </span>
+                @ability('super-admin', 'change-activity')
+                @if($client->is_active)
+                    <input type="checkbox" name="activeClient" id="activeClient" checked>
+                @else
+                    <input type="checkbox" name="activeClient" id="activeClient">
+                @endif                  
+                @endability
+                
+            </div>
+            <div>
+                <button class="btn btn-primary display-location">Показать последнее местоположение</button>
+            </div>
+            <div id="updated_at"></div>
+            <div id="location" style="width: 600px; height: 400px"></div>
+        </div>
+
     @elseif($client->type == 'Entity')
         <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->organization }}</h1>
+        <div class="col-sm-12">
+            <a href="{{ url()->previous() }}" class="btn btn-primary client-back">Назад</a>
+        </div>
+        <div class="col-sm-12">
+            <div>
+                <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
+            </div>
+            <div>
+                {{ $client->director }}
+            </div>
+            <div>
+                {{ $client->email }}
+            </div>
+            <div>
+                {{ $client->type }}
+            </div>
+            <div>
+                {{ $client->phone_number }}
+            </div>
+            <div>
+                {{ $client->INN }}
+            </div>
+            <div>
+                {{ $client->OGRN }}
+            </div>
+            <div>
+                <span class="clientActiveStatus">
+                    @if($client->is_active)
+                        Активен
+                    @else
+                        Не активен
+                    @endif 
+                </span>
+                @ability('super-admin', 'change-activity')
+                @if($client->is_active)
+                    <input type="checkbox" name="activeClient" id="activeClient" checked>
+                @else
+                    <input type="checkbox" name="activeClient" id="activeClient">
+                @endif                  
+                @endability
+                
+            </div>
+            <div>
+                <button class="btn btn-primary display-location">Показать последнее местоположение</button>
+            </div>
+            <div id="updated_at"></div>
+            <div id="location" style="width: 600px; height: 400px"></div>
+        </div>
     @endif
     
-    <div class="col-sm-12">
-        <a href="{{ url()->previous() }}" class="btn btn-primary client-back">Назад</a>
-    </div>
-    <div class="col-sm-12">
-        <div>
-            <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
-        </div>
-        <div>
-            {{ $client->note }}
-        </div>
-        <div>
-            <span class="clientActiveStatus">
-                @if($client->is_active)
-                    Активен
-                @else
-                    Не активен
-                @endif 
-            </span>
-            @ability('super-admin', 'change-activity')
-            @if($client->is_active)
-                <input type="checkbox" name="activeClient" id="activeClient" checked>
-            @else
-                <input type="checkbox" name="activeClient" id="activeClient">
-            @endif                  
-            @endability
-            
-        </div>
-        <div>
-            <button class="btn btn-primary display-location">Показать последнее местоположение</button>
-        </div>
-        <div id="updated_at"></div>
-        <div id="location" style="width: 600px; height: 400px"></div>
-    </div>
+    
 
     <script>
     $(document).ready(function()
