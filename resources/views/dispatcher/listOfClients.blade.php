@@ -87,6 +87,7 @@
                         }
                         if(selectClientsByType == 'Individual')
                         {
+                            console.log(response.length);
                             let result = '';
                             result += '<tr>';
                             result += '<th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>';
