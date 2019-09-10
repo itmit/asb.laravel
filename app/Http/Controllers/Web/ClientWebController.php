@@ -246,9 +246,9 @@ class ClientWebController extends Controller
 
     public function selectClientsByType(Request $request)
     {
-        $clients = Client::all()->where('type', '=', $request->selectClientsByType)->sortByDesc('created_at');
+        $clients = Client::all()->where('type', '=', $request->selectClientsByType)->sortByDesc('created_at')->toArray();
         self::translateType($clients);
-        return response()->json([$clients]); 
+        return response()->json($clients); 
     }
 
     public function clientType(Request $request)
