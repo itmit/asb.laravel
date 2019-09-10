@@ -197,7 +197,7 @@ class ClientWebController extends Controller
 
     public function show($id)
     {
-        $client = Client::where('id', '=', $id)->first();
+        return $client = Client::where('id', '=', $id)->first();
 
         return self::translateType($client);
 
