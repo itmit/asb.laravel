@@ -59,6 +59,7 @@
                     success: function (response) {
                         if(selectClientsByType == 'Entity')
                         {
+                            console.log('Entity');
                             let result = '';
                             result += '<tr>';
                             result += '<th><input type="checkbox" name="destroy-all-clients" class="js-destroy-all"/></th>';
