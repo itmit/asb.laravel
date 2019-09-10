@@ -273,13 +273,13 @@ class ClientWebController extends Controller
         {
             switch ($clients->client) {
                 case 'Alert':
-                    $client->type = 'Физическое лицо';
+                    $client->client = 'Физическое лицо';
                     break;
                 case 'Call':
-                    $client->type = 'Юридическое лицо';
+                    $client->client = 'Юридическое лицо';
                     break;
                 default:
-                    $client->type = 'Неопределено';
+                    $client->client = 'Неопределено';
             };
         }
         return $clients;
