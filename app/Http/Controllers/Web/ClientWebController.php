@@ -246,7 +246,7 @@ class ClientWebController extends Controller
 
     public function selectClientsByType(Request $request)
     {
-        $clients = Client::all()->where('type', '=', $request->selectClientsByType)->sortByDesc('created_at')->toArray();
+        $clients = Client::all()->where('type', '=', $request->selectClientsByType)->sortByDesc('created_at');
         self::translateType($clients);
         return response()->json($clients); 
     }
@@ -281,15 +281,15 @@ class ClientWebController extends Controller
         }
         else
         {
-            switch ($clients['type']) {
+            switch ($clients->type) {
                 case 'Individual':
-                    $clients['type'] = 'Физическое лицо';
+                    $clients->type = 'Физическое лицо';
                     break;
                 case 'Entity':
-                    $clients['type'] = 'Юридическое лицо';
+                    $clients->type = 'Юридическое лицо';
                     break;
                 default:
-                    $clients['type'] = 'Неопределено';
+                    $clients->type = 'Неопределено';
             };
         }
         return $clients;
