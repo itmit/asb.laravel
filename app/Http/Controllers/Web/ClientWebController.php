@@ -199,7 +199,7 @@ class ClientWebController extends Controller
     {
         $client = Client::where('id', '=', $id)->first();
 
-        // self::translateType($client);
+        return self::translateType($client);
 
         return view("dispatcher.clientDetail", [
             'client' => $client
