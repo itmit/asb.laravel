@@ -41,7 +41,6 @@ class ClientController extends ApiBaseController
 
     public function storeIndividual($request)
     {
-        return 'ind';
         $number = $request['phone_number'];
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
@@ -70,7 +69,6 @@ class ClientController extends ApiBaseController
 
     public function storeEntity($request)
     {
-        return 'ent';
         $number = $request['ent_phone_number'];
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
@@ -87,10 +85,19 @@ class ClientController extends ApiBaseController
             return response()->json(['error' => $validator->errors()], 401);
         }
 
+        $asb = User::where('name', '=', 'dispASB')->first(['id']);
+
+        if($asb == NULL)
+        {
+            return response()->json(['error'], 401);
+        }
+
+        return $asb->id;
+
         $client = Client::create([
             'password' => bcrypt($request['password']),
             'phone_number' => $number,
-            // 'representative' => $request['representative'],
+            'representative' => $request['representative'],
             'type' => 'Entity',
             'is_active' => 0
         ]);
