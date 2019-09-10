@@ -119,7 +119,6 @@
                                 result += '</tr>'; 
                             }
                             $('tbody').html(result);
-                            // console.log(response);
                         }
                         
                     },

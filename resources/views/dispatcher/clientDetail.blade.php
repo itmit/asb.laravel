@@ -1,7 +1,12 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->name }}</h1>
+    @if($client->type == 'Individual')
+        <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->name }}</h1>
+    @elseif($client->type == 'Entity')
+        <h1 id="client" data-clientid="{{ $client->id }}">Клиент {{ $client->organization }}</h1>
+    @endif
+    
     <div class="col-sm-12">
         <a href="{{ url()->previous() }}" class="btn btn-primary client-back">Назад</a>
     </div>
