@@ -49,7 +49,7 @@ class ClientController extends ApiBaseController
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
-        
+
         $number = $request['phone_number'];
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
@@ -80,7 +80,25 @@ class ClientController extends ApiBaseController
             'is_active' => 0
         ]);
 
-        return redirect()->route('auth.client.index');
+        Auth::login($client);     
+
+        if (Auth::check()) {
+            $tokenResult = $client->createToken(config('app.name'));
+            $token = $tokenResult->token;
+            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->save();
+
+            return $this->sendResponse([
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ],
+                'Authorization is successful');
+        }
+        
+        return $this->SendError('Authorization error', 'Unauthorised', 401);
     }
 
     public function storeEntity($request)
@@ -123,7 +141,25 @@ class ClientController extends ApiBaseController
             'is_active' => 0
         ]);
 
-        return redirect()->route('auth.client.index');
+        Auth::login($client);     
+
+        if (Auth::check()) {
+            $tokenResult = $client->createToken(config('app.name'));
+            $token = $tokenResult->token;
+            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->save();
+
+            return $this->sendResponse([
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ],
+                'Authorization is successful');
+        }
+        
+        return $this->SendError('Authorization error', 'Unauthorised', 401);
     }
 
     /**
