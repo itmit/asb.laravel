@@ -68,7 +68,7 @@
                         result += '</tr>';
                         $('thead').html(result);
                         result = '';
-                        for(var i = 0; i < response.length; i++) {
+                        for(var i = 1; i <= response.length; i++) {
                             console.log(response[i]);
                             result += '<tr>';
                             result += '<td><a href="client/' + response[i]['id'] + '">' + response[i]['organization'] + '</a></td>';
