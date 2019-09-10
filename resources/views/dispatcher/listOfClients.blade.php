@@ -75,11 +75,33 @@
                                 console.log(response[i]);
                                 result += '<tr>';
                                 result += '<td><input type="checkbox" name="destroy-all-clients" class="js-destroy-all"/></td>';
-                            //     result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
-                            //     result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
-                            //     result += '<td>' + response[i]['type'] + '</td>';
-                            //     result += '<td>' + response[i]['created_at'] + '</td>';
-                            //     result += '<td>' + response[i]['updated_at'] + '</td>';
+                                if(response[i]['organization'] != null)
+                                {
+                                    result += '<td><a href="client/' + response[i]['id'] + '">' + response[i]['organization'] + '</a></td>';
+                                }
+                                else
+                                {
+                                    result += '<td><a href="client/' + response[i]['id'] + '">Наименование неизвестно</a></td>';
+                                }
+                                if(response[i]['email'] != null)
+                                {
+                                    result += '<td>' + response[i]['email'] + '</td>';
+                                }
+                                else
+                                {
+                                    result += '<td>Почта неизвестна</td>';
+                                }
+                                result += '<td>' + response[i]['phone_number'] + '</td>';
+                                if(response[i]['is_active'] == 1)
+                                {
+                                    result += '<td>Активен</td>';
+                                }
+                                else
+                                {
+                                    result += '<td>Не активен</td>';
+                                }
+                                
+                                result += '<td>' + response[i]['created_at'] + '</td>';
                                 result += '</tr>'; 
                             }
                             $('tbody').html(result);
@@ -100,11 +122,24 @@
                             $('thead').html(result);
                             result = '';
                             for(var i = 0; i < response.length; i++) {
-                                console.log(response[i]);
                                 result += '<tr>';
                                 result += '<td><input type="checkbox" name="destroy-all-clients" class="js-destroy-all"/></td>';
-                                result += '<td><a href="client/' + response[i]['id'] + '">' + response[i]['name'] + '</a></td>';
-                                result += '<td>' + response[i]['email'] + '</td>';
+                                if(response[i]['name'] != null)
+                                {
+                                    result += '<td><a href="client/' + response[i]['id'] + '">' + response[i]['name'] + '</a></td>';
+                                }
+                                else
+                                {
+                                    result += '<td><a href="client/' + response[i]['id'] + '">Имя неизвестно</a></td>';
+                                }
+                                if(response[i]['email'] != null)
+                                {
+                                    result += '<td>' + response[i]['email'] + '</td>';
+                                }
+                                else
+                                {
+                                    result += '<td>Почта неизвестна</td>';
+                                }
                                 result += '<td>' + response[i]['phone_number'] + '</td>';
                                 if(response[i]['is_active'] == 1)
                                 {
