@@ -24,10 +24,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return redirect()
-                ->route('auth.client.create')
-                ->withErrors($validator)
-                ->withInput();
+            return response()->json(['error' => $validator->errors()], 401);
         }
 
         if($request->clientType == 'Individual')
@@ -57,10 +54,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return redirect()
-                ->route('auth.client.create')
-                ->withErrors($validator)
-                ->withInput();
+            return response()->json(['error' => $validator->errors()], 401);
         }
 
         Client::create([
@@ -90,10 +84,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return redirect()
-                ->route('auth.client.create')
-                ->withErrors($validator)
-                ->withInput();
+            return response()->json(['error' => $validator->errors()], 401);
         }
 
         $client = Client::create([
@@ -118,6 +109,7 @@ class ClientController extends ApiBaseController
             'phoneNumber' => 'required',
             'password' => 'required'
         ]);
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
