@@ -20,7 +20,7 @@ class CreateClientTable extends Migration
             
             $table->string('name')->nullable()->default(NULL);; // ФИО ДЛЯ ФИЗ ЛИЦ
             $table->string('passport')->unique()->nullable(); // ПАСПОРТ ДЛЯ ФИЗ ЛИЦ
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->rememberToken();
             
