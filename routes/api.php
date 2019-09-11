@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('bid/updateCoordinates', 'Api\BidApiController@updateCoordinates');
     Route::post('client/changePhoto', 'Api\ClientController@changePhoto');
     Route::post('client/note', 'Api\ClientController@note');
-    Route::post('client/edit', 'Api\ClientController@note');
+    Route::post('client/edit', 'Api\ClientController@edit');
     Route::post('client/updateCurrentLocation', 'Api\ClientController@updateCurrentLocation');
 });
 
