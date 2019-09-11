@@ -313,5 +313,28 @@ class ClientController extends ApiBaseController
         }
         return $this->SendError('Update error', [auth('api')->user()->id, $request->all(), DB::getQueryLog()], 401);
     }
+
+    public function edit(Request $request)
+    {
+        $client = Client::where('id', '=', auth('api')->user()->id)
+            ->update([
+                'name' => $request->name,
+                'passport' => $request->passport,
+                'email' => $request->email,
+                'organization' => $request->organization,
+                'INN' => $request->INN,
+                'OGRN' => $request->OGRN,
+                'director' => $request->director,
+                ]);
+
+        if($user > 0)
+        {
+            return $this->sendResponse([
+                $user
+            ],
+                'Updated');
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
     
 }
