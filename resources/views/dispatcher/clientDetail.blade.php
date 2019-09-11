@@ -56,7 +56,7 @@
         </div>
         <div class="col-sm-12">
             <div>
-                <img src="{{URL::asset('/storage/nophoto.png')}}" alt="profile Pic" height="200" width="200">
+                <img src="{{URL::asset()}}/storage/nophoto.png" alt="profile Pic" height="200" width="200">
             </div>
             <div>
                 Генеральный директор: {{ $client->director }}
