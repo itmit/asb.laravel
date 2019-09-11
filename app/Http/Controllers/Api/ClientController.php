@@ -327,10 +327,10 @@ class ClientController extends ApiBaseController
                 'director' => $request->director,
                 ]);
 
-        if($user > 0)
+        if($client > 0)
         {
             return $this->sendResponse([
-                $user
+                $client
             ],
                 'Updated');
         }
