@@ -249,15 +249,15 @@ class BidWebController extends BaseWebController
         if ($user->hasRole('dispatcher'))
         {
             $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
-            $bs = [];
-            foreach ($bids as $bid) {
-                if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
-                    continue;
-                }
-                $bs[] = $bid;
-            }
+            // $bs = [];
+            // foreach ($bids as $bid) {
+            //     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+            //         continue;
+            //     }
+            //     $bs[] = $bid;
+            // }
 
-            if(count($bs) != 0)
+            if(count($bids) != 0)
             {
                 return response()->json(1);
             }
