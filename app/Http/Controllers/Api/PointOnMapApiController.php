@@ -31,8 +31,10 @@ class PointOnMapApiController extends ApiBaseController
         {
             $id = NULL;
             DB::beginTransaction();
+            try {
+            
                 $record = new PointOnMap;
-                usleep(1);
+                // usleep(1);
                 $record->client = auth('api')->user()->id;
                 $record->latitude = $request->input('latitude');
                 $record->longitude = $request->input('longitude');
@@ -40,10 +42,14 @@ class PointOnMapApiController extends ApiBaseController
                 $id = $record->id;
 
                 $record = Bid::where('uid', '=', $request->uid)->lockForUpdate()->first();
-                usleep(1);
+                // usleep(1);
                 $record->location = $id;
                 $record->save();
-            DB::commit();
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+                return $this->sendError(0, 'Ошибка');
+            }
             // $pom = PointOnMap::create([
             //     'client' => auth('api')->user()->id,
             //     'latitude' => $request->input('latitude'),
