@@ -32,14 +32,14 @@ class BidWebController extends BaseWebController
                 $bs = [];
                 self::translateStatus($bids);
                 self::translateType($bids);
-                foreach ($bids as $bid) {
-                    if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
-                        continue;
-                    }
-                    $bs[] = $bid;
-                }
+                // foreach ($bids as $bid) {
+                //     if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+                //         continue;
+                //     }
+                //     $bs[] = $bid;
+                // }
                 return view('dispatcher.listOfBid', [
-                    'bids' => $bs,
+                    'bids' => $bids,
                     'role' => 0
                 ]);
             };
