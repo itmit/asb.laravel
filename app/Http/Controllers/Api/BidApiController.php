@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Bid;
 use App\Models\PointOnMap;
+use App\Models\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
