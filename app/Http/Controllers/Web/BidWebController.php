@@ -88,9 +88,9 @@ class BidWebController extends BaseWebController
                 self::translateStatus($bids);
                 self::translateType($bids);
                 foreach ($bids as $bid) {
-                    if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
-                        continue;
-                    }
+                    // if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
+                    //     continue;
+                    // }
 
                     $response[] = [
                         'id'   => $bid->id,
