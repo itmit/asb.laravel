@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\PointOnMap;
+use App\Models\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -25,6 +26,13 @@ class PointOnMapApiController extends ApiBaseController
 
         if ($validator->fails()) {
             return $this->sendError($validator->errors(), "Validation error", 401);
+        }
+
+        $is_active = Client::where('id', '=', auth('api')->user()->id)->first('is_active');
+
+        if($is_active->is_active != 1)
+        {
+            return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
         if($request->uid)

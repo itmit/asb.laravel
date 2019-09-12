@@ -95,6 +95,13 @@ class BidApiController extends ApiBaseController
             return $this->sendError($validator->errors(), "Validation error", 401);
         }
 
+        $is_active = Client::where('id', '=', auth('api')->user()->id)->first('is_active');
+
+        if($is_active->is_active != 1)
+        {
+            return $this->sendError($is_active->is_active, "Client is not active", 401);
+        }
+
         Bid::create([
             'location' =>
                 PointOnMap::create([
