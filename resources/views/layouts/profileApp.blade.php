@@ -221,6 +221,7 @@
             });
         });
 
+        let bidModal = '';
         setInterval(function(){ 
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -230,8 +231,13 @@
                     success: function (response) {
                         if(response == 1)
                         {
+                            bidModal += '<div style="width: 600px; height: 400px; position: fixed; z-index: 999;"';
+                            bidModal += 'sss';
+                            bidModal += '</div>';
+                            $('body').html(bidModal);
                             let audio = new Audio('alert.mp3');
                             audio.play();
+
                         }
                         
                     },

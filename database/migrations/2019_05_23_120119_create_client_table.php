@@ -24,7 +24,7 @@ class CreateClientTable extends Migration
             $table->string('password');
             $table->rememberToken();
             
-            $table->string('user_picture')->nullable()->default(NULL);
+            $table->string('user_picture')->nullable()->default('storage/avatars/nophoto.png');
             $table->enum('type', ['Individual', 'Entity', 'Guard']); // ВЫБОР ТИПА КЛИЕНТА (ФИЗ ЛИЦО, ЮР ЛИЦО, ОХРАНА)
             $table->string('phone_number')->unique();
             $table->string('organization')->nullable()->default(NULL); // НАИМЕНОВАНИЕ ОРГАЗИНАЦИИ ДЛЯ ЮР ЛИЦ
