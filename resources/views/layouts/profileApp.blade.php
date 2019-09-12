@@ -231,7 +231,7 @@
                     success: function (response) {
                         if(response == 1)
                         {
-                            bidModal += '<div style="width: 600px; height: 400px; position: fixed; z-index: 999;"';
+                            bidModal += '<div style="width: 600px; height: 400px; position: fixed; z-index: 999;">';
                             bidModal += 'sss';
                             bidModal += '</div>';
                             $('body').html(bidModal);
