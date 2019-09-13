@@ -117,7 +117,7 @@
           <h5 class="modal-title">Имеются необработанные тревоги!</h5>
         </div>
         <div class="modal-body">
-          <p>Modal body text goes here.</p>
+          <p class="modal-text">Modal body text goes here.</p>
         </div>
       </div>
     </div>
@@ -246,7 +246,6 @@
                     success: function (response) {
                         if(response != 0)
                         {
-                            console.log(response);
                             if(pathname != '/bid')
                             {
                                 if(openModal == 0)
@@ -256,7 +255,7 @@
                                     backdrop: 'static',
                                     keyboard: false
                                     })
-                                    // $('#myModal').modal('show')
+                                    $('.modal-text').html('Количество активных тревог: ' + response)
                                     openModal = 1;
                                 }
                             }
