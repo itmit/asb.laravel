@@ -251,9 +251,30 @@ class BidWebController extends BaseWebController
         {
             $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
 
-            if(count($bids) != 0)
+            $response = [];
+            if(count($bids) == 1)
             {
-                return response()->json(count($bids));
+                $response = [
+                    'id'   => $bid->id,
+                    'status' => $bid->status,
+                    'type' => $bid->type,
+                    'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+                    'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0),
+                    'location' => [
+                        'latitude' => $bid->location()->latitude,
+                        'longitude' => $bid->location()->longitude
+                    ],
+                    'client' => [
+                        'id' => $bid->location()->client()->id,
+                        'name' => $bid->location()->client()->name,
+                        'email' => $bid->location()->client()->email
+                    ]
+                ];
+                return response()->json($response);
+            }
+            if(count($bids) > 1)
+            {
+
             }
         }
         else return response()->json('');

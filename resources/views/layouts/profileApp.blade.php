@@ -244,7 +244,7 @@
                     url     : '../bid/alarmSound',
                     method    : 'post',
                     success: function (response) {
-                        if(response != 0)
+                        if(response.length != 0)
                         {
                             if(pathname != '/bid')
                             {
@@ -255,12 +255,20 @@
                                     backdrop: 'static',
                                     keyboard: false
                                     })
-                                    $('.modal-text').html('Количество активных тревог: ' + response)
+                                    if(response.length == 1)
+                                    {
+                                        $('.modal-text').html('1 Количество активных тревог: ' + response.length)
+                                    }
+                                    else
+                                    {
+                                        $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                    }
+                                    // $('.modal-text').html('Количество активных тревог: ' + response)
                                     openModal = 1;
                                 }
                                 if(openModal == 1)
                                 {
-                                    $('.modal-text').html('Количество активных тревог: ' + response)
+                                    $('.modal-text').html('Количество активных тревог: ' + response.length)
                                 }
                             }
                             
