@@ -250,7 +250,7 @@
                             {
                                 $('#myModal').modal('toggle');
                                 $('#myModal').modal({
-                                backdrop: ‘static’,
+                                backdrop: 'static',
                                 keyboard: false
                                 })
                                 // $('#myModal').modal('show')
