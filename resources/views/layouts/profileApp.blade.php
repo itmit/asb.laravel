@@ -247,17 +247,20 @@
                         if(response == 1)
                         {
 
-                            console.log(pathname);
-                            if(openModal == 0)
+                            if(pathname != '/bid')
                             {
-                                $('#myModal').modal('toggle');
-                                $('#myModal').modal({
-                                backdrop: 'static',
-                                keyboard: false
-                                })
-                                // $('#myModal').modal('show')
-                                openModal = 1;
+                                if(openModal == 0)
+                                {
+                                    $('#myModal').modal('toggle');
+                                    $('#myModal').modal({
+                                    backdrop: 'static',
+                                    keyboard: false
+                                    })
+                                    // $('#myModal').modal('show')
+                                    openModal = 1;
+                                }
                             }
+                            
                             
                             let audio = new Audio('alert.mp3');
                             audio.play();
