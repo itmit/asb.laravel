@@ -110,6 +110,26 @@
     </div>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 <!-- Scripts -->
 
 <script>
@@ -222,6 +242,7 @@
         });
 
         let bidModal = '';
+        let openModal = 0;
         setInterval(function(){ 
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -231,11 +252,13 @@
                     success: function (response) {
                         if(response == 1)
                         {
-                            // $('.bidModal').remove();
-                            // bidModal += '<div class="bidModal" style="width: 600px; height: 400px; position: fixed; z-index: 999; border: 2px; bottom: 10px; left: 10px">';
-                            // bidModal += 'sss';
-                            // bidModal += '</div>';
-                            // $('body').append(bidModal);
+
+                            if(openModal == 0)
+                            {
+                                $('#myModal').modal('toggle');
+                                openModal = 1;
+                            }
+                            
                             let audio = new Audio('alert.mp3');
                             audio.play();
 
