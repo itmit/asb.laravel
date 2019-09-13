@@ -274,7 +274,25 @@ class BidWebController extends BaseWebController
             }
             if(count($bids) > 1)
             {
-
+                foreach ($bids as $bid) {
+                    $response[] = [
+                        'id'   => $bid->id,
+                        'status' => $bid->status,
+                        'type' => $bid->type,
+                        'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+                        'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0),
+                        'location' => [
+                            'latitude' => $bid->location()->latitude,
+                            'longitude' => $bid->location()->longitude
+                        ],
+                        'client' => [
+                            'id' => $bid->location()->client()->id,
+                            'name' => $bid->location()->client()->name,
+                            'email' => $bid->location()->client()->email
+                        ]
+                    ];
+                }
+                return response()->json($response);
             }
         }
         else return response()->json('');
