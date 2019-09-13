@@ -278,7 +278,7 @@
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('!1 Количество активных тревог: ' + response.length)
+                                            $('.modal-text').append('!1 Количество активных тревог: ' + response.id)
                                         });
                                     }
                                 }
