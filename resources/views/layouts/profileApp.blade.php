@@ -278,8 +278,7 @@
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            console.log(k + v['id']);
-                                            // $('.modal-text').append('<div>!1 Количество активных тревог: ' + response.id + '</div>')
+                                            $('.modal-text').append('<div>!1 Количество активных тревог: ' + v.id + '</div>')
                                         });
                                     }
                                 }
