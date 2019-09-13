@@ -261,7 +261,9 @@
                                     }
                                     else
                                     {
-                                        $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                        response.each(function() {
+                                            $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                        });
                                     }
                                     // $('.modal-text').html('Количество активных тревог: ' + response)
                                     openModal = 1;
@@ -274,7 +276,9 @@
                                     }
                                     else
                                     {
-                                        $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                        response.each(function() {
+                                            $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                        });
                                     }
                                 }
                             }
