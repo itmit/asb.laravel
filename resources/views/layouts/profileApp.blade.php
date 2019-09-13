@@ -236,6 +236,7 @@
 
         let bidModal = '';
         let openModal = 0;
+        var pathname = window.location.pathname;
         setInterval(function(){ 
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -246,6 +247,7 @@
                         if(response == 1)
                         {
 
+                            console.log(pathname);
                             if(openModal == 0)
                             {
                                 $('#myModal').modal('toggle');
