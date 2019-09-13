@@ -268,7 +268,14 @@
                                 }
                                 if(openModal == 1)
                                 {
-                                    $('.modal-text').html('Количество активных тревог: ' + response.length)
+                                    if(response.length == 1)
+                                    {
+                                        $('.modal-text').html('1 Количество активных тревог: ' + response.length)
+                                    }
+                                    else
+                                    {
+                                        $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                    }
                                 }
                             }
                             
