@@ -263,7 +263,7 @@
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('!1 Количество активных тревог: ' + response.length)
+                                            $('.modal-text').append('<div>!1 Количество активных тревог: ' + k.v + '</div>');
                                         });
                                     }
                                     // $('.modal-text').html('Количество активных тревог: ' + response)
@@ -277,8 +277,9 @@
                                     }
                                     else
                                     {
+                                        $('.modal-text').html('');
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div>!1 Количество активных тревог: ' + k.v + '</div>')
+                                            $('.modal-text').append('<div>!1 Количество активных тревог: ' + k.v + '</div>');
                                         });
                                     }
                                 }
