@@ -258,6 +258,10 @@
                                     $('.modal-text').html('Количество активных тревог: ' + response)
                                     openModal = 1;
                                 }
+                                if(openModal == 1)
+                                {
+                                    $('.modal-text').html('Количество активных тревог: ' + response)
+                                }
                             }
                             
                             
