@@ -110,7 +110,7 @@
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog">
+<div class="myModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -256,6 +256,7 @@
                             if(openModal == 0)
                             {
                                 $('#myModal').modal('toggle');
+                                $('#myModal').modal('show')
                                 openModal = 1;
                             }
                             
