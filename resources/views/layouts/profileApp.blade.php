@@ -256,7 +256,7 @@
                             if(openModal == 0)
                             {
                                 $('#myModal').modal('toggle');
-                                $('#myModal').modal('show')
+                                // $('#myModal').modal('show')
                                 openModal = 1;
                             }
                             
