@@ -278,7 +278,7 @@
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div>!1 Количество активных тревог: ' + $(this).response.id + '</div>')
+                                            $('.modal-text').append('<div>!1 Количество активных тревог: ' + response.id + '</div>')
                                         });
                                     }
                                 }
