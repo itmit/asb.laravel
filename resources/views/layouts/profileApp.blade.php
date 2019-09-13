@@ -117,7 +117,7 @@
           <h5 class="modal-title">Имеются необработанные тревоги!</h5>
         </div>
         <div class="modal-body">
-          <p class="modal-text">Modal body text goes here.</p>
+          <p class="modal-text"></p>
         </div>
       </div>
     </div>
@@ -262,7 +262,7 @@
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                            $('.modal-text').append('!1 Количество активных тревог: ' + response.length)
                                         });
                                     }
                                     // $('.modal-text').html('Количество активных тревог: ' + response)
@@ -277,7 +277,7 @@
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('!1 Количество активных тревог: ' + response.length)
+                                            $('.modal-text').append('!1 Количество активных тревог: ' + response.length)
                                         });
                                     }
                                 }
