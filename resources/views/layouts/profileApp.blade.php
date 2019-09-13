@@ -246,7 +246,7 @@
                     success: function (response) {
                         if(response.length != 0)
                         {
-                            console.log(response);
+                            // console.log(response);
                             if(pathname != '/bid')
                             {
                                 if(openModal == 0)
