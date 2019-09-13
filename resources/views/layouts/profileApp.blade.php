@@ -249,6 +249,10 @@
                             if(openModal == 0)
                             {
                                 $('#myModal').modal('toggle');
+                                $('#myModal').modal({
+                                backdrop: ‘static’,
+                                keyboard: false
+                                })
                                 // $('#myModal').modal('show')
                                 openModal = 1;
                             }
