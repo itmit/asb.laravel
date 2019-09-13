@@ -244,9 +244,9 @@
                     url     : '../bid/alarmSound',
                     method    : 'post',
                     success: function (response) {
-                        if(response == 1)
+                        if(response != 0)
                         {
-
+                            console.log(response);
                             if(pathname != '/bid')
                             {
                                 if(openModal == 0)

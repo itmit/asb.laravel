@@ -253,7 +253,7 @@ class BidWebController extends BaseWebController
 
             if(count($bids) != 0)
             {
-                return response()->json(1);
+                return response()->json(count($bids));
             }
         }
         else return response()->json('');
