@@ -229,7 +229,7 @@
             });
         });
 
-        console.log(/^\d+$/.test("in 1992"));
+        console.log(/^\d+$/.test("1992"));
         //  || .test(pathname)
 
         let openModal = 0;
