@@ -232,7 +232,7 @@
         let openModal = 0;
         let openMap = 0;
         var pathname = window.location.pathname;
-        console.log(/\/bid\/\d+$/.test(pathname));
+        // console.log(/\/bid\/\d+$/.test(pathname));
         setInterval(function(){ 
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -242,7 +242,7 @@
                 success: function (response) {
                     if(response.length != 0)
                     {
-                        if(pathname != '/bid')
+                        if(pathname != '/bid' || /\/bid\/\d+$/.test(pathname))
                         {
                             if(openModal == 0)
                             {
