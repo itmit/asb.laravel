@@ -229,13 +229,13 @@
             });
         });
 
-        console.log(/^\d+$/.test("1992"));
+        
         //  || .test(pathname)
 
         let openModal = 0;
         let openMap = 0;
         var pathname = window.location.pathname;
-        console.log(pathname);
+        console.log(/^\d+$/.test(pathname));
         setInterval(function(){ 
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
