@@ -235,6 +235,7 @@
         let openModal = 0;
         let openMap = 0;
         var pathname = window.location.pathname;
+        console.log(pathname);
         setInterval(function(){ 
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
