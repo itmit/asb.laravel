@@ -247,6 +247,8 @@ class BidWebController extends BaseWebController
     {
         $user = Auth::user();
 
+        return $user;
+
         if ($user->hasRole('dispatcher'))
         {
             return response()->json('yes');
