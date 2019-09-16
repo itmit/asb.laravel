@@ -254,7 +254,7 @@ class BidWebController extends BaseWebController
             $response = [];
             if(count($bids) == 1)
             {
-                return $bids;
+                return $bids->bid;
                 $response = [
                     'id'   => $bids->id,
                     'status' => $bids->status,
