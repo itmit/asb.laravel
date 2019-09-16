@@ -256,7 +256,7 @@ class BidWebController extends BaseWebController
             {
                 foreach ($bids as $bid)
                 {
-                    $response = [
+                    $response[] = [
                         'id'   => $bid->id,
                         'status' => $bid->status,
                         'type' => $bid->type,
