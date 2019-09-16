@@ -229,7 +229,7 @@
             });
         });
 
-        if(pathname != '/bid' || pathname != '/bid//^\d+$/')
+        if(pathname != '/bid')
         {
             let openModal = 0;
             let openMap = 0;
@@ -243,56 +243,55 @@
                     success: function (response) {
                         if(response.length != 0)
                         {
-                            
-                                if(openModal == 0)
+                            if(openModal == 0)
+                            {
+                                $('#myModal').modal('toggle');
+                                $('#myModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                                })
+                                if(response.length == 1)
                                 {
-                                    $('#myModal').modal('toggle');
-                                    $('#myModal').modal({
-                                    backdrop: 'static',
-                                    keyboard: false
-                                    })
-                                    if(response.length == 1)
-                                    {
-                                        $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a>Дата создания: ' + v.created_at + '</div>');
-                                        });
+                                    $.each(response, function(k, v) {
+                                        $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a>Дата создания: ' + v.created_at + '</div>');
+                                    });
+                                    $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
+                                }
+                                else
+                                {
+                                    $.each(response, function(k, v) {
+                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
+                                    });
+                                }
+                                openModal = 1;
+                            }
+                            if(openModal == 1)
+                            {
+                                if(response.length == 1)
+                                {
+                                    $.each(response, function(k, v) {
+                                        $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
                                         $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
-                                    }
-                                    else
-                                    {
-                                        $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
-                                        });
-                                    }
-                                    openModal = 1;
+                                        if(openMap == 0)
+                                        {
+                                            myMap = new ymaps.Map("map", {
+                                            center: [v.location.latitude, v.location.longitude],
+                                            zoom: 15
+                                            });
+                                            openMap = 1;
+                                        }
+                                    });
+                                    
+                                    
                                 }
-                                if(openModal == 1)
+                                else
                                 {
-                                    if(response.length == 1)
-                                    {
-                                        $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
-                                            $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
-                                            if(openMap == 0)
-                                            {
-                                                myMap = new ymaps.Map("map", {
-                                                center: [v.location.latitude, v.location.longitude],
-                                                zoom: 15
-                                                });
-                                                openMap = 1;
-                                            }
-                                        });
-                                        
-                                        
-                                    }
-                                    else
-                                    {
-                                        $('.modal-text').html('');
-                                        $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
-                                        });
-                                    }
+                                    $('.modal-text').html('');
+                                    $.each(response, function(k, v) {
+                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
+                                    });
                                 }
+                            }
                             
                             let audio = new Audio('alert.mp3');
                             audio.play();
