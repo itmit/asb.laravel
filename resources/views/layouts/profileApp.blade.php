@@ -229,20 +229,22 @@
             });
         });
 
+        console.log(/[0-9]/.test("in 1992"));
+        //  || /^\d+$/.test(pathname)
+
+        let openModal = 0;
+        let openMap = 0;
         var pathname = window.location.pathname;
-        
-        if(pathname != '/bid')
-        {
-            let openModal = 0;
-            let openMap = 0;
-            setInterval(function(){ 
-                $.ajax({
-                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "json",
-                    url     : '../bid/alarmSound',
-                    method    : 'post',
-                    success: function (response) {
-                        if(response.length != 0)
+        setInterval(function(){ 
+            $.ajax({
+                headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                dataType: "json",
+                url     : '../bid/alarmSound',
+                method    : 'post',
+                success: function (response) {
+                    if(response.length != 0)
+                    {
+                        if(pathname != '/bid')
                         {
                             if(openModal == 0)
                             {
@@ -293,25 +295,26 @@
                                     });
                                 }
                             }
-                            
-                            let audio = new Audio('alert.mp3');
-                            audio.play();
-
-                        }
-                        if(response.length == 0)
-                        {
-                            openModal = 0;
-                            $('#myModal').modal('hide');
                         }
                         
-                    },
-                    error: function (xhr, err) { 
-                        console.log("Error: " + xhr + " " + err);
+                        
+                        let audio = new Audio('alert.mp3');
+                        audio.play();
+
                     }
-                });
+                    if(response.length == 0)
+                    {
+                        openModal = 0;
+                        $('#myModal').modal('hide');
+                    }
+                    
+                },
+                error: function (xhr, err) { 
+                    console.log("Error: " + xhr + " " + err);
+                }
+            });
 
             }, 3000);
-        }
     });
 
 
