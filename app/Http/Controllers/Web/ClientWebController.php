@@ -30,7 +30,7 @@ class ClientWebController extends Controller
 
         if($asb == NULL)
         {
-            return response()->json(['error'], 401);
+            return 'error';
         }
 
         if ($user instanceof User) {
@@ -45,7 +45,7 @@ class ClientWebController extends Controller
             );
             }
             if ($user->hasRole('dispatcher')) {
-                return $repId = $user->dispatcher;
+                return $repId = $user;
                 return view('dispatcher.listOfClients', [
                     'clients' => Client::where('representative', '=', $repId)
                         ->orWhere('representative', '=', $asb->id)
