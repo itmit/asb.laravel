@@ -259,6 +259,7 @@
                                     })
                                     if(response.length == 1)
                                     {
+                                        console.log(response);
                                         $('.modal-text').html('1 Количество активных тревог: ' + response.length)
                                     }
                                     else
@@ -274,10 +275,12 @@
                                 {
                                     if(response.length == 1)
                                     {
+                                        console.log(response);
                                         $('.modal-text').html('1 Количество активных тревог: ' + response.length)
                                     }
                                     else
                                     {
+                                        console.log(response);
                                         $('.modal-text').html('');
                                         $.each(response, function(k, v) {
                                             $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания ' + v.created_at + '</div>');
