@@ -229,13 +229,10 @@
             });
         });
 
-        
-        //  || .test(pathname)
-
         let openModal = 0;
         let openMap = 0;
         var pathname = window.location.pathname;
-        console.log(/^\d+$/.test(pathname));
+        console.log(/\/bid\/\d+$/.test(pathname));
         setInterval(function(){ 
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
