@@ -146,7 +146,6 @@
                 url     : 'clients/delete',
                 method    : 'delete',
                 success: function (response) {
-                    // console.log(response);
                     $(".js-destroy:checked").closest('tr').remove();
                     $(".js-destroy").prop("checked", "");
                 },
@@ -154,7 +153,6 @@
                     console.log("Error: " + xhr + " " + err);
                 }
             });
-            // console.log('sss');
             }
         });
 
@@ -164,8 +162,6 @@
             $(".js-destroy:checked").each(function(){
                 ids.push($(this).data('placeId'));
             });
-            
-            // console.log(ids);
 
             let uSure = confirm('Вы действительно хотите удалить?');
             if(uSure)
@@ -185,7 +181,6 @@
                     console.log("Error: " + xhr + " " + err);
                 }
             });
-            // console.log('sss');
             }
         });
 
@@ -259,12 +254,10 @@
                                     })
                                     if(response.length == 1)
                                     {
-                                        console.log(response);
-                                        $('.modal-text').html('1 Количество активных тревог: ' + response.length)
+                                        $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
                                     }
                                     else
                                     {
-                                        console.log(response);
                                         $.each(response, function(k, v) {
                                             $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания ' + v.created_at + '</div>');
                                         });
@@ -276,12 +269,10 @@
                                 {
                                     if(response.length == 1)
                                     {
-                                        console.log(response);
-                                        $('.modal-text').html('1 Количество активных тревог: ' + response.length)
+                                        $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
                                     }
                                     else
                                     {
-                                        console.log(response);
                                         $('.modal-text').html('');
                                         $.each(response, function(k, v) {
                                             $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания ' + v.created_at + '</div>');
