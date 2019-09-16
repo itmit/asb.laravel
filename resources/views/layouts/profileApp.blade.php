@@ -241,7 +241,7 @@
                     success: function (response) {
                         if(response.length != 0)
                         {
-                            if(pathname != '/bid')
+                            if(pathname != '/bid' || pathname != '/bid//^\d+$/')
                             {
                                 if(openModal == 0)
                                 {
