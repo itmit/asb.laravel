@@ -277,9 +277,7 @@
                                         myMap = new ymaps.Map("map", {
                                         center: [v.location.latitude, v.location.longitude],
                                         zoom: 15
-                                        });
-                                        openMap = 1;
-                                        
+                                        });                                        
                                     });
                                     
                                     
