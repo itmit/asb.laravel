@@ -255,7 +255,7 @@ class BidWebController extends BaseWebController
             if(count($bids) == 1)
             {
                 $response = [
-                    'id'   => $bids->id,
+                    'id'   => $bids['id'],
                     'status' => $bids->status,
                     'type' => $bids->type,
                     'updated_at' => substr($bids->updated_at->timezone('Europe/Moscow'), 0),
