@@ -239,10 +239,8 @@
                     url     : '../bid/alarmSound',
                     method    : 'post',
                     success: function (response) {
-                        // console.log(response.length);
                         if(response.length != 0)
                         {
-                            // console.log(response);
                             if(pathname != '/bid')
                             {
                                 if(openModal == 0)
@@ -255,7 +253,7 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
+                                            $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога! Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> </a>')
                                         });
                                     }
                                     else
@@ -264,7 +262,6 @@
                                             $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания ' + v.created_at + '</div>');
                                         });
                                     }
-                                    // $('.modal-text').html('Количество активных тревог: ' + response)
                                     openModal = 1;
                                 }
                                 if(openModal == 1)
@@ -272,7 +269,7 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
+                                            $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога! Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> </a>')
                                         });
                                     }
                                     else
