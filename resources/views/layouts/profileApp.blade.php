@@ -279,7 +279,7 @@
                                     {
                                         $('.modal-text').html('');
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div>Активная тревога! Клиент: ' + v.client.name + '</div>');
+                                            $('.modal-text').append('<div><div>Активная тревога! Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a></div>');
                                         });
                                     }
                                 }
