@@ -253,13 +253,14 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a>Дата создания ' + v.created_at + '</div>')
+                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a>Дата создания: ' + v.created_at + '</div>');
                                         });
+                                        $('.modal-text').append('<div id="map" style="width: 600px; height: 400px">map</div>');
                                     }
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания ' + v.created_at + '</div>');
+                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
                                         });
                                     }
                                     openModal = 1;
@@ -269,14 +270,15 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания ' + v.created_at + '</div>')
+                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
                                         });
+                                        $('.modal-text').append('<div id="map" style="width: 600px; height: 400px">map</div>');
                                     }
                                     else
                                     {
                                         $('.modal-text').html('');
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания ' + v.created_at + '</div>');
+                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
                                         });
                                     }
                                 }
