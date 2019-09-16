@@ -275,7 +275,9 @@
                                         myMap = new ymaps.Map("map", {
                                         center: [v.location.latitude, v.location.longitude],
                                         zoom: 15
-                                        });                                        
+                                        });   
+                                        let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
+                                        myMap.geoObject.add(placeMark);                                     
                                     });
                                     
                                     
