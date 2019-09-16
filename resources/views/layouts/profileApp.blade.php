@@ -254,7 +254,9 @@
                                     })
                                     if(response.length == 1)
                                     {
-                                        $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
+                                        $.each(response, function(k, v) {
+                                            $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
+                                        });
                                     }
                                     else
                                     {
@@ -269,7 +271,9 @@
                                 {
                                     if(response.length == 1)
                                     {
-                                        $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
+                                        $.each(response, function(k, v) {
+                                            $('.modal-text').html('<a href="../bid/' + v.id + '">Новая активная тревога!</a>')
+                                        });
                                     }
                                     else
                                     {
