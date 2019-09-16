@@ -244,6 +244,7 @@
                     url     : '../bid/alarmSound',
                     method    : 'post',
                     success: function (response) {
+                        console.log(response.length);
                         if(response.length != 0)
                         {
                             // console.log(response);
