@@ -298,7 +298,11 @@ class BidWebController extends BaseWebController
                 }
                 return response()->json($response);
             }
+            if(count($bids) == 0)
+            {
+                return response()->json('');
+            }
         }
-        // else return response()->json('err');
+        else return response()->json('');
     }
 }
