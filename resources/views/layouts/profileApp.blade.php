@@ -271,9 +271,7 @@
                                 {
                                     $.each(response, function(k, v) {
                                         $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
-                                        $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
-                                        if(openMap == 0)
-                                        
+                                        $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');                                        
                                         myMap = new ymaps.Map("map", {
                                         center: [v.location.latitude, v.location.longitude],
                                         zoom: 15
