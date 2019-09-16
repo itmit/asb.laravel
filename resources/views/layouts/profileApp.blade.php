@@ -229,8 +229,8 @@
             });
         });
 
-        console.log(/[0-9]/.test("in 1992"));
-        //  || /^\d+$/.test(pathname)
+        console.log(/^\d+$/.test("in 1992"));
+        //  || .test(pathname)
 
         let openModal = 0;
         let openMap = 0;
