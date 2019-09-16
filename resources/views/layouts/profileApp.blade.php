@@ -242,6 +242,7 @@
                 success: function (response) {
                     if(response.length != 0)
                     {
+                        console.log(/\/bid\/\d+$/.test(pathname));
                         if(pathname != '/bid' || /\/bid\/\d+$/.test(pathname) == false)
                         {
                             if(openModal == 0)
