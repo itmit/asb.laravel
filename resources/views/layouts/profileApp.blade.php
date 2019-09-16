@@ -229,11 +229,12 @@
             });
         });
 
+        var pathname = window.location.pathname;
+        
         if(pathname != '/bid')
         {
             let openModal = 0;
             let openMap = 0;
-            var pathname = window.location.pathname;
             setInterval(function(){ 
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
