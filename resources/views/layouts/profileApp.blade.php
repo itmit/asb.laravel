@@ -243,6 +243,11 @@
                     if(response.length != 0)
                     {
                         console.log(/\/bid\/\d+$/.test(pathname));
+                        if(/\/bid\/\d+$/.test(pathname) == false)
+                        {
+                            console.log('fff');
+                        }
+                        else console.log('ttt');
                         if(pathname != '/bid' || /\/bid\/\d+$/.test(pathname) == true)
                         {
                             if(openModal == 0)
