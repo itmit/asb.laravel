@@ -229,10 +229,12 @@
             });
         });
 
-        let openModal = 0;
-        let openMap = 0;
-        var pathname = window.location.pathname;
-        setInterval(function(){ 
+        if(pathname != '/bid' || pathname != '/bid//^\d+$/')
+        {
+            let openModal = 0;
+            let openMap = 0;
+            var pathname = window.location.pathname;
+            setInterval(function(){ 
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
@@ -241,8 +243,7 @@
                     success: function (response) {
                         if(response.length != 0)
                         {
-                            if(pathname != '/bid' || pathname != '/bid//^\d+$/')
-                            {
+                            
                                 if(openModal == 0)
                                 {
                                     $('#myModal').modal('toggle');
@@ -292,8 +293,6 @@
                                         });
                                     }
                                 }
-                            }
-                            
                             
                             let audio = new Audio('alert.mp3');
                             audio.play();
@@ -312,6 +311,7 @@
                 });
 
             }, 3000);
+        }
     });
 
 
