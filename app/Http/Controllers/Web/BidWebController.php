@@ -255,19 +255,19 @@ class BidWebController extends BaseWebController
             if(count($bids) == 1)
             {
                 $response = [
-                    'id'   => $bid->id,
-                    'status' => $bid->status,
-                    'type' => $bid->type,
-                    'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
-                    'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0),
+                    'id'   => $bids->id,
+                    'status' => $bids->status,
+                    'type' => $bids->type,
+                    'updated_at' => substr($bids->updated_at->timezone('Europe/Moscow'), 0),
+                    'created_at' => substr($bids->created_at->timezone('Europe/Moscow'), 0),
                     'location' => [
-                        'latitude' => $bid->location()->latitude,
-                        'longitude' => $bid->location()->longitude
+                        'latitude' => $bids->location()->latitude,
+                        'longitude' => $bids->location()->longitude
                     ],
                     'client' => [
-                        'id' => $bid->location()->client()->id,
-                        'name' => $bid->location()->client()->name,
-                        'email' => $bid->location()->client()->email
+                        'id' => $bids->location()->client()->id,
+                        'name' => $bids->location()->client()->name,
+                        'email' => $bids->location()->client()->email
                     ]
                 ];
                 return response()->json($response);
