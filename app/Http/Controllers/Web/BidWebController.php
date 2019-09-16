@@ -247,14 +247,6 @@ class BidWebController extends BaseWebController
     {
         $user = Auth::user();
 
-        return $user;
-
-        if ($user->hasRole('dispatcher'))
-        {
-            return response()->json('yes');
-        }
-        else return response()->json('no');
-
         if ($user->hasRole('dispatcher'))
         {
             $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
