@@ -295,6 +295,6 @@ class BidWebController extends BaseWebController
                 return response()->json($response);
             }
         }
-        else return response()->json('err');
     }
+    else return response()->json('err');
 }
