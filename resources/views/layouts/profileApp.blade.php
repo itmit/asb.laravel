@@ -290,6 +290,11 @@
                             audio.play();
 
                         }
+                        if(response.length == 0)
+                        {
+                            openModal = 0;
+                            $('#myModal').modal('hide');
+                        }
                         
                     },
                     error: function (xhr, err) { 
