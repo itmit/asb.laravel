@@ -130,7 +130,7 @@ class ClientWebController extends Controller
             'password' => 'required|string|min:6|confirmed|same:password',
             'indv_phone_number' => 'required|string|min:11|unique:clients,phone_number',
             'representative' => 'required',
-            'indv_passport' => 'required|min:12'
+            'indv_passport' => 'required|min:12|unique:clients,passport'
         ]);
 
         if ($validator->fails()) {
