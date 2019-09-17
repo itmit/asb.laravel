@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\smsc_api;
 
 class ClientController extends ApiBaseController
 {
@@ -369,5 +370,10 @@ class ClientController extends ApiBaseController
                 'Updated');
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+
+    public function sendSMS()
+    {
+        list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79999999999", "Ваш пароль: 123", 1);
     }
 }
