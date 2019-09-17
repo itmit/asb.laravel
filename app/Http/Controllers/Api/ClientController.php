@@ -342,7 +342,7 @@ class ClientController extends ApiBaseController
         $active_from = Client::where('id', '=', auth('api')->user()->id)->first(['active_from']);
 
         $date = date_create();
-        $current_date = date_format($date, 'U = Y-m-d H:i:s');
+        $current_date = date_format($date, 'Y-m-d H:i:s');
 
         return $current_date;
 
