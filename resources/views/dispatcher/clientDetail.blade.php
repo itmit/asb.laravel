@@ -28,7 +28,7 @@
             <div>
                 <span class="clientActiveStatus">
                     @if($client->is_active)
-                        Активен до {{ $client->active_from->timezone('Europe/Moscow') }}
+                        Активен до {{ $client->active_from }}
                     @else
                         Не активен
                     @endif 
@@ -79,7 +79,7 @@
             <div>
                 <span class="clientActiveStatus">
                     @if($client->is_active)
-                        Активен до {{ $client->active_from->timezone('Europe/Moscow') }}
+                        Активен до {{ $client->active_from }}
                     @else
                         Не активен
                     @endif 
