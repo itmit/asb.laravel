@@ -48,6 +48,41 @@ class ResetPasswordApiController extends ApiBaseController
         else return 'err';
         // return 'code: ' . $code . ' hash: ' . password_hash($code, PASSWORD_BCRYPT);
     }
+
+    public function checkCode(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'secret_code' => 'required|string',
+            'phone_number' => 'required|string',
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
+        $number = $request['phone_number'];
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
+        $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        $request['phone_number'] = $number;
+
+        $client = Client::where('phone_number', '=', $request['phone_number'])->first();
+
+        if($client == NULL)
+        {
+            return 'error';
+        }
+
+        $hashCode = password_hash($secret_code, PASSWORD_BCRYPT);
+
+        if(hash_equals($client->hash, $hashCode))
+        {
+            return 'equal';
+        }
+        else return 'not equal';
+
+        // $checkCode = Client::where('id', '=', $client->id)->where('hash', '=')->first();
+    }
 }
 
 // 1379
