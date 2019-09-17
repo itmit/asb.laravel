@@ -39,7 +39,7 @@ class ResetPasswordApiController extends ApiBaseController
         $code = random_int(1000, 9999);
 
         $client = Client::where('phone_number', '=', $request['phone_number'])
-            ->update(['hash' => password_hash($code, PASSWORD_BCRYPT)]);
+            ->update(['hash' => Hash::make($code)]);
 
         if($client != 0)
         {
@@ -72,8 +72,6 @@ class ResetPasswordApiController extends ApiBaseController
         {
             return 'error';
         }
-
-        return $client->hash;
 
         $hashCode = password_hash($request['secret_code'], PASSWORD_BCRYPT);
 
