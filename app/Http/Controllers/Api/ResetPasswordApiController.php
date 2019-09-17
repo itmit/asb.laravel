@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
-class ResetPasswordApiController extends BaseApiController
+class ResetPasswordApiController extends ApiBaseController
 {
     public function resetPassword()
     {
