@@ -37,6 +37,7 @@ class CreateClientTable extends Migration
             $table->boolean('is_guard')->default(0);
             $table->timestamp('active_from')->nullable()->default(NULL);
             $table->boolean('is_active')->default(1);
+            $table->char('hash', 60)->nullable()->default(NULL);
             $table->timestamps();
             
             $table->foreign('representative')->references('id')->on('users')

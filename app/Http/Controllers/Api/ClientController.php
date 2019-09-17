@@ -379,15 +379,4 @@ class ClientController extends ApiBaseController
         // return send_sms("79997913230", "Ваш пароль: 123", 1, 0, 0, 0, "SMSC.RU");
         return send_sms_mail("79997913230", "Ваш пароль: 123");
     }
-
-    // public function resetPassword()
-    // {
-    //     $validator = Validator::make($request->all(), [ 
-    //         'phone_number' => 'required|string',
-    //     ]);
-
-    //     if ($validator->fails()) { 
-    //         return response()->json(['error'=>$validator->errors()], 401);            
-    //     }
-    // }
 }
