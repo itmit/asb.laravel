@@ -376,6 +376,7 @@ class ClientController extends ApiBaseController
 
     public function sendSMS()
     {
-        return send_sms("79997913230", "Ваш пароль: 123", 1, 0, 0, 0, "SMSC.RU");
+        // return send_sms("79997913230", "Ваш пароль: 123", 1, 0, 0, 0, "SMSC.RU");
+        return send_sms_mail("79997913230", "Ваш пароль: 123");
     }
 }
