@@ -29,7 +29,7 @@ define("SMTP_FROM", "api@smsc.ru");     // e-mail адрес отправите�
 // возвращает массив (<id>, <количество sms>, <стоимость>, <баланс>) в случае успешной отправки
 // либо массив (<id>, -<код ошибки>) в случае ошибки
 
-function send_sms($phones, $message, $translit = 0, $time = 0, $id = 0, $format = 0, $sender = false, $query = "", $files = array())
+function send_sms($phones, $message, $translit = 0, $time = 0, $id = 0, $format = 0, $sender = "ASB", $query = "", $files = array())
 {
 	static $formats = array(1 => "flash=1", "push=1", "hlr=1", "bin=1", "bin=2", "ping=1", "mms=1", "mail=1", "call=1", "viber=1", "soc=1");
 
