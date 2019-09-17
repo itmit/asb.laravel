@@ -38,7 +38,7 @@ class ResetPasswordApiController extends ApiBaseController
 
         $code = random_int(1000, 9999);
 
-        return 'code: ' . $code . ' hash: ' . password_hash($code);
+        return 'code: ' . $code . ' hash: ' . password_hash($code, PASSWORD_BCRYPT);
     }
 }
 
