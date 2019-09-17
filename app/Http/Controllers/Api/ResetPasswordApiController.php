@@ -43,7 +43,7 @@ class ResetPasswordApiController extends ApiBaseController
 
         if($client != 0)
         {
-            return 'suc';
+            return 'suc ' . $code;
         }
         else return 'err';
         // return 'code: ' . $code . ' hash: ' . password_hash($code, PASSWORD_BCRYPT);
