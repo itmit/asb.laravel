@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'Api\ClientController@login');
 Route::post('register', 'Api\ClientController@register');
-Route::post('resetPassword', 'Api\ResetPasswordApiController@resetPassword');
+Route::post('forgottPassword', 'Api\ResetPasswordApiController@forgotPassword');
 Route::post('checkCode', 'Api\ResetPasswordApiController@checkCode');
+Route::post('resetPassword', 'Api\ResetPasswordApiController@resetPassword');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('details', 'Api\ClientController@details');
