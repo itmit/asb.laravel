@@ -376,7 +376,6 @@ class ClientController extends ApiBaseController
 
     public function sendSMS()
     {
-        $balance = get_balance();
-        list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79997913230", "Ваш пароль: 123", 1);
+        send_sms("79997913230", "Ваш пароль: 123", 1);
     }
 }
