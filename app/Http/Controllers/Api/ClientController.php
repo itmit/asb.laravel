@@ -344,7 +344,7 @@ class ClientController extends ApiBaseController
         $date = date_create();
         $current_date = date_format($date, 'Y-m-d H:i:s');
 
-        return $current_date;
+        return $active_from;
 
         // if($active_from == NULL || )
 
