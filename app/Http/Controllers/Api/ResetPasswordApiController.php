@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class ResetPasswordApiController extends ApiBaseController
 {
-    public function resetPassword()
+    public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
             'phone_number' => 'required|string',
