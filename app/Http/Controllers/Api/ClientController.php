@@ -340,11 +340,12 @@ class ClientController extends ApiBaseController
     public function setActivityFrom()
     {
         $active_from = Client::where('id', '=', auth('api')->user()->id)->first(['active_from']);
+        $active_from_unix = strtotime($active_from->active_from);
 
         $date = date_create();
         $current_date = date_format($date, 'Y-m-d');
 
-        return 'cur: ' . $current_date . ' active from: ' . gmdate("Y-m-d", strtotime($active_from->active_from));
+        return 'cur: ' . $current_date . ' active from: ' . gmdate("Y-m-d", strtotime($active_from->active_from)) . ' active til: ' . gmdate("Y-m-d", strtotime("+1 week",$active_from_unix));
 
         return $current_date;
 
