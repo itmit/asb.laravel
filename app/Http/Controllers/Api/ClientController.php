@@ -345,11 +345,15 @@ class ClientController extends ApiBaseController
         $date = date_create();
         $current_date = date_format($date, 'Y-m-d');
 
-        return 'cur: ' . $current_date . ' active from: ' . gmdate("Y-m-d", strtotime($active_from->active_from)) . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day",$active_from_unix));
+        // return 'cur: ' . $current_date . ' active from: ' . gmdate("Y-m-d", strtotime($active_from->active_from)) . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day",$active_from_unix));
 
-        return $current_date;
+        // return $current_date;
 
-        // if($active_from == NULL || )
+        if($active_from == NULL || gmdate("Y-m-d", strtotime("+30 day",$active_from_unix)) == $current_date)
+        {
+            return 'payment access';
+        }
+        else return 'payment deniend';
 
         if($client > 0)
         {
