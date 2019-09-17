@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-// include_once "smsc_api.php";
+include_once base_path() . "/app/smsc_api.php";
 
 use App\Models\Client;
 use App\Models\User;
@@ -376,7 +376,6 @@ class ClientController extends ApiBaseController
 
     public function sendSMS()
     {
-        return 'public: ' . public_path() . ' base: ' . base_path();
         list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79997913230", "Ваш пароль: 123", 1);
     }
 }
