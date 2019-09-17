@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+include_once "smsc_api.php";
+
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
