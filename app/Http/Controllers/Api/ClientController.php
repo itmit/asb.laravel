@@ -349,7 +349,7 @@ class ClientController extends ApiBaseController
 
         // return $current_date;
 
-        if($active_from == NULL || gmdate("Y-m-d", strtotime("+30 day",$active_from_unix)) == $current_date)
+        if($active_from->active_from == NULL || gmdate("Y-m-d", strtotime("+30 day",$active_from_unix)) == $current_date)
         {
             return 'payment access';
         }
