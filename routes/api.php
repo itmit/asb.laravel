@@ -27,9 +27,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('client/note', 'Api\ClientController@note');
     Route::post('client/edit', 'Api\ClientController@edit');
     Route::post('client/updateCurrentLocation', 'Api\ClientController@updateCurrentLocation');
+    
 });
 
-Route::post('bid/testFunc', 'Api\BidApiController@testFunc');
+Route::post('client/setActivityFrom', 'Api\ClientController@setActivityFrom');
+
+// Route::post('bid/testFunc', 'Api\BidApiController@testFunc');
 
 Route::fallback(function () {
     $code = 404;

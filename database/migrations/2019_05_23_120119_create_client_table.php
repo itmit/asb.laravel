@@ -35,6 +35,7 @@ class CreateClientTable extends Migration
             $table->double('longitude')->nullable();
             $table->string('note')->nullable();
             $table->boolean('is_guard')->default(0);
+            $table->timestamp('active_from')->nullable()->default(NULL);
             $table->boolean('is_active')->default(1);
             $table->timestamps();
             

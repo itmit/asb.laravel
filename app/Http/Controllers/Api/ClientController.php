@@ -336,5 +336,25 @@ class ClientController extends ApiBaseController
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
-    
+
+    public function setActivityFrom()
+    {
+        $active_from = Client::where('id', '=', auth('api')->user()->id)->first(['active_from']);
+
+        $date = date_create();
+        $current_date = date_format($date, 'U = Y-m-d H:i:s');
+
+        return $current_date;
+
+        // if($active_from == NULL || )
+
+        if($client > 0)
+        {
+            return $this->sendResponse([
+                $client
+            ],
+                'Updated');
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
 }
