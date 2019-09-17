@@ -75,7 +75,7 @@ class ResetPasswordApiController extends ApiBaseController
 
         $hashCode = password_hash($request['secret_code'], PASSWORD_BCRYPT);
 
-        if(hash_equals($client->hash, $hashCode))
+        if (Hash::check($hashCode, $client->hash))
         {
             return 'equal';
         }
