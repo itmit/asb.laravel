@@ -389,46 +389,19 @@ class ClientController extends ApiBaseController
 
         $current_date_unix = date_format($date, 'Y-m-d H:i:s');
 
-        return strtotime($current_date_unix);
-
         foreach($active_clients as $active_client)
         {
             $active_client->active_from = strtotime($active_client->active_from);
 
             if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
             {
-                // send sms
+                return 'time to sms';
             }
 
-            if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
+            if($current_date_unix > strtotime("+30 day", $active_client->active_from))
             {
-                // disable acrive
+                return 'time to disable';
             }
         }
-
-        
-
-        if($active_from->active_from == NULL || gmdate("Y-m-d", strtotime("+30 day", $active_from_unix)) <= $current_date)
-        {
-            $date = date_create();
-            $current_date = date_format($date, 'Y-m-d H:i:s');
-
-            $client = Client::where('id', '=', auth('api')->user()->id)
-            ->update([
-                'is_active' => 1,
-                'active_from' => $current_date
-                ]);
-            return 'payment access';
-        }
-        else return 'payment deniend. Cur: ' . $current_date . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day", $active_from_unix));
-
-        if($client > 0)
-        {
-            return $this->sendResponse([
-                $client
-            ],
-                'Updated');
-        }
-        return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 }
