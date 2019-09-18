@@ -36,6 +36,7 @@ class CreateClientTable extends Migration
             $table->string('note')->nullable();
             $table->boolean('is_guard')->default(0);
             $table->timestamp('active_from')->nullable()->default(NULL);
+            $table->boolean('sms_alert')->default(0);
             $table->boolean('is_active')->default(1);
             $table->char('hash', 60)->nullable()->default(NULL);
             $table->timestamps();

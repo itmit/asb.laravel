@@ -384,19 +384,27 @@ class ClientController extends ApiBaseController
     {   
         $active_clients = Client::whereNotNull('active_from')->get();
 
-        $active_from_unix = [];
+        $date = date_create();
+        $current_date = date_format($date, 'Y-m-d');
+
+        return mktime($current_date);
 
         foreach($active_clients as $active_client)
         {
             $active_client->active_from = strtotime($active_client->active_from);
+
+            if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
+            {
+                // send sms
+            }
+
+            if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
+            {
+                // disable acrive
+            }
         }
 
-        return $active_clients;
-
-        $active_from_unix = strtotime($active_from->active_from);
-
-        $date = date_create();
-        $current_date = date_format($date, 'Y-m-d');
+        
 
         if($active_from->active_from == NULL || gmdate("Y-m-d", strtotime("+30 day", $active_from_unix)) <= $current_date)
         {
