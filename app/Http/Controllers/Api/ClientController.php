@@ -393,11 +393,11 @@ class ClientController extends ApiBaseController
         {
             $active_client->active_from = strtotime($active_client->active_from);
 
-            return gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from));
+            return 'cur: ' . $current_date . ' til: ' . gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from));
 
             if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
             {
-                return ;
+                return 'time to sms';
             }
 
             if($current_date_unix > strtotime("+30 day", $active_client->active_from))
