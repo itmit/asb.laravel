@@ -388,7 +388,7 @@ class ClientController extends ApiBaseController
 
         foreach($active_clients as $active_client)
         {
-            $active_from_unix[] = [strtotime($active_client->active_from)];
+            $active_client->active_from = strtotime($active_client->active_from);
         }
 
         return $active_clients;
