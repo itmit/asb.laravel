@@ -286,7 +286,7 @@ class ClientController extends ApiBaseController
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
-        DB::enableQueryLog();
+        // DB::enableQueryLog();
 
         // $client = Client::where('id', '=', auth('api')->user()->id)
         //     ->update(['latitude' => $request->latitude, 'longitude' => $request->longitude]);
