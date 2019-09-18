@@ -361,9 +361,9 @@ class ClientController extends ApiBaseController
                 'active_from' => $current_date,
                 'sms_alert' => 0
                 ]);
-            return 'payment access';
+            // return 'payment access';
         }
-        else return 'payment deniend. Cur: ' . $current_date . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day", $active_from_unix));
+        // else return 'payment deniend. Cur: ' . $current_date . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day", $active_from_unix));
 
         if($client > 0)
         {
