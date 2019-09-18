@@ -397,7 +397,7 @@ class ClientController extends ApiBaseController
 
             if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
             {
-                return $active_client->active_from;
+                return gmdate("Y-m-d", $active_client->active_from);
             }
 
             if($current_date_unix > strtotime("+30 day", $active_client->active_from))
