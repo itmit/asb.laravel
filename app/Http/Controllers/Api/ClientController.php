@@ -391,11 +391,9 @@ class ClientController extends ApiBaseController
 
         foreach($active_clients as $active_client)
         {
-            return strtotime("+27 day", $active_client->active_from);
-
             $active_client->active_from = strtotime($active_client->active_from);
 
-            
+            return strtotime("+30 day", $active_client->active_from);
 
             if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
             {
