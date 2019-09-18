@@ -397,20 +397,29 @@ class ClientController extends ApiBaseController
 
             // if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
             // {
-            //     self::sendNoticeSMS($active_client->phone_number); // РАБОТАЕТ!!!
+            //     self::sendNoticeSMS($active_client->phone_number, "notice"); // РАБОТАЕТ!!!
             // }
             
             if($current_date_unix > strtotime("+30 day", $active_client->active_from))
             {
-                return 'time to disable';
+                self::sendNoticeSMS($active_client->phone_number, "disable");
             }
         }
 
     }
 
-    public function sendNoticeSMS($phone)
+    public function sendNoticeSMS($phone, string $type)
     {
-        send_sms_mail($phone, "Ваша подписка закончится через 3 дня");
-        return true;
+        if($type == "notice")
+        {
+            send_sms_mail($phone, "Ваша подписка закончится через 3 дня");
+            return true;
+        }
+
+        if($type == "disable")
+        {
+            send_sms_mail($phone, "Ваша подписка закончилась");
+            return true;
+        }
     }
 }
