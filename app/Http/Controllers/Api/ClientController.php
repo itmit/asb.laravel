@@ -350,8 +350,6 @@ class ClientController extends ApiBaseController
 
         // return 'cur: ' . $current_date . ' active from: ' . gmdate("Y-m-d", strtotime($active_from->active_from)) . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day",$active_from_unix));
 
-        $client = 0;
-
         if($active_from->active_from == NULL || gmdate("Y-m-d", strtotime("+30 day", $active_from_unix)) <= $current_date)
         {
             $date = date_create();
@@ -365,7 +363,7 @@ class ClientController extends ApiBaseController
                 ]);
             // return 'payment access';
         }
-        // else return 'payment deniend. Cur: ' . $current_date . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day", $active_from_unix));
+        else return $this->SendError('Payment error', 'Данный аккаунт уже оплачен', 401);
 
         if($client > 0)
         {
