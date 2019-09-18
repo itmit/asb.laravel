@@ -1,0 +1,2 @@
+asb.itmit-studio.ru [Tue Sep 17 16:29:06 2019] [error] [client 50.17.187.84] PHP Fatal error:  Class 'App\\Http\\Controllers\\Api\\ApiController' not found in /home/m/markprogma/asb.itmit-studio.ru/app/Http/Controllers/Api/ResetPasswordApiController.php on line 14
+asb.itmit-studio.ru [Tue Sep 17 16:30:01 2019] [error] [client 50.17.187.84] PHP Fatal error:  Class 'App\\Http\\Controllers\\Api\\BaseApiController' not found in /home/m/markprogma/asb.itmit-studio.ru/app/Http/Controllers/Api/ResetPasswordApiController.php on line 14
