@@ -387,7 +387,7 @@ class ClientController extends ApiBaseController
         $date = date_create();
         $current_date = date_format($date, 'Y-m-d');
 
-        $current_date_unix = date_format($date, 'Y-m-d H:i:s');
+        $current_date_unix = strtotime(date_format($date, 'Y-m-d H:i:s'));
 
         foreach($active_clients as $active_client)
         {
