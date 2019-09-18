@@ -395,11 +395,13 @@ class ClientController extends ApiBaseController
 
             // return 'cur: ' . $current_date . ' til: ' . gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from));
 
-            if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
-            {
-                self::sendNoticeSMS($active_client->phone_number);
-            }
+            // if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
+            // {
+            //     self::sendNoticeSMS($active_client->phone_number); // РАБОТАЕТ!!!
+            // }
 
+            return 'cur: ' . $current_date_unix . ' end: ' . strtotime("+30 day", $active_client->active_from);
+            
             if($current_date_unix > strtotime("+30 day", $active_client->active_from))
             {
                 return 'time to disable';
