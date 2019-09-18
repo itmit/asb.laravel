@@ -387,7 +387,7 @@ class ClientController extends ApiBaseController
         $date = date_create();
         $current_date = date_format($date, 'Y-m-d');
 
-        return mktime($current_date);
+        return strtotime($current_date);
 
         foreach($active_clients as $active_client)
         {
