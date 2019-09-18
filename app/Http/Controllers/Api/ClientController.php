@@ -358,7 +358,8 @@ class ClientController extends ApiBaseController
             $client = Client::where('id', '=', auth('api')->user()->id)
             ->update([
                 'is_active' => 1,
-                'active_from' => $current_date
+                'active_from' => $current_date,
+                'sms_alert' => 0
                 ]);
             return 'payment access';
         }
@@ -395,14 +396,19 @@ class ClientController extends ApiBaseController
 
             // return 'cur: ' . $current_date . ' til: ' . gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from));
 
-            // if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
-            // {
-            //     self::sendNoticeSMS($active_client->phone_number, "notice"); // РАБОТАЕТ!!!
-            // }
+            if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
+            {
+                if($active_client->sms_alert == 0)
+                {
+                    self::sendNoticeSMS($active_client->phone_number, "notice");
+                    $client = Client::where('id', '=', $active_client->id)->update(['sms_alert' => 1]);
+                }
+            }
             
             if($current_date_unix > strtotime("+30 day", $active_client->active_from))
             {
                 self::sendNoticeSMS($active_client->phone_number, "disable");
+                self::deactivateClient($active_client->id);
             }
         }
 
@@ -421,5 +427,10 @@ class ClientController extends ApiBaseController
             send_sms_mail($phone, "Ваша подписка закончилась");
             return true;
         }
+    }
+
+    public function deactivateClient(int $id)
+    {
+        Client::where('id', '=', $id)->update(['sms_alert' => 0, 'is_active' => 0, 'active_from' => NULL]);
     }
 }
