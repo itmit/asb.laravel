@@ -393,11 +393,11 @@ class ClientController extends ApiBaseController
         {
             $active_client->active_from = strtotime($active_client->active_from);
 
-            return 'cur: ' . $current_date . ' til: ' . gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from));
+            // return 'cur: ' . $current_date . ' til: ' . gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from));
 
             if($current_date == gmdate("Y-m-d", strtotime("+27 day", $active_client->active_from)))
             {
-                return 'time to sms';
+                self::sendNoticeSMS($active_client->phone_number);
             }
 
             if($current_date_unix > strtotime("+30 day", $active_client->active_from))
@@ -406,5 +406,11 @@ class ClientController extends ApiBaseController
             }
         }
 
+    }
+
+    public function sendNoticeSMS($phone)
+    {
+        send_sms_mail($phone, "Ваша подписка закончится через 3 дня");
+        return true;
     }
 }
