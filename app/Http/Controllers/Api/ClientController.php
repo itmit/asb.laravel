@@ -399,8 +399,6 @@ class ClientController extends ApiBaseController
             // {
             //     self::sendNoticeSMS($active_client->phone_number); // РАБОТАЕТ!!!
             // }
-
-            return 'cur: ' . $current_date_unix . ' end: ' . strtotime("+30 day", $active_client->active_from);
             
             if($current_date_unix > strtotime("+30 day", $active_client->active_from))
             {
