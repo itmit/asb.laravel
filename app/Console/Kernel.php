@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use DB;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Modal\CLient;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +26,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+
+            DB::table('recent_users')->delete();
+        })->daily();
     }
 
     /**
@@ -38,5 +42,13 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
+    }
+
+    public function checkDates()
+    {   
+        $date = date_create();
+        $current_date = date_format($date, 'Y-m-d H:i:s');
+        
+        $active_clients = Client::where('active_from', '=', auth('api')->user()->id)->first(['active_from']);
     }
 }

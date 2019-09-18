@@ -377,6 +377,48 @@ class ClientController extends ApiBaseController
     public function sendSMS()
     {
         // return send_sms("79997913230", "Ваш пароль: 123", 1, 0, 0, 0, "SMSC.RU");
-        return send_sms_mail("79997913230", "Ваш пароль: 123");
+        // return send_sms_mail("79997913230", "Ваш пароль: 123");
+    }
+
+    public function checkDates()
+    {   
+        $active_clients = Client::whereNotNull('active_from')->get();
+
+        $active_from_unix = [];
+
+        foreach($active_clients as $active_client)
+        {
+            $active_from_unix[] = [strtotime($active_client->active_from)];
+        }
+
+        return $active_clients;
+
+        $active_from_unix = strtotime($active_from->active_from);
+
+        $date = date_create();
+        $current_date = date_format($date, 'Y-m-d');
+
+        if($active_from->active_from == NULL || gmdate("Y-m-d", strtotime("+30 day", $active_from_unix)) <= $current_date)
+        {
+            $date = date_create();
+            $current_date = date_format($date, 'Y-m-d H:i:s');
+
+            $client = Client::where('id', '=', auth('api')->user()->id)
+            ->update([
+                'is_active' => 1,
+                'active_from' => $current_date
+                ]);
+            return 'payment access';
+        }
+        else return 'payment deniend. Cur: ' . $current_date . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day", $active_from_unix));
+
+        if($client > 0)
+        {
+            return $this->sendResponse([
+                $client
+            ],
+                'Updated');
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 }

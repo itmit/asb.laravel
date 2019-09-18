@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::post('client/setActivityFrom', 'Api\ClientController@setActivityFrom');
 Route::post('client/sendSMS', 'Api\ClientController@sendSMS');
 
+Route::post('client/checkDates', 'Api\ClientController@checkDates');
+
 // Route::post('bid/testFunc', 'Api\BidApiController@testFunc');
 
 Route::fallback(function () {
