@@ -90,7 +90,7 @@ class ResetPasswordApiController extends ApiBaseController
         $validator = Validator::make($request->all(), [ 
             'secret_code' => 'required|string',
             'phone_number' => 'required|string',
-            'new_password' => 'required|string',
+            'new_password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) { 
