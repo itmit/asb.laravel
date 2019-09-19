@@ -50,6 +50,7 @@ class ClientWebController extends Controller
                     'clients' => Client::where('representative', '=', $repId)
                         ->orWhere('representative', '=', $asb->id)
                         ->where('is_guard', '<>', 1)
+                        ->where('type', '=', 'Individual')
                         ->orderBy('created_at', 'desc')->get()
                 ]
             );
@@ -60,6 +61,7 @@ class ClientWebController extends Controller
                     'clients' => Client::where('representative', '=', $userId)
                         ->orWhere('representative', '=', $asb->id)
                         ->where('is_guard', '<>', 1)
+                        ->where('type', '=', 'Individual')
                         ->orderBy('created_at', 'desc')->get()
                 ]
             );
