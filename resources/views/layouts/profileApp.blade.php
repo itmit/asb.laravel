@@ -95,7 +95,7 @@
                     @endability
 
                     @ability('super-admin,representative,dispatcher', 'show-guards')
-                    <li><a href="{{ route('auth.guard.index') }}">Охранники</a></li>                    
+                    <li><a href="{{ route('auth.guard.index') }}">ГБР</a></li>                    
                     @endability
 
                     <li><a href="{{ route('auth.bid.index') }}">Заявки</a></li>
@@ -260,7 +260,7 @@
                                 else
                                 {
                                     $.each(response, function(k, v) {
-                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
+                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div><hr>');
                                     });
                                 }
                                 openModal = 1;

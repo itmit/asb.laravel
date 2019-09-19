@@ -1,7 +1,7 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    <h1>Создание охранника</h1>
+    <h1>Создание ГБР</h1>
     <div class="col-sm-12">
         <form class="form-horizontal" method="POST" action="{{ route('auth.guard.store') }}">
             {{ csrf_field() }}
@@ -77,7 +77,7 @@
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">
-                        Создать охранника
+                        Создать ГБР
                     </button>
                 </div>
             </div>

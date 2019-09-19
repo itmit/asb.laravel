@@ -1,11 +1,11 @@
 @extends('layouts.profileApp')
 
 @section('content')
-    <h1>Охранники</h1>
+    <h1>ГБР</h1>
     <div class="col-sm-12">
 
         @ability('super-admin,representative', 'create-guard')
-        <a href="{{ route('auth.guard.create') }}" class="btn btn-primary">Создать охранника</a>
+        <a href="{{ route('auth.guard.create') }}" class="btn btn-primary">Создать ГБР</a>
         <input type="button" value="Удалить" class="js-destroy-button-guard btn btn-primary">
         @endability
 
