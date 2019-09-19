@@ -64,8 +64,8 @@ class BidWebController extends BaseWebController
                         'id'   => $bid->id,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
-                        'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0),
+                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
+                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
                             'latitude' => $bid->location()->latitude,
                             'longitude' => $bid->location()->longitude
@@ -96,8 +96,8 @@ class BidWebController extends BaseWebController
                         'id'   => $bid->id,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
-                        'created_at' => substr($bid->created_at->timezone('Europe/Moscow'), 0),
+                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
+                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
                             'latitude' => $bid->location()->latitude,
                             'longitude' => $bid->location()->longitude
@@ -214,7 +214,7 @@ class BidWebController extends BaseWebController
             self::translateType($bid);
 
             $response = [
-                'updated_at' => substr($bid->updated_at->timezone('Europe/Moscow'), 0),
+                'updated_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                 'location' => [
                     'latitude' => $bid->location()->latitude,
                     'longitude' => $bid->location()->longitude
