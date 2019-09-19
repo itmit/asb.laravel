@@ -99,6 +99,17 @@ class GuardWebController extends Controller
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
         $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
 
+        $validator = Validator::make($number, [
+            'number' => 'unique:clients,phone_number'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('auth.guard.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         Client::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
