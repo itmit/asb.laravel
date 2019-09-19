@@ -8,7 +8,7 @@
         </div>
         <div class="col-sm-12">
             <div>
-                <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200">
+                {{-- <img src="{{URL::asset($client->user_picture)}}" alt="profile Pic" height="200" width="200"> --}}
             </div>
             <div>
                 Примечание о клиенте: {{ $client->note }}
