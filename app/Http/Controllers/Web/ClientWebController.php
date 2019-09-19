@@ -37,32 +37,35 @@ class ClientWebController extends Controller
             if ($user->hasRole('super-admin'))
             {
                 return view('dispatcher.listOfClients', [
-                    'clients' => Client::select('*')
-                        ->where('is_guard', '<>', 1)
-                        ->where('type', '=', 'Individual')
-                        ->orderBy('created_at', 'desc')->get()
+                    // 'clients' => Client::select('*')
+                    //     ->where('is_guard', '<>', 1)
+                    //     ->where('type', '=', 'Individual')
+                    //     ->orderBy('created_at', 'desc')->get()
+                    'clients' => $clients = Client::all()->where('type', '=', 'Individual')->sortByDesc('created_at')
                 ]
             );
             }
             if ($user->hasRole('dispatcher')) {
                 $repId = $user->dispatcher->representative;
                 return view('dispatcher.listOfClients', [
-                    'clients' => Client::where('representative', '=', $repId)
-                        ->orWhere('representative', '=', $asb->id)
-                        ->where('is_guard', '<>', 1)
-                        ->where('type', '=', 'Individual')
-                        ->orderBy('created_at', 'desc')->get()
+                    // 'clients' => Client::where('representative', '=', $repId)
+                    //     ->orWhere('representative', '=', $asb->id)
+                    //     ->where('is_guard', '<>', 1)
+                    //     ->where('type', '=', 'Individual')
+                    //     ->orderBy('created_at', 'desc')->get()
+                    'clients' => $clients = Client::all()->where('type', '=', 'Individual')->sortByDesc('created_at')
                 ]
             );
             }
             if ($user->hasRole('representative')) {
                 $userId = Auth::id();
                 return view('dispatcher.listOfClients', [
-                    'clients' => Client::where('representative', '=', $userId)
-                        ->orWhere('representative', '=', $asb->id)
-                        ->where('is_guard', '<>', 1)
-                        ->where('type', '=', 'Individual')
-                        ->orderBy('created_at', 'desc')->get()
+                    // 'clients' => Client::where('representative', '=', $userId)
+                    //     ->orWhere('representative', '=', $asb->id)
+                    //     ->where('is_guard', '<>', 1)
+                    //     ->where('type', '=', 'Individual')
+                    //     ->orderBy('created_at', 'desc')->get()
+                    'clients' => $clients = Client::all()->where('type', '=', 'Individual')->sortByDesc('created_at')
                 ]
             );
             }
