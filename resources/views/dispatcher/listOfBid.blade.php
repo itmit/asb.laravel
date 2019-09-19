@@ -143,13 +143,8 @@
                 }
             });
             });
-
-            
-
-            $('#myTabs a:last').tab('show') // Select last tab
-
         });
-        $('#myTab a').click(function (e) {
+        $('#myTab li').click(function (e) {
             e.preventDefault()
             $(this).tab('show')
         })
