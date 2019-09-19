@@ -147,6 +147,9 @@
             $(document).on('click', '#bidTab', function() {
                 $(this).tab('show');
                 console.log('show');
+                $('#bidTab').removeClass('active');
+                $(this).addClass('active');
+                
             })
 
         });
