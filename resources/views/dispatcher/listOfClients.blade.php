@@ -13,7 +13,7 @@
             <option value="Entity">Юридические лица</option>
         </select>
 
-        <table class="table table-bordered" style="width: 100%">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th><input type="checkbox" name="destroy-all-places" class="js-destroy-all"/></th>

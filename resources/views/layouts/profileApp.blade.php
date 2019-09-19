@@ -103,7 +103,7 @@
                     <li><a href="{{ route('auth.client.index') }}">Клиенты</a></li>
                 </ul>
             </div>
-            <div class="col-sm-9 tabs-content">
+            <div class="col-sm-9">
                 @yield('content')
             </div>
         </div>
