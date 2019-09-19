@@ -13,6 +13,12 @@
                 <option value="Processed">Выполнена</option>
             </select>
 
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#">Ожидает принятия</a></li>
+                <li><a href="#">Принята</a></li>
+                <li><a href="#">Выполнена</a></li>
+              </ul>
+
             <table class="table table-bordered" style="width: 100%">
                 <thead>
                 <tr>
