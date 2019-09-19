@@ -75,8 +75,7 @@ class GuardWebController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'phone' => 'required|string|min:11',
-            'type' => 'Guard',
+            'phone' => 'required|string|min:11'
         ]);
 
         if ($validator->fails()) {
@@ -106,7 +105,8 @@ class GuardWebController extends Controller
             'password' => bcrypt($request->input('password')),
             'phone_number' => $number,
             'representative' => $repId,
-            'is_guard' => 1
+            'is_guard' => 1,
+            'type' => 'Guard',
         ]);
 
         return redirect()->route('auth.guard.index');
