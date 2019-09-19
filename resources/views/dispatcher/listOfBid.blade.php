@@ -13,7 +13,7 @@
                 <option value="Processed">Выполнена</option>
             </select>
 
-            <ul class="nav nav-tabs" id="bidTab">
+            <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a href="#">Ожидает принятия</a></li>
                 <li><a href="#">Принята</a></li>
                 <li><a href="#">Выполнена</a></li>
@@ -144,12 +144,9 @@
             });
             });
 
-            $(document).on('click', '#bidTab > a', function() {
-                $(this).tab('show');
-                console.log('show');
-                $('#bidTab').removeClass('active');
-                $(this).addClass('active');
-                
+            $('#myTab a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
             })
 
         });
