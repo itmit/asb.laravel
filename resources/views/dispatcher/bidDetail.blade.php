@@ -10,10 +10,10 @@
             Статус: {{ $bid->status }}
         </div>
         <div>
-            Создана: {{ date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))), }}
+            Создана: {{ date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}
         </div>
         <div class="updated">
-            Обновлена: {{ date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))), }}
+            Обновлена: {{ date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))) }}
         </div>
         <div>
             Тип: {{ $bid->type }}
