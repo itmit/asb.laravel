@@ -269,7 +269,8 @@ class BidWebController extends BaseWebController
                         'client' => [
                             'id' => $bid->location()->client()->id,
                             'name' => $bid->location()->client()->name,
-                            'email' => $bid->location()->client()->email
+                            'email' => $bid->location()->client()->email,
+                            'phone_number' => $bid->location()->client()->phone_number
                         ]
                     ];
                 }
@@ -292,7 +293,8 @@ class BidWebController extends BaseWebController
                         'client' => [
                             'id' => $bid->location()->client()->id,
                             'name' => $bid->location()->client()->name,
-                            'email' => $bid->location()->client()->email
+                            'email' => $bid->location()->client()->email,
+                            'phone_number' => $bid->location()->client()->phone_number
                         ]
                     ];
                 }
