@@ -129,12 +129,16 @@ class BidApiController extends ApiBaseController
 
         $userId = Auth::id();
 
-        $guard_enable = Bid::where('status', '=', 'Accepted')->where('guard', '=', $userId)->first();
-
-        if($guard_enable != NULL)
+        if($request['new_status'] == 'Accepted')
         {
-            return $this->SendError('Guard error', 'Данный экипаж уже принял другую заявку', 401);
+            $guard_enable = Bid::where('status', '=', 'Accepted')->where('guard', '=', $userId)->first();
+
+            if($guard_enable != NULL)
+            {
+                return $this->SendError('Guard error', 'Данный экипаж уже принял другую заявку', 401);
+            }
         }
+        
 
         $bid = Bid::where('uid', '=', $request->uid)
             ->update(['status' => $request->new_status, 'guard' => $userId]);
