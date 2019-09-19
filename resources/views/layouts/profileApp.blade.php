@@ -79,7 +79,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" style="width: 90: !important">
         <div class="row">
             <div class="col-sm-3 left-menu">
                 <ul class="nav">
