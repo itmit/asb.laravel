@@ -145,11 +145,10 @@
             });
 
             $(document).on('click', '#bidTab', function() {
-                    e.preventDefault();
+                e.preventDefault();
                     $(this).tab('show');
                     console.log('show');
-                });
-            };
+            })
 
         });
 
