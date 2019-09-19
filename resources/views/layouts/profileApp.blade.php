@@ -114,7 +114,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Имеются необработанные тревоги!</h5>
+          <h2 class="modal-title">Имеются необработанные тревоги!</h2>
         </div>
         <div class="modal-body">
           <p class="modal-text"></p>
