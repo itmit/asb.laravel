@@ -243,55 +243,59 @@
                 success: function (response) {
                     if(response.length != 0)
                     {
-                        if(pathname != '/bid' || urlcheck != true)
+                        if(pathname != '/bid')
                         {
-                            if(openModal == 0)
+                            if(urlcheck != true)
                             {
-                                $('#myModal').modal('toggle');
-                                $('#myModal').modal({
-                                backdrop: 'static',
-                                keyboard: false
-                                })
-                                if(response.length == 1)
+                                if(openModal == 0)
                                 {
-                                    $.each(response, function(k, v) {
-                                        $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a>Дата создания: ' + v.created_at + '</div>');
-                                    });
-                                    $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
+                                    $('#myModal').modal('toggle');
+                                    $('#myModal').modal({
+                                    backdrop: 'static',
+                                    keyboard: false
+                                    })
+                                    if(response.length == 1)
+                                    {
+                                        $.each(response, function(k, v) {
+                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a>Дата создания: ' + v.created_at + '</div>');
+                                        });
+                                        $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
+                                    }
+                                    else
+                                    {
+                                        $.each(response, function(k, v) {
+                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div><hr>');
+                                        });
+                                    }
+                                    openModal = 1;
                                 }
-                                else
+                                if(openModal == 1)
                                 {
-                                    $.each(response, function(k, v) {
-                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div><hr>');
-                                    });
+                                    if(response.length == 1)
+                                    {
+                                        $.each(response, function(k, v) {
+                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
+                                            $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');                                        
+                                            myMap = new ymaps.Map("map", {
+                                            center: [v.location.latitude, v.location.longitude],
+                                            zoom: 15
+                                            });   
+                                            let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
+                                            myMap.geoObject.add(placeMark);                                     
+                                        });
+                                        
+                                        
+                                    }
+                                    else
+                                    {
+                                        $('.modal-text').html('');
+                                        $.each(response, function(k, v) {
+                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div><hr>');
+                                        });
+                                    }
                                 }
-                                openModal = 1;
                             }
-                            if(openModal == 1)
-                            {
-                                if(response.length == 1)
-                                {
-                                    $.each(response, function(k, v) {
-                                        $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
-                                        $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');                                        
-                                        myMap = new ymaps.Map("map", {
-                                        center: [v.location.latitude, v.location.longitude],
-                                        zoom: 15
-                                        });   
-                                        let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
-                                        myMap.geoObject.add(placeMark);                                     
-                                    });
-                                    
-                                    
-                                }
-                                else
-                                {
-                                    $('.modal-text').html('');
-                                    $.each(response, function(k, v) {
-                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div><hr>');
-                                    });
-                                }
-                            }
+                            
                         }
                         
                         
