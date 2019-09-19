@@ -7,11 +7,11 @@
 
             {{-- <div id="map" style="width: 600px; height: 400px"></div> --}}
 
-            <select name="selectBidsByStatus" id="selectBidsByStatus">
+            {{-- <select name="selectBidsByStatus" id="selectBidsByStatus">
                 <option value="PendingAcceptance" selected>Ожидает принятия</option>
                 <option value="Accepted">Принята</option>
                 <option value="Processed">Выполнена</option>
-            </select>
+            </select> --}}
 
             <ul class="nav nav-tabs" id="myTab">
                 <li data-type="PendingAcceptance" class="active"><a href="#">Ожидает принятия</a></li>
@@ -61,7 +61,7 @@
             if(role == 0)
             {
                 setInterval(function(){ 
-                let selectBidsByStatus = $('#selectBidsByStatus').val();
+                let selectBidsByStatus = $('#myTab li .active').data('type');
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
@@ -147,7 +147,7 @@
         $('#myTab li').click(function (e) {
             e.preventDefault()
             $(this).tab('show')
-            console.log($(this).data('type'))
+            // console.log($(this).data('type'))
             let selectBidsByStatus = $(this).data('type');
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
