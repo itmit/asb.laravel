@@ -145,9 +145,8 @@
             });
 
             $(document).on('click', '#bidTab', function() {
-                e.preventDefault();
-                    $(this).tab('show');
-                    console.log('show');
+                $(this).tab('show');
+                console.log('show');
             })
 
         });
