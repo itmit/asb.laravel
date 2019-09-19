@@ -149,7 +149,7 @@
                     $(this).tab('show');
                     console.log('show');
                 });
-            });
+            };
 
         });
 
