@@ -286,7 +286,7 @@
                                 {
                                     $('.modal-text').html('');
                                     $.each(response, function(k, v) {
-                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div>');
+                                        $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div><hr>');
                                     });
                                 }
                             }
