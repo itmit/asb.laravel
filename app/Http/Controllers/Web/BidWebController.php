@@ -260,8 +260,8 @@ class BidWebController extends BaseWebController
                         'id'   => $bid->id,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => date('d-m-Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-                        'created_at' => date('d-m-Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
+                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
+                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
                             'latitude' => $bid->location()->latitude,
                             'longitude' => $bid->location()->longitude
@@ -283,8 +283,8 @@ class BidWebController extends BaseWebController
                         'id'   => $bid->id,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => date('d-m-Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-                        'created_at' => date('d-m-Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
+                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
+                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
                             'latitude' => $bid->location()->latitude,
                             'longitude' => $bid->location()->longitude
