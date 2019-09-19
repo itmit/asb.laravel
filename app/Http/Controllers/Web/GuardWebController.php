@@ -99,7 +99,7 @@ class GuardWebController extends Controller
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
         $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
 
-        $validator = Validator::make($number, [
+        $validator = Validator::make($number->all(), [
             'number' => 'unique:clients,phone_number'
         ]);
 
