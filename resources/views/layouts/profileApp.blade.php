@@ -243,7 +243,7 @@
                 success: function (response) {
                     if(response.length != 0)
                     {
-                        if(pathname != '/bid')
+                        if(pathname != '/bid' || urlcheck != true)
                         {
                             if(openModal == 0)
                             {
