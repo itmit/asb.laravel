@@ -14,9 +14,9 @@
             </select>
 
             <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a href="#">Ожидает принятия</a></li>
-                <li><a href="#">Принята</a></li>
-                <li><a href="#">Выполнена</a></li>
+                <li class="active"><a href="#" data-type="PendingAcceptance">Ожидает принятия</a></li>
+                <li><a href="#" data-type="Accepted">Принята</a></li>
+                <li><a href="#" data-type="Processed">Выполнена</a></li>
             </ul>
 
             <table class="table table-bordered" style="width: 100%">
@@ -147,6 +147,7 @@
         $('#myTab li').click(function (e) {
             e.preventDefault()
             $(this).tab('show')
+            console.log($(this).data('type'))
         })
     </script>
     <script>
