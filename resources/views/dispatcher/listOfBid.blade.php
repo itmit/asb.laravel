@@ -61,7 +61,7 @@
             if(role == 0)
             {
                 setInterval(function(){ 
-                let selectBidsByStatus = $('#myTab li .active').data('type');
+                let selectBidsByStatus = $('#myTab li > .active').data('type');
                 console.log(selectBidsByStatus);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
