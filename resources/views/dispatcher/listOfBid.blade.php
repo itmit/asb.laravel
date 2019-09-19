@@ -17,7 +17,7 @@
                 <li class="active"><a href="#">Ожидает принятия</a></li>
                 <li><a href="#">Принята</a></li>
                 <li><a href="#">Выполнена</a></li>
-              </ul>
+            </ul>
 
             <table class="table table-bordered" style="width: 100%">
                 <thead>
@@ -144,7 +144,7 @@
             });
             });
 
-            $(document).on('click', '#bidTab a', function() {
+            $(document).on('click', '#bidTab > a', function() {
                 $(this).tab('show');
                 console.log('show');
                 $('#bidTab').removeClass('active');
