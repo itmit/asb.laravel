@@ -14,9 +14,9 @@
             </select>
 
             <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a href="#" data-type="PendingAcceptance">Ожидает принятия</a></li>
-                <li><a href="#" data-type="Accepted">Принята</a></li>
-                <li><a href="#" data-type="Processed">Выполнена</a></li>
+                <li  data-type="PendingAcceptance" class="active"><a href="#">Ожидает принятия</a></li>
+                <li data-type="Accepted><a href="#"">Принята</a></li>
+                <li data-type="Processed"><a href="#">Выполнена</a></li>
             </ul>
 
             <table class="table table-bordered" style="width: 100%">
