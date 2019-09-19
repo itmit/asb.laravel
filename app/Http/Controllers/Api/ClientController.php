@@ -61,7 +61,8 @@ class ClientController extends ApiBaseController
 
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:6',
-            'phone_number' => 'required|string|min:11|unique:clients,phone_number'
+            'phone_number' => 'required|string|min:11|unique:clients,phone_number',
+            'name' => 'required|string|min:2',
         ]);
 
         if ($validator->fails()) {
@@ -78,6 +79,7 @@ class ClientController extends ApiBaseController
         $client = Client::create([
             'password' => bcrypt($request['password']),
             'phone_number' => $number,
+            'name' => $request['name'],
             'representative' => $asb->id,
             'type' => 'Individual',
             'is_active' => 0
@@ -123,6 +125,7 @@ class ClientController extends ApiBaseController
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:6',
             'phone_number' => 'required|string|min:11|unique:clients,phone_number',
+            'organization' => 'required|string|min:2',
         ]);
 
         if ($validator->fails()) {
@@ -139,6 +142,7 @@ class ClientController extends ApiBaseController
         $client = Client::create([
             'password' => bcrypt($request['password']),
             'phone_number' => $number,
+            'organization' => $request['organization'],
             'representative' => $asb->id,
             'type' => 'Entity',
             'is_active' => 0
