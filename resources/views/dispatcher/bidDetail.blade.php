@@ -8,17 +8,12 @@
     <div class="col-sm-12">
         <div data-bidstatus = "{{ $bid->status }}" class="bidstatus">
             Статус: {{ $bid->status }}
-            {{-- <select id="changeBidStatus" name="changeBidStatus">
-                <option value="Accepted">Accepted</option>
-                <option value="PendingAcceptance">PendingAcceptance</option>
-                <option value="Processed">Processed</option>
-            </select> --}}
         </div>
         <div>
-            Создана: {{ $bid->created_at->timezone('Europe/Moscow') }}
+            Создана: {{ date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))), }}
         </div>
         <div class="updated">
-            Обновлена: {{ $bid->updated_at->timezone('Europe/Moscow') }}
+            Обновлена: {{ date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))), }}
         </div>
         <div>
             Тип: {{ $bid->type }}
