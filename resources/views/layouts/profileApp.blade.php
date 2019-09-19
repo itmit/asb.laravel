@@ -274,7 +274,7 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.phone_number +'</div>');
+                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
                                             $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');                                        
                                             myMap = new ymaps.Map("map", {
                                             center: [v.location.latitude, v.location.longitude],
@@ -290,7 +290,7 @@
                                     {
                                         $('.modal-text').html('');
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.phone_number +'</div><hr>');
+                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
                                         });
                                     }
                                 }
