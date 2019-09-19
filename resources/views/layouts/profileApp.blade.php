@@ -231,7 +231,8 @@
 
         let openModal = 0;
         var pathname = window.location.pathname;
-        console.log(/\/bid\/\d+$/.test(pathname)); 
+        let urlcheck = /\/bid\/\d+$/.test(pathname); 
+        console.log(urlcheck);
         // || /\/bid\/\d+$/.test(pathname) == false
         setInterval(function(){ 
             $.ajax({
