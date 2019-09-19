@@ -98,7 +98,7 @@ class RepresentativeWebController extends Controller
     public function getValidator(Request $request)
     {
         return Validator::make($request->all(), [
-            'name' => 'required|string|max:255|Rule::notIn(["dispASB"])',
+            'name' => 'required|string|max:255',
             'city' => 'required|string|max:150',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
