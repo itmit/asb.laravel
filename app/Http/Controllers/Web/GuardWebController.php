@@ -98,9 +98,10 @@ class GuardWebController extends Controller
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $phoneNumberObject = $phoneNumberUtil->parse($number, 'RU');
         $number = $phoneNumberUtil->format($phoneNumberObject, \libphonenumber\PhoneNumberFormat::E164);
+        $request['phone'] = $number;
 
-        $validator = Validator::make($number->all(), [
-            'number' => 'unique:clients,phone_number'
+        $validator = Validator::make($request->all(), [
+            'phone' => 'unique:clients,phone_number'
         ]);
 
         if ($validator->fails()) {
