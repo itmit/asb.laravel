@@ -38,7 +38,7 @@
                         Не активен
                         @endif
                     </td>
-                    <td>{{ $client->created_at->timezone('Europe/Moscow') }}</td>
+                    <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>
                 </tr>
             @endforeach
             </tbody>
