@@ -28,7 +28,7 @@ class PointOnMapApiController extends ApiBaseController
             return $this->sendError($validator->errors(), "Validation error", 401);
         }
 
-        $is_active = Client::where('id', '=', auth('api')->user()->id)->first('is_active');
+        $is_active = Client::where('id', '=', auth('api')->user()->id)->first(['is_active']);
 
         if($is_active->is_active != 1)
         {
