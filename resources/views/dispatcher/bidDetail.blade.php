@@ -21,6 +21,9 @@
         <div>
             Клиент: <a href="../client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name }}</a>
         </div>
+        <div>
+            Телефон: {{ $bid->location()->client()->phone_number }}
+        </div>
         @if($bid->status != 'Ожидает принятия')
         <div id="guard" data-guardlongitude="{{ $guard->longitude }}" data-guardlatitude="{{ $guard->latitude }}">
             Заявку принял: <a href="../guard/{{ $bid->guard }}">ГБР {{ $guard->name }}</a>
