@@ -29,6 +29,64 @@
                 </div>
             </div>
 
+            <div>
+                @if ($errors->has('indv_name'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('indv_name') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('indv_email'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('indv_email') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('password'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('indv_phone_number'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('indv_phone_number') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('indv_passport'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('indv_passport') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('ent_organization'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('ent_organization') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('ent_INN'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('ent_INN') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('ent_OGRN'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('ent_OGRN') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('ent_email'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('ent_email') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('ent_phone_number'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('ent_phone_number') }}</strong>
+                    </span>
+                @endif
+                @if ($errors->has('ent_gendir'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('ent_gendir') }}</strong>
+                    </span>
+                @endif
+            </div>
+
             <div id="clientCreateForm">
     
                 <div class="form-group">
