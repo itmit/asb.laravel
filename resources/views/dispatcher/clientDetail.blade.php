@@ -42,9 +42,11 @@
                 @endability
                 
             </div>
+            @ability('super-admin', 'show-last-location')
             <div>
                 <button class="btn btn-primary display-location">Показать последнее местоположение</button>
             </div>
+            @endability
             <div id="updated_at"></div>
             <div id="location" style="width: 600px; height: 400px"></div>
         </div>
