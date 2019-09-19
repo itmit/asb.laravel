@@ -62,6 +62,7 @@
             {
                 setInterval(function(){ 
                 let selectBidsByStatus = $('#myTab li .active').data('type');
+                console.log(selectBidsByStatus);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
