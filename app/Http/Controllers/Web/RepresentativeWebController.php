@@ -99,7 +99,7 @@ class RepresentativeWebController extends Controller
         return Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'city' => 'required|string|max:150',
-            'email' => 'required|string|email|max:255|unique:clients',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'fio' => 'required|string|min:2',
         ]);
