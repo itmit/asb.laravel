@@ -144,13 +144,15 @@
             });
             });
 
-            $('#myTab a').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            })
+            
+
+            $('#myTabs a:last').tab('show') // Select last tab
 
         });
-
+        $('#myTab a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
     </script>
     <script>
         $('.left-menu > .nav > *:nth-child(5)').addClass('active');
