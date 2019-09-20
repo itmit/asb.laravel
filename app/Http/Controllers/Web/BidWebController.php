@@ -63,7 +63,11 @@ class BidWebController extends BaseWebController
                     $guard = Client::where('id', '=', $bid->guard)->first();
                     if($guard == NULL)
                     {
-                        $guard->name = '';
+                        $guard_name = '';
+                    }
+                    else
+                    {
+                        $guard_name = $guard->name;
                     }
                     $response[] = [
                         'id'   => $bid->id,
@@ -81,7 +85,7 @@ class BidWebController extends BaseWebController
                             'organization' => $bid->location()->client()->organization,
                             'email' => $bid->location()->client()->email
                         ],
-                        'guard' => $guard->name,
+                        'guard' => $guard_name,
                     ];
                 }
 
@@ -99,6 +103,14 @@ class BidWebController extends BaseWebController
                     //     continue;
                     // }
                     $guard = Client::where('id', '=', $bid->guard)->first();
+                    if($guard == NULL)
+                    {
+                        $guard_name = '';
+                    }
+                    else
+                    {
+                        $guard_name = $guard->name;
+                    }
 
                     $response[] = [
                         'id'   => $bid->id,
@@ -116,7 +128,7 @@ class BidWebController extends BaseWebController
                             'organization' => $bid->location()->client()->organization,
                             'email' => $bid->location()->client()->email
                         ],
-                        'guard' => $guard->name,
+                        'guard' => $guard_name,
                     ];
                 }
 
