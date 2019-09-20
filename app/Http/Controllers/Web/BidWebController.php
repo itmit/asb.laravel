@@ -60,6 +60,7 @@ class BidWebController extends BaseWebController
                 self::translateStatus($bids);
                 self::translateType($bids);
                 foreach ($bids as $bid) {
+                    $guard = Client::where('id', '=', $bid->guard)->first();
                     $response[] = [
                         'id'   => $bid->id,
                         'status' => $bid->status,
@@ -76,7 +77,7 @@ class BidWebController extends BaseWebController
                             'organization' => $bid->location()->client()->organization,
                             'email' => $bid->location()->client()->email
                         ],
-                        'guard' => $bid->location()->client()->guard,
+                        'guard' => $guard->name,
                     ];
                 }
 
@@ -93,6 +94,7 @@ class BidWebController extends BaseWebController
                     // if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
                     //     continue;
                     // }
+                    $guard = Client::where('id', '=', $bid->guard)->first();
 
                     $response[] = [
                         'id'   => $bid->id,
@@ -110,7 +112,7 @@ class BidWebController extends BaseWebController
                             'organization' => $bid->location()->client()->organization,
                             'email' => $bid->location()->client()->email
                         ],
-                        'guard' => $bid->location()->client()->guard,
+                        'guard' => $guard->name,
                     ];
                 }
 
@@ -225,7 +227,8 @@ class BidWebController extends BaseWebController
                 ],
                 'guard' => [
                     'guard_latitude' => $guard->latitude,
-                    'guard_longitude' => $guard->longitude
+                    'guard_longitude' => $guard->longitude,
+                    'guard_name' => $guard->name,
                 ]
             ];
         }
