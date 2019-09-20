@@ -6,6 +6,7 @@ include_once base_path() . "/app/smsc_api.php";
 
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Bid;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -226,7 +227,21 @@ class ClientController extends ApiBaseController
      */
     public function details()
     {
-        return $this->SendResponse(auth('api')->user()->toArray(), "");
+        $userId = Auth::id();
+
+        $guard_enable = Bid::where('status', '=', 'Accepted')->where('guard', '=', $userId)->first();
+
+        $client = auth('api')->user()->toArray();
+
+        if($guard_enable != NULL)
+        {
+            $client['on_duty'] = 1;
+        }
+
+        else $client['on_duty'] = 0;
+
+        // return $this->SendResponse(auth('api')->user()->toArray(), "");
+        return $this->SendResponse($client, "");
     }
 
     public function changePhoto(Request $request)
