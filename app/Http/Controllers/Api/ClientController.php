@@ -236,9 +236,14 @@ class ClientController extends ApiBaseController
         if($guard_enable != NULL)
         {
             $client['on_duty'] = 1;
+            $client['bid_uuid'] = $guard_enable->uid;
         }
 
-        else $client['on_duty'] = 0;
+        else
+        {
+            $client['on_duty'] = 0;
+            $client['bid_uuid'] = '';
+        }
 
         // return $this->SendResponse(auth('api')->user()->toArray(), "");
         return $this->SendResponse($client, "");
