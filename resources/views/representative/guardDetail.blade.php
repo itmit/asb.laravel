@@ -3,6 +3,9 @@
 @section('content')
     <h1 id="guard" data-clientid="{{ $guard->id }}">ГБР</h1>
     <div class="col-sm-12">
+        <a href="{{ url()->previous() }}">Назад</a>
+    </div>
+    <div class="col-sm-12">
         <div>
             Наименование: {{ $guard->name }}
         </div>
