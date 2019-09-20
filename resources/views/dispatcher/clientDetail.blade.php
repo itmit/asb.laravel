@@ -28,7 +28,7 @@
             <div>
                 <span class="clientActiveStatus">
                     @if($client->is_active)
-                        Активен до {{ $client->active_from }}
+                        Активен с {{ $client->active_from }}
                     @else
                         Не активен
                     @endif 
