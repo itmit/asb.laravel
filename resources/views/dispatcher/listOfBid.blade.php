@@ -87,7 +87,7 @@
                         let bidsCount = $('tbody').html();
                         if (bidsCount != '')
                         {
-                            if($('#selectBidsByStatus').val() == "PendingAcceptance")
+                            if(selectBidsByStatus == "PendingAcceptance")
                             {
                                 if(bidColor)
                                 {
