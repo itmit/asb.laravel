@@ -79,9 +79,8 @@
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr class="bid">';
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
-                            if(response[i]['client']['name'] == null)
-                            {
-                                
+                            if(!response[i]['client']['name'])
+                            {     
                                 result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['organization'] + '</a></td>';
                             }
                             else
