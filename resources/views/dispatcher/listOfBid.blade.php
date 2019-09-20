@@ -24,6 +24,7 @@
                 <tr>
                     <th>Статус</th>
                     <th>Клиент</th>
+                    <th>ГБР</th>
                     <th>Место</th>
                     <th>Тип</th>
                     <th>Дата создания</th>
@@ -42,6 +43,13 @@
                                     @endif
                                 </a>
                             </div>
+                        </td>
+                        <td>
+                            
+                                @if($bid->location()->client()->guard != NULL)
+                                @else {{ $bid->location()->client()->guard }}
+                                @endif
+                            
                         </td>
                         <td>
                             {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
@@ -79,7 +87,7 @@
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr class="bid">';
                             result += '<td><a href="bid/' + response[i]['id'] + '">' + response[i]['status'] + '</a></td>';
-                            if(!response[i]['client']['name'])
+                            if(response[i]['client']['name'] == null)
                             {     
                                 result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['organization'] + '</a></td>';
                             }
