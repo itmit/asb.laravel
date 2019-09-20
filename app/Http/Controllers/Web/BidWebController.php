@@ -61,6 +61,10 @@ class BidWebController extends BaseWebController
                 self::translateType($bids);
                 foreach ($bids as $bid) {
                     $guard = Client::where('id', '=', $bid->guard)->first();
+                    if($guard == NULL)
+                    {
+                        $guard->name = '';
+                    }
                     $response[] = [
                         'id'   => $bid->id,
                         'status' => $bid->status,
