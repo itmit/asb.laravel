@@ -95,6 +95,7 @@
                             {
                                 result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
                             }
+                            result += '<td>' + response[i]['guard'] + '</td>';
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
                             result += '<td>' + response[i]['type'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
