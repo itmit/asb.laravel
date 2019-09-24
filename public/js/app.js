@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,8 +70,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(3);
-var isBuffer = __webpack_require__(18);
+var bind = __webpack_require__(2);
+var isBuffer = __webpack_require__(21);
 
 /*global toString:true*/
 
@@ -247,9 +247,13 @@ function trim(str) {
  *
  * react-native:
  *  navigator.product -> 'ReactNative'
+ * nativescript
+ *  navigator.product -> 'NativeScript' or 'NS'
  */
 function isStandardBrowserEnv() {
-  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+  if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' ||
+                                           navigator.product === 'NativeScript' ||
+                                           navigator.product === 'NS')) {
     return false;
   }
   return (
@@ -331,6 +335,32 @@ function merge(/* obj1, obj2, obj3, ... */) {
 }
 
 /**
+ * Function equal to merge with the difference being that no reference
+ * to original objects is kept.
+ *
+ * @see merge
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function deepMerge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = deepMerge(result[key], val);
+    } else if (typeof val === 'object') {
+      result[key] = deepMerge({}, val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
  * Extends object a by mutably adding to it the properties of object b.
  *
  * @param {Object} a The object to be extended
@@ -368,6 +398,7 @@ module.exports = {
   isStandardBrowserEnv: isStandardBrowserEnv,
   forEach: forEach,
   merge: merge,
+  deepMerge: deepMerge,
   extend: extend,
   trim: trim
 };
@@ -405,10 +436,118 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      } else {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(20);
+var normalizeHeaderName = __webpack_require__(26);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -422,12 +561,13 @@ function setContentTypeIfUnset(headers, value) {
 
 function getDefaultAdapter() {
   var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(5);
-  } else if (typeof process !== 'undefined') {
+  // Only Node.JS has a process variable that is of [[Class]] process
+  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(7);
+  } else if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(7);
   }
   return adapter;
 }
@@ -436,6 +576,7 @@ var defaults = {
   adapter: getDefaultAdapter(),
 
   transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
     normalizeHeaderName(headers, 'Content-Type');
     if (utils.isFormData(data) ||
       utils.isArrayBuffer(data) ||
@@ -470,6 +611,10 @@ var defaults = {
     return data;
   }],
 
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
   timeout: 0,
 
   xsrfCookieName: 'XSRF-TOKEN',
@@ -498,28 +643,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -709,19 +836,18 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(21);
-var buildURL = __webpack_require__(23);
-var parseHeaders = __webpack_require__(24);
-var isURLSameOrigin = __webpack_require__(25);
-var createError = __webpack_require__(6);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(26);
+var settle = __webpack_require__(27);
+var buildURL = __webpack_require__(3);
+var parseHeaders = __webpack_require__(29);
+var isURLSameOrigin = __webpack_require__(30);
+var createError = __webpack_require__(8);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -733,22 +859,6 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
 
     // HTTP basic authentication
     if (config.auth) {
@@ -763,8 +873,8 @@ module.exports = function xhrAdapter(config) {
     request.timeout = config.timeout;
 
     // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
         return;
       }
 
@@ -781,15 +891,26 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        status: request.status,
+        statusText: request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
       };
 
       settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle browser request cancellation (as opposed to a manual cancellation)
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request));
 
       // Clean up request
       request = null;
@@ -818,12 +939,12 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(27);
+      var cookies = __webpack_require__(31);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
+        cookies.read(config.xsrfCookieName) :
+        undefined;
 
       if (xsrfValue) {
         requestHeaders[config.xsrfHeaderName] = xsrfValue;
@@ -896,13 +1017,13 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(22);
+var enhanceError = __webpack_require__(28);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -921,19 +1042,65 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
+var utils = __webpack_require__(0);
+
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
+
+  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    }
+  });
+
+  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
+    if (utils.isObject(config2[prop])) {
+      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
+    } else if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (utils.isObject(config1[prop])) {
+      config[prop] = utils.deepMerge(config1[prop]);
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  utils.forEach([
+    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+    'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
+    'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
+    'socketPath'
+  ], function defaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  return config;
 };
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -959,15 +1126,124 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 11 */
+/***/ (function(module, exports) {
 
-__webpack_require__(10);
-module.exports = __webpack_require__(45);
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
 
 
 /***/ }),
-/* 10 */
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(13);
+module.exports = __webpack_require__(52);
+
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -977,9 +1253,9 @@ module.exports = __webpack_require__(45);
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(11);
+__webpack_require__(14);
 
-window.Vue = __webpack_require__(37);
+window.Vue = __webpack_require__(42);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -987,21 +1263,22 @@ window.Vue = __webpack_require__(37);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', __webpack_require__(41));
+Vue.component('example-component', __webpack_require__(46));
+Vue.component('my-component', __webpack_require__(49));
 
 var app = new Vue({
   el: '#app'
 });
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__(36);
 
-window._ = __webpack_require__(12);
+window._ = __webpack_require__(15);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -1010,9 +1287,9 @@ window._ = __webpack_require__(12);
  */
 
 try {
-    window.$ = window.jQuery = __webpack_require__(14);
+    window.$ = window.jQuery = __webpack_require__(17);
 
-    __webpack_require__(15);
+    __webpack_require__(18);
 } catch (e) {}
 
 /**
@@ -1021,7 +1298,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(16);
+window.axios = __webpack_require__(19);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -1045,31 +1322,20 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
-
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key',
-//     cluster: 'mt1',
-//     encrypted: true
-// });
 
 
-
-window.Pusher = __webpack_require__(36);
+window.Pusher = __webpack_require__(37);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo__["a" /* default */]({
     broadcaster: 'pusher',
-    key: Object({"NODE_ENV":"development"}).MIX_PUSHER_APP_KEY,
-    cluster: Object({"NODE_ENV":"development"}).MIX_PUSHER_APP_CLUSTER,
+    key: 'MyKey',
     wsHost: window.location.hostname,
-    wsPort: 6001
+    wsPort: 6001,
+    disableStats: true
 });
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -18186,10 +18452,10 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo__["a" /* default */](
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(13)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(16)(module)))
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -18217,7 +18483,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -28822,7 +29088,7 @@ return jQuery;
 
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /*!
@@ -31408,22 +31674,23 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
+module.exports = __webpack_require__(20);
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(3);
-var Axios = __webpack_require__(19);
-var defaults = __webpack_require__(2);
+var bind = __webpack_require__(2);
+var Axios = __webpack_require__(22);
+var mergeConfig = __webpack_require__(9);
+var defaults = __webpack_require__(5);
 
 /**
  * Create an instance of Axios
@@ -31452,19 +31719,19 @@ axios.Axios = Axios;
 
 // Factory for creating new instances
 axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(8);
-axios.CancelToken = __webpack_require__(33);
-axios.isCancel = __webpack_require__(7);
+axios.Cancel = __webpack_require__(10);
+axios.CancelToken = __webpack_require__(34);
+axios.isCancel = __webpack_require__(4);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(34);
+axios.spread = __webpack_require__(35);
 
 module.exports = axios;
 
@@ -31473,7 +31740,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports) {
 
 /*!
@@ -31483,33 +31750,24 @@ module.exports.default = axios;
  * @license  MIT
  */
 
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(28);
-var dispatchRequest = __webpack_require__(29);
+var buildURL = __webpack_require__(3);
+var InterceptorManager = __webpack_require__(23);
+var dispatchRequest = __webpack_require__(24);
+var mergeConfig = __webpack_require__(9);
 
 /**
  * Create a new instance of Axios
@@ -31533,13 +31791,14 @@ Axios.prototype.request = function request(config) {
   /*eslint no-param-reassign:0*/
   // Allow for axios('example/url'[, config]) a la fetch API
   if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
   }
 
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
-  config.method = config.method.toLowerCase();
+  config = mergeConfig(this.defaults, config);
+  config.method = config.method ? config.method.toLowerCase() : 'get';
 
   // Hook up interceptors middleware
   var chain = [dispatchRequest, undefined];
@@ -31558,6 +31817,11 @@ Axios.prototype.request = function request(config) {
   }
 
   return promise;
+};
+
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
 };
 
 // Provide aliases for supported request methods
@@ -31586,400 +31850,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
-    }
-  });
-};
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var createError = __webpack_require__(6);
-
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
-  if (!response.status || !validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError(
-      'Request failed with status code ' + response.status,
-      response.config,
-      null,
-      response.request,
-      response
-    ));
-  }
-};
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-module.exports = function enhanceError(error, config, code, request, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-  error.request = request;
-  error.response = response;
-  return error;
-};
-
-
-/***/ }),
 /* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-function encode(val) {
-  return encodeURIComponent(val).
-    replace(/%40/gi, '@').
-    replace(/%3A/gi, ':').
-    replace(/%24/g, '$').
-    replace(/%2C/gi, ',').
-    replace(/%20/g, '+').
-    replace(/%5B/gi, '[').
-    replace(/%5D/gi, ']');
-}
-
-/**
- * Build a URL by appending params to the end
- *
- * @param {string} url The base of the url (e.g., http://www.google.com)
- * @param {object} [params] The params to be appended
- * @returns {string} The formatted url
- */
-module.exports = function buildURL(url, params, paramsSerializer) {
-  /*eslint no-param-reassign:0*/
-  if (!params) {
-    return url;
-  }
-
-  var serializedParams;
-  if (paramsSerializer) {
-    serializedParams = paramsSerializer(params);
-  } else if (utils.isURLSearchParams(params)) {
-    serializedParams = params.toString();
-  } else {
-    var parts = [];
-
-    utils.forEach(params, function serialize(val, key) {
-      if (val === null || typeof val === 'undefined') {
-        return;
-      }
-
-      if (utils.isArray(val)) {
-        key = key + '[]';
-      }
-
-      if (!utils.isArray(val)) {
-        val = [val];
-      }
-
-      utils.forEach(val, function parseValue(v) {
-        if (utils.isDate(v)) {
-          v = v.toISOString();
-        } else if (utils.isObject(v)) {
-          v = JSON.stringify(v);
-        }
-        parts.push(encode(key) + '=' + encode(v));
-      });
-    });
-
-    serializedParams = parts.join('&');
-  }
-
-  if (serializedParams) {
-    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-  }
-
-  return url;
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-// Headers whose duplicates are ignored by node
-// c.f. https://nodejs.org/api/http.html#http_message_headers
-var ignoreDuplicateOf = [
-  'age', 'authorization', 'content-length', 'content-type', 'etag',
-  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
-  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
-  'referer', 'retry-after', 'user-agent'
-];
-
-/**
- * Parse headers into an object
- *
- * ```
- * Date: Wed, 27 Aug 2014 08:58:49 GMT
- * Content-Type: application/json
- * Connection: keep-alive
- * Transfer-Encoding: chunked
- * ```
- *
- * @param {String} headers Headers needing to be parsed
- * @returns {Object} Headers parsed into an object
- */
-module.exports = function parseHeaders(headers) {
-  var parsed = {};
-  var key;
-  var val;
-  var i;
-
-  if (!headers) { return parsed; }
-
-  utils.forEach(headers.split('\n'), function parser(line) {
-    i = line.indexOf(':');
-    key = utils.trim(line.substr(0, i)).toLowerCase();
-    val = utils.trim(line.substr(i + 1));
-
-    if (key) {
-      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
-        return;
-      }
-      if (key === 'set-cookie') {
-        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
-      } else {
-        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
-      }
-    }
-  });
-
-  return parsed;
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
-
-    /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      var href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
-);
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
-
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
-        }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
-
-  // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
-);
-
-
-/***/ }),
-/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32038,18 +31909,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 29 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(30);
-var isCancel = __webpack_require__(7);
-var defaults = __webpack_require__(2);
-var isAbsoluteURL = __webpack_require__(31);
-var combineURLs = __webpack_require__(32);
+var transformData = __webpack_require__(25);
+var isCancel = __webpack_require__(4);
+var defaults = __webpack_require__(5);
+var isAbsoluteURL = __webpack_require__(32);
+var combineURLs = __webpack_require__(33);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -32131,7 +32002,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 30 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32158,7 +32029,302 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(8);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  if (!validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+
+  error.request = request;
+  error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function() {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code
+    };
+  };
+  return error;
+};
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+    (function standardBrowserEnv() {
+      var msie = /(msie|trident)/i.test(navigator.userAgent);
+      var urlParsingNode = document.createElement('a');
+      var originURL;
+
+      /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+      function resolveURL(url) {
+        var href = url;
+
+        if (msie) {
+        // IE needs attribute set twice to normalize properties
+          urlParsingNode.setAttribute('href', href);
+          href = urlParsingNode.href;
+        }
+
+        urlParsingNode.setAttribute('href', href);
+
+        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+        return {
+          href: urlParsingNode.href,
+          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+          host: urlParsingNode.host,
+          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+          hostname: urlParsingNode.hostname,
+          port: urlParsingNode.port,
+          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+            urlParsingNode.pathname :
+            '/' + urlParsingNode.pathname
+        };
+      }
+
+      originURL = resolveURL(window.location.href);
+
+      /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+      return function isURLSameOrigin(requestURL) {
+        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+        return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+      };
+    })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return function isURLSameOrigin() {
+        return true;
+      };
+    })()
+);
+
+
+/***/ }),
 /* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+    (function standardBrowserEnv() {
+      return {
+        write: function write(name, value, expires, path, domain, secure) {
+          var cookie = [];
+          cookie.push(name + '=' + encodeURIComponent(value));
+
+          if (utils.isNumber(expires)) {
+            cookie.push('expires=' + new Date(expires).toGMTString());
+          }
+
+          if (utils.isString(path)) {
+            cookie.push('path=' + path);
+          }
+
+          if (utils.isString(domain)) {
+            cookie.push('domain=' + domain);
+          }
+
+          if (secure === true) {
+            cookie.push('secure');
+          }
+
+          document.cookie = cookie.join('; ');
+        },
+
+        read: function read(name) {
+          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+          return (match ? decodeURIComponent(match[3]) : null);
+        },
+
+        remove: function remove(name) {
+          this.write(name, '', Date.now() - 86400000);
+        }
+      };
+    })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return {
+        write: function write() {},
+        read: function read() { return null; },
+        remove: function remove() {}
+      };
+    })()
+);
+
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32179,7 +32345,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32200,13 +32366,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(8);
+var Cancel = __webpack_require__(10);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -32264,7 +32430,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32298,7 +32464,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33552,11 +33718,11 @@ var Echo = function () {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/*!
- * Pusher JavaScript Library v5.0.0
+/* WEBPACK VAR INJECTION */(function(Buffer) {/*!
+ * Pusher JavaScript Library v5.0.1
  * https://pusher.com/
  *
  * Copyright 2017, Pusher
@@ -33894,8 +34060,8 @@ var jsonp_timeline_1 = __webpack_require__(28);
 var transports_1 = __webpack_require__(29);
 var net_info_1 = __webpack_require__(33);
 var default_strategy_1 = __webpack_require__(34);
-var transport_connection_initializer_1 = __webpack_require__(58);
-var http_1 = __webpack_require__(59);
+var transport_connection_initializer_1 = __webpack_require__(54);
+var http_1 = __webpack_require__(55);
 var Runtime = {
     nextAuthCallbackID: 1,
     auth_callbacks: {},
@@ -34329,8 +34495,8 @@ var presence_channel_1 = __webpack_require__(41);
 var private_channel_1 = __webpack_require__(12);
 var encrypted_channel_1 = __webpack_require__(43);
 var channel_1 = __webpack_require__(17);
-var connection_manager_1 = __webpack_require__(51);
-var channels_1 = __webpack_require__(52);
+var connection_manager_1 = __webpack_require__(47);
+var channels_1 = __webpack_require__(48);
 var Factory = {
     createChannels: function () {
         return new channels_1["default"]();
@@ -34414,7 +34580,7 @@ exports.ScriptReceivers = new ScriptReceiverFactory("_pusher_script_", "Pusher.S
 
 exports.__esModule = true;
 var Defaults = {
-    VERSION: "5.0.0",
+    VERSION: "5.0.1",
     PROTOCOL: 7,
     host: 'ws.pusherapp.com',
     ws_port: 80,
@@ -34543,12 +34709,12 @@ exports.__esModule = true;
 var runtime_1 = __webpack_require__(1);
 var Collections = __webpack_require__(0);
 var dispatcher_1 = __webpack_require__(4);
-var timeline_1 = __webpack_require__(68);
+var timeline_1 = __webpack_require__(64);
 var level_1 = __webpack_require__(19);
-var strategy_builder_1 = __webpack_require__(69);
+var strategy_builder_1 = __webpack_require__(65);
 var timers_1 = __webpack_require__(6);
 var defaults_1 = __webpack_require__(9);
-var DefaultConfig = __webpack_require__(71);
+var DefaultConfig = __webpack_require__(67);
 var logger_1 = __webpack_require__(3);
 var factory_1 = __webpack_require__(7);
 var url_store_1 = __webpack_require__(10);
@@ -35899,11 +36065,11 @@ exports.__esModule = true;
 var Collections = __webpack_require__(0);
 var transport_manager_1 = __webpack_require__(35);
 var sequential_strategy_1 = __webpack_require__(18);
-var best_connected_ever_strategy_1 = __webpack_require__(53);
-var cached_strategy_1 = __webpack_require__(54);
-var delayed_strategy_1 = __webpack_require__(55);
-var if_strategy_1 = __webpack_require__(56);
-var first_connected_strategy_1 = __webpack_require__(57);
+var best_connected_ever_strategy_1 = __webpack_require__(49);
+var cached_strategy_1 = __webpack_require__(50);
+var delayed_strategy_1 = __webpack_require__(51);
+var if_strategy_1 = __webpack_require__(52);
+var first_connected_strategy_1 = __webpack_require__(53);
 function testSupportsStrategy(strategy) {
     return function () {
         return strategy.isSupported();
@@ -38989,7 +39155,7 @@ nacl.setPRNG = function(fn) {
 /* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {// Written in 2014-2016 by Dmitry Chestnykh and Devi Mandiri.
+// Written in 2014-2016 by Dmitry Chestnykh and Devi Mandiri.
 // Public domain.
 (function(root, f) {
   'use strict';
@@ -39071,14 +39237,1427 @@ nacl.setPRNG = function(fn) {
 
 }));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(47).Buffer))
 
 /***/ }),
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*!
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var dispatcher_1 = __webpack_require__(4);
+var timers_1 = __webpack_require__(6);
+var logger_1 = __webpack_require__(3);
+var Collections = __webpack_require__(0);
+var runtime_1 = __webpack_require__(1);
+var ConnectionManager = (function (_super) {
+    __extends(ConnectionManager, _super);
+    function ConnectionManager(key, options) {
+        var _this = _super.call(this) || this;
+        _this.key = key;
+        _this.options = options || {};
+        _this.state = "initialized";
+        _this.connection = null;
+        _this.usingTLS = !!options.useTLS;
+        _this.timeline = _this.options.timeline;
+        _this.errorCallbacks = _this.buildErrorCallbacks();
+        _this.connectionCallbacks = _this.buildConnectionCallbacks(_this.errorCallbacks);
+        _this.handshakeCallbacks = _this.buildHandshakeCallbacks(_this.errorCallbacks);
+        var Network = runtime_1["default"].getNetwork();
+        Network.bind("online", function () {
+            _this.timeline.info({ netinfo: "online" });
+            if (_this.state === "connecting" || _this.state === "unavailable") {
+                _this.retryIn(0);
+            }
+        });
+        Network.bind("offline", function () {
+            _this.timeline.info({ netinfo: "offline" });
+            if (_this.connection) {
+                _this.sendActivityCheck();
+            }
+        });
+        _this.updateStrategy();
+        return _this;
+    }
+    ConnectionManager.prototype.connect = function () {
+        if (this.connection || this.runner) {
+            return;
+        }
+        if (!this.strategy.isSupported()) {
+            this.updateState("failed");
+            return;
+        }
+        this.updateState("connecting");
+        this.startConnecting();
+        this.setUnavailableTimer();
+    };
+    ;
+    ConnectionManager.prototype.send = function (data) {
+        if (this.connection) {
+            return this.connection.send(data);
+        }
+        else {
+            return false;
+        }
+    };
+    ;
+    ConnectionManager.prototype.send_event = function (name, data, channel) {
+        if (this.connection) {
+            return this.connection.send_event(name, data, channel);
+        }
+        else {
+            return false;
+        }
+    };
+    ;
+    ConnectionManager.prototype.disconnect = function () {
+        this.disconnectInternally();
+        this.updateState("disconnected");
+    };
+    ;
+    ConnectionManager.prototype.isUsingTLS = function () {
+        return this.usingTLS;
+    };
+    ;
+    ConnectionManager.prototype.startConnecting = function () {
+        var _this = this;
+        var callback = function (error, handshake) {
+            if (error) {
+                _this.runner = _this.strategy.connect(0, callback);
+            }
+            else {
+                if (handshake.action === "error") {
+                    _this.emit("error", { type: "HandshakeError", error: handshake.error });
+                    _this.timeline.error({ handshakeError: handshake.error });
+                }
+                else {
+                    _this.abortConnecting();
+                    _this.handshakeCallbacks[handshake.action](handshake);
+                }
+            }
+        };
+        this.runner = this.strategy.connect(0, callback);
+    };
+    ;
+    ConnectionManager.prototype.abortConnecting = function () {
+        if (this.runner) {
+            this.runner.abort();
+            this.runner = null;
+        }
+    };
+    ;
+    ConnectionManager.prototype.disconnectInternally = function () {
+        this.abortConnecting();
+        this.clearRetryTimer();
+        this.clearUnavailableTimer();
+        if (this.connection) {
+            var connection = this.abandonConnection();
+            connection.close();
+        }
+    };
+    ;
+    ConnectionManager.prototype.updateStrategy = function () {
+        this.strategy = this.options.getStrategy({
+            key: this.key,
+            timeline: this.timeline,
+            useTLS: this.usingTLS
+        });
+    };
+    ;
+    ConnectionManager.prototype.retryIn = function (delay) {
+        var _this = this;
+        this.timeline.info({ action: "retry", delay: delay });
+        if (delay > 0) {
+            this.emit("connecting_in", Math.round(delay / 1000));
+        }
+        this.retryTimer = new timers_1.OneOffTimer(delay || 0, function () {
+            _this.disconnectInternally();
+            _this.connect();
+        });
+    };
+    ;
+    ConnectionManager.prototype.clearRetryTimer = function () {
+        if (this.retryTimer) {
+            this.retryTimer.ensureAborted();
+            this.retryTimer = null;
+        }
+    };
+    ;
+    ConnectionManager.prototype.setUnavailableTimer = function () {
+        var _this = this;
+        this.unavailableTimer = new timers_1.OneOffTimer(this.options.unavailableTimeout, function () {
+            _this.updateState("unavailable");
+        });
+    };
+    ;
+    ConnectionManager.prototype.clearUnavailableTimer = function () {
+        if (this.unavailableTimer) {
+            this.unavailableTimer.ensureAborted();
+        }
+    };
+    ;
+    ConnectionManager.prototype.sendActivityCheck = function () {
+        var _this = this;
+        this.stopActivityCheck();
+        this.connection.ping();
+        this.activityTimer = new timers_1.OneOffTimer(this.options.pongTimeout, function () {
+            _this.timeline.error({ pong_timed_out: _this.options.pongTimeout });
+            _this.retryIn(0);
+        });
+    };
+    ;
+    ConnectionManager.prototype.resetActivityCheck = function () {
+        var _this = this;
+        this.stopActivityCheck();
+        if (this.connection && !this.connection.handlesActivityChecks()) {
+            this.activityTimer = new timers_1.OneOffTimer(this.activityTimeout, function () {
+                _this.sendActivityCheck();
+            });
+        }
+    };
+    ;
+    ConnectionManager.prototype.stopActivityCheck = function () {
+        if (this.activityTimer) {
+            this.activityTimer.ensureAborted();
+        }
+    };
+    ;
+    ConnectionManager.prototype.buildConnectionCallbacks = function (errorCallbacks) {
+        var _this = this;
+        return Collections.extend({}, errorCallbacks, {
+            message: function (message) {
+                _this.resetActivityCheck();
+                _this.emit('message', message);
+            },
+            ping: function () {
+                _this.send_event('pusher:pong', {});
+            },
+            activity: function () {
+                _this.resetActivityCheck();
+            },
+            error: function (error) {
+                _this.emit("error", { type: "WebSocketError", error: error });
+            },
+            closed: function () {
+                _this.abandonConnection();
+                if (_this.shouldRetry()) {
+                    _this.retryIn(1000);
+                }
+            }
+        });
+    };
+    ;
+    ConnectionManager.prototype.buildHandshakeCallbacks = function (errorCallbacks) {
+        var _this = this;
+        return Collections.extend({}, errorCallbacks, {
+            connected: function (handshake) {
+                _this.activityTimeout = Math.min(_this.options.activityTimeout, handshake.activityTimeout, handshake.connection.activityTimeout || Infinity);
+                _this.clearUnavailableTimer();
+                _this.setConnection(handshake.connection);
+                _this.socket_id = _this.connection.id;
+                _this.updateState("connected", { socket_id: _this.socket_id });
+            }
+        });
+    };
+    ;
+    ConnectionManager.prototype.buildErrorCallbacks = function () {
+        var _this = this;
+        var withErrorEmitted = function (callback) {
+            return function (result) {
+                if (result.error) {
+                    _this.emit("error", { type: "WebSocketError", error: result.error });
+                }
+                callback(result);
+            };
+        };
+        return {
+            tls_only: withErrorEmitted(function () {
+                _this.usingTLS = true;
+                _this.updateStrategy();
+                _this.retryIn(0);
+            }),
+            refused: withErrorEmitted(function () {
+                _this.disconnect();
+            }),
+            backoff: withErrorEmitted(function () {
+                _this.retryIn(1000);
+            }),
+            retry: withErrorEmitted(function () {
+                _this.retryIn(0);
+            })
+        };
+    };
+    ;
+    ConnectionManager.prototype.setConnection = function (connection) {
+        this.connection = connection;
+        for (var event in this.connectionCallbacks) {
+            this.connection.bind(event, this.connectionCallbacks[event]);
+        }
+        this.resetActivityCheck();
+    };
+    ;
+    ConnectionManager.prototype.abandonConnection = function () {
+        if (!this.connection) {
+            return;
+        }
+        this.stopActivityCheck();
+        for (var event in this.connectionCallbacks) {
+            this.connection.unbind(event, this.connectionCallbacks[event]);
+        }
+        var connection = this.connection;
+        this.connection = null;
+        return connection;
+    };
+    ConnectionManager.prototype.updateState = function (newState, data) {
+        var previousState = this.state;
+        this.state = newState;
+        if (previousState !== newState) {
+            var newStateDescription = newState;
+            if (newStateDescription === "connected") {
+                newStateDescription += " with new socket ID " + data.socket_id;
+            }
+            logger_1["default"].debug('State changed', previousState + ' -> ' + newStateDescription);
+            this.timeline.info({ state: newState, params: data });
+            this.emit('state_change', { previous: previousState, current: newState });
+            this.emit(newState, data);
+        }
+    };
+    ConnectionManager.prototype.shouldRetry = function () {
+        return this.state === "connecting" || this.state === "connected";
+    };
+    return ConnectionManager;
+}(dispatcher_1["default"]));
+exports["default"] = ConnectionManager;
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var Collections = __webpack_require__(0);
+var factory_1 = __webpack_require__(7);
+var Errors = __webpack_require__(5);
+var Channels = (function () {
+    function Channels() {
+        this.channels = {};
+    }
+    Channels.prototype.add = function (name, pusher) {
+        if (!this.channels[name]) {
+            this.channels[name] = createChannel(name, pusher);
+        }
+        return this.channels[name];
+    };
+    Channels.prototype.all = function () {
+        return Collections.values(this.channels);
+    };
+    Channels.prototype.find = function (name) {
+        return this.channels[name];
+    };
+    Channels.prototype.remove = function (name) {
+        var channel = this.channels[name];
+        delete this.channels[name];
+        return channel;
+    };
+    Channels.prototype.disconnect = function () {
+        Collections.objectApply(this.channels, function (channel) {
+            channel.disconnect();
+        });
+    };
+    return Channels;
+}());
+exports["default"] = Channels;
+function createChannel(name, pusher) {
+    if (name.indexOf('private-encrypted-') === 0) {
+        if (false) { var errorMsg; }
+        return factory_1["default"].createEncryptedChannel(name, pusher);
+    }
+    else if (name.indexOf('private-') === 0) {
+        return factory_1["default"].createPrivateChannel(name, pusher);
+    }
+    else if (name.indexOf('presence-') === 0) {
+        return factory_1["default"].createPresenceChannel(name, pusher);
+    }
+    else {
+        return factory_1["default"].createChannel(name, pusher);
+    }
+}
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var Collections = __webpack_require__(0);
+var util_1 = __webpack_require__(2);
+var BestConnectedEverStrategy = (function () {
+    function BestConnectedEverStrategy(strategies) {
+        this.strategies = strategies;
+    }
+    BestConnectedEverStrategy.prototype.isSupported = function () {
+        return Collections.any(this.strategies, util_1["default"].method("isSupported"));
+    };
+    BestConnectedEverStrategy.prototype.connect = function (minPriority, callback) {
+        return connect(this.strategies, minPriority, function (i, runners) {
+            return function (error, handshake) {
+                runners[i].error = error;
+                if (error) {
+                    if (allRunnersFailed(runners)) {
+                        callback(true);
+                    }
+                    return;
+                }
+                Collections.apply(runners, function (runner) {
+                    runner.forceMinPriority(handshake.transport.priority);
+                });
+                callback(null, handshake);
+            };
+        });
+    };
+    return BestConnectedEverStrategy;
+}());
+exports["default"] = BestConnectedEverStrategy;
+function connect(strategies, minPriority, callbackBuilder) {
+    var runners = Collections.map(strategies, function (strategy, i, _, rs) {
+        return strategy.connect(minPriority, callbackBuilder(i, rs));
+    });
+    return {
+        abort: function () {
+            Collections.apply(runners, abortRunner);
+        },
+        forceMinPriority: function (p) {
+            Collections.apply(runners, function (runner) {
+                runner.forceMinPriority(p);
+            });
+        }
+    };
+}
+function allRunnersFailed(runners) {
+    return Collections.all(runners, function (runner) {
+        return Boolean(runner.error);
+    });
+}
+function abortRunner(runner) {
+    if (!runner.error && !runner.aborted) {
+        runner.abort();
+        runner.aborted = true;
+    }
+}
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var util_1 = __webpack_require__(2);
+var runtime_1 = __webpack_require__(1);
+var sequential_strategy_1 = __webpack_require__(18);
+var Collections = __webpack_require__(0);
+var CachedStrategy = (function () {
+    function CachedStrategy(strategy, transports, options) {
+        this.strategy = strategy;
+        this.transports = transports;
+        this.ttl = options.ttl || 1800 * 1000;
+        this.usingTLS = options.useTLS;
+        this.timeline = options.timeline;
+    }
+    CachedStrategy.prototype.isSupported = function () {
+        return this.strategy.isSupported();
+    };
+    CachedStrategy.prototype.connect = function (minPriority, callback) {
+        var usingTLS = this.usingTLS;
+        var info = fetchTransportCache(usingTLS);
+        var strategies = [this.strategy];
+        if (info && info.timestamp + this.ttl >= util_1["default"].now()) {
+            var transport = this.transports[info.transport];
+            if (transport) {
+                this.timeline.info({
+                    cached: true,
+                    transport: info.transport,
+                    latency: info.latency
+                });
+                strategies.push(new sequential_strategy_1["default"]([transport], {
+                    timeout: info.latency * 2 + 1000,
+                    failFast: true
+                }));
+            }
+        }
+        var startTimestamp = util_1["default"].now();
+        var runner = strategies.pop().connect(minPriority, function cb(error, handshake) {
+            if (error) {
+                flushTransportCache(usingTLS);
+                if (strategies.length > 0) {
+                    startTimestamp = util_1["default"].now();
+                    runner = strategies.pop().connect(minPriority, cb);
+                }
+                else {
+                    callback(error);
+                }
+            }
+            else {
+                storeTransportCache(usingTLS, handshake.transport.name, util_1["default"].now() - startTimestamp);
+                callback(null, handshake);
+            }
+        });
+        return {
+            abort: function () {
+                runner.abort();
+            },
+            forceMinPriority: function (p) {
+                minPriority = p;
+                if (runner) {
+                    runner.forceMinPriority(p);
+                }
+            }
+        };
+    };
+    return CachedStrategy;
+}());
+exports["default"] = CachedStrategy;
+function getTransportCacheKey(usingTLS) {
+    return "pusherTransport" + (usingTLS ? "TLS" : "NonTLS");
+}
+function fetchTransportCache(usingTLS) {
+    var storage = runtime_1["default"].getLocalStorage();
+    if (storage) {
+        try {
+            var serializedCache = storage[getTransportCacheKey(usingTLS)];
+            if (serializedCache) {
+                return JSON.parse(serializedCache);
+            }
+        }
+        catch (e) {
+            flushTransportCache(usingTLS);
+        }
+    }
+    return null;
+}
+function storeTransportCache(usingTLS, transport, latency) {
+    var storage = runtime_1["default"].getLocalStorage();
+    if (storage) {
+        try {
+            storage[getTransportCacheKey(usingTLS)] = Collections.safeJSONStringify({
+                timestamp: util_1["default"].now(),
+                transport: transport,
+                latency: latency
+            });
+        }
+        catch (e) {
+        }
+    }
+}
+function flushTransportCache(usingTLS) {
+    var storage = runtime_1["default"].getLocalStorage();
+    if (storage) {
+        try {
+            delete storage[getTransportCacheKey(usingTLS)];
+        }
+        catch (e) {
+        }
+    }
+}
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var timers_1 = __webpack_require__(6);
+var DelayedStrategy = (function () {
+    function DelayedStrategy(strategy, _a) {
+        var number = _a.delay;
+        this.strategy = strategy;
+        this.options = { delay: number };
+    }
+    DelayedStrategy.prototype.isSupported = function () {
+        return this.strategy.isSupported();
+    };
+    DelayedStrategy.prototype.connect = function (minPriority, callback) {
+        var strategy = this.strategy;
+        var runner;
+        var timer = new timers_1.OneOffTimer(this.options.delay, function () {
+            runner = strategy.connect(minPriority, callback);
+        });
+        return {
+            abort: function () {
+                timer.ensureAborted();
+                if (runner) {
+                    runner.abort();
+                }
+            },
+            forceMinPriority: function (p) {
+                minPriority = p;
+                if (runner) {
+                    runner.forceMinPriority(p);
+                }
+            }
+        };
+    };
+    return DelayedStrategy;
+}());
+exports["default"] = DelayedStrategy;
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var IfStrategy = (function () {
+    function IfStrategy(test, trueBranch, falseBranch) {
+        this.test = test;
+        this.trueBranch = trueBranch;
+        this.falseBranch = falseBranch;
+    }
+    IfStrategy.prototype.isSupported = function () {
+        var branch = this.test() ? this.trueBranch : this.falseBranch;
+        return branch.isSupported();
+    };
+    IfStrategy.prototype.connect = function (minPriority, callback) {
+        var branch = this.test() ? this.trueBranch : this.falseBranch;
+        return branch.connect(minPriority, callback);
+    };
+    return IfStrategy;
+}());
+exports["default"] = IfStrategy;
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var FirstConnectedStrategy = (function () {
+    function FirstConnectedStrategy(strategy) {
+        this.strategy = strategy;
+    }
+    FirstConnectedStrategy.prototype.isSupported = function () {
+        return this.strategy.isSupported();
+    };
+    FirstConnectedStrategy.prototype.connect = function (minPriority, callback) {
+        var runner = this.strategy.connect(minPriority, function (error, handshake) {
+            if (handshake) {
+                runner.abort();
+            }
+            callback(error, handshake);
+        });
+        return runner;
+    };
+    return FirstConnectedStrategy;
+}());
+exports["default"] = FirstConnectedStrategy;
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var dependencies_1 = __webpack_require__(11);
+function default_1() {
+    var self = this;
+    self.timeline.info(self.buildTimelineMessage({
+        transport: self.name + (self.options.useTLS ? "s" : "")
+    }));
+    if (self.hooks.isInitialized()) {
+        self.changeState("initialized");
+    }
+    else if (self.hooks.file) {
+        self.changeState("initializing");
+        dependencies_1.Dependencies.load(self.hooks.file, { useTLS: self.options.useTLS }, function (error, callback) {
+            if (self.hooks.isInitialized()) {
+                self.changeState("initialized");
+                callback(true);
+            }
+            else {
+                if (error) {
+                    self.onError(error);
+                }
+                self.onClose();
+                callback(false);
+            }
+        });
+    }
+    else {
+        self.onClose();
+    }
+}
+exports["default"] = default_1;
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var http_xdomain_request_1 = __webpack_require__(56);
+var http_1 = __webpack_require__(57);
+http_1["default"].createXDR = function (method, url) {
+    return this.createRequest(http_xdomain_request_1["default"], method, url);
+};
+exports["default"] = http_1["default"];
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var Errors = __webpack_require__(5);
+var hooks = {
+    getRequest: function (socket) {
+        var xdr = new window.XDomainRequest();
+        xdr.ontimeout = function () {
+            socket.emit("error", new Errors.RequestTimedOut());
+            socket.close();
+        };
+        xdr.onerror = function (e) {
+            socket.emit("error", e);
+            socket.close();
+        };
+        xdr.onprogress = function () {
+            if (xdr.responseText && xdr.responseText.length > 0) {
+                socket.onChunk(200, xdr.responseText);
+            }
+        };
+        xdr.onload = function () {
+            if (xdr.responseText && xdr.responseText.length > 0) {
+                socket.onChunk(200, xdr.responseText);
+            }
+            socket.emit("finished", 200);
+            socket.close();
+        };
+        return xdr;
+    },
+    abortRequest: function (xdr) {
+        xdr.ontimeout = xdr.onerror = xdr.onprogress = xdr.onload = null;
+        xdr.abort();
+    }
+};
+exports["default"] = hooks;
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var http_request_1 = __webpack_require__(58);
+var http_socket_1 = __webpack_require__(59);
+var http_streaming_socket_1 = __webpack_require__(61);
+var http_polling_socket_1 = __webpack_require__(62);
+var http_xhr_request_1 = __webpack_require__(63);
+var HTTP = {
+    createStreamingSocket: function (url) {
+        return this.createSocket(http_streaming_socket_1["default"], url);
+    },
+    createPollingSocket: function (url) {
+        return this.createSocket(http_polling_socket_1["default"], url);
+    },
+    createSocket: function (hooks, url) {
+        return new http_socket_1["default"](hooks, url);
+    },
+    createXHR: function (method, url) {
+        return this.createRequest(http_xhr_request_1["default"], method, url);
+    },
+    createRequest: function (hooks, method, url) {
+        return new http_request_1["default"](hooks, method, url);
+    }
+};
+exports["default"] = HTTP;
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var runtime_1 = __webpack_require__(1);
+var dispatcher_1 = __webpack_require__(4);
+var MAX_BUFFER_LENGTH = 256 * 1024;
+var HTTPRequest = (function (_super) {
+    __extends(HTTPRequest, _super);
+    function HTTPRequest(hooks, method, url) {
+        var _this = _super.call(this) || this;
+        _this.hooks = hooks;
+        _this.method = method;
+        _this.url = url;
+        return _this;
+    }
+    HTTPRequest.prototype.start = function (payload) {
+        var _this = this;
+        this.position = 0;
+        this.xhr = this.hooks.getRequest(this);
+        this.unloader = function () {
+            _this.close();
+        };
+        runtime_1["default"].addUnloadListener(this.unloader);
+        this.xhr.open(this.method, this.url, true);
+        if (this.xhr.setRequestHeader) {
+            this.xhr.setRequestHeader("Content-Type", "application/json");
+        }
+        this.xhr.send(payload);
+    };
+    HTTPRequest.prototype.close = function () {
+        if (this.unloader) {
+            runtime_1["default"].removeUnloadListener(this.unloader);
+            this.unloader = null;
+        }
+        if (this.xhr) {
+            this.hooks.abortRequest(this.xhr);
+            this.xhr = null;
+        }
+    };
+    HTTPRequest.prototype.onChunk = function (status, data) {
+        while (true) {
+            var chunk = this.advanceBuffer(data);
+            if (chunk) {
+                this.emit("chunk", { status: status, data: chunk });
+            }
+            else {
+                break;
+            }
+        }
+        if (this.isBufferTooLong(data)) {
+            this.emit("buffer_too_long");
+        }
+    };
+    HTTPRequest.prototype.advanceBuffer = function (buffer) {
+        var unreadData = buffer.slice(this.position);
+        var endOfLinePosition = unreadData.indexOf("\n");
+        if (endOfLinePosition !== -1) {
+            this.position += endOfLinePosition + 1;
+            return unreadData.slice(0, endOfLinePosition);
+        }
+        else {
+            return null;
+        }
+    };
+    HTTPRequest.prototype.isBufferTooLong = function (buffer) {
+        return this.position === buffer.length && buffer.length > MAX_BUFFER_LENGTH;
+    };
+    return HTTPRequest;
+}(dispatcher_1["default"]));
+exports["default"] = HTTPRequest;
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var state_1 = __webpack_require__(60);
+var util_1 = __webpack_require__(2);
+var runtime_1 = __webpack_require__(1);
+var autoIncrement = 1;
+var HTTPSocket = (function () {
+    function HTTPSocket(hooks, url) {
+        this.hooks = hooks;
+        this.session = randomNumber(1000) + "/" + randomString(8);
+        this.location = getLocation(url);
+        this.readyState = state_1["default"].CONNECTING;
+        this.openStream();
+    }
+    HTTPSocket.prototype.send = function (payload) {
+        return this.sendRaw(JSON.stringify([payload]));
+    };
+    HTTPSocket.prototype.ping = function () {
+        this.hooks.sendHeartbeat(this);
+    };
+    HTTPSocket.prototype.close = function (code, reason) {
+        this.onClose(code, reason, true);
+    };
+    HTTPSocket.prototype.sendRaw = function (payload) {
+        if (this.readyState === state_1["default"].OPEN) {
+            try {
+                runtime_1["default"].createSocketRequest("POST", getUniqueURL(getSendURL(this.location, this.session))).start(payload);
+                return true;
+            }
+            catch (e) {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    };
+    HTTPSocket.prototype.reconnect = function () {
+        this.closeStream();
+        this.openStream();
+    };
+    ;
+    HTTPSocket.prototype.onClose = function (code, reason, wasClean) {
+        this.closeStream();
+        this.readyState = state_1["default"].CLOSED;
+        if (this.onclose) {
+            this.onclose({
+                code: code,
+                reason: reason,
+                wasClean: wasClean
+            });
+        }
+    };
+    HTTPSocket.prototype.onChunk = function (chunk) {
+        if (chunk.status !== 200) {
+            return;
+        }
+        if (this.readyState === state_1["default"].OPEN) {
+            this.onActivity();
+        }
+        var payload;
+        var type = chunk.data.slice(0, 1);
+        switch (type) {
+            case 'o':
+                payload = JSON.parse(chunk.data.slice(1) || '{}');
+                this.onOpen(payload);
+                break;
+            case 'a':
+                payload = JSON.parse(chunk.data.slice(1) || '[]');
+                for (var i = 0; i < payload.length; i++) {
+                    this.onEvent(payload[i]);
+                }
+                break;
+            case 'm':
+                payload = JSON.parse(chunk.data.slice(1) || 'null');
+                this.onEvent(payload);
+                break;
+            case 'h':
+                this.hooks.onHeartbeat(this);
+                break;
+            case 'c':
+                payload = JSON.parse(chunk.data.slice(1) || '[]');
+                this.onClose(payload[0], payload[1], true);
+                break;
+        }
+    };
+    HTTPSocket.prototype.onOpen = function (options) {
+        if (this.readyState === state_1["default"].CONNECTING) {
+            if (options && options.hostname) {
+                this.location.base = replaceHost(this.location.base, options.hostname);
+            }
+            this.readyState = state_1["default"].OPEN;
+            if (this.onopen) {
+                this.onopen();
+            }
+        }
+        else {
+            this.onClose(1006, "Server lost session", true);
+        }
+    };
+    HTTPSocket.prototype.onEvent = function (event) {
+        if (this.readyState === state_1["default"].OPEN && this.onmessage) {
+            this.onmessage({ data: event });
+        }
+    };
+    HTTPSocket.prototype.onActivity = function () {
+        if (this.onactivity) {
+            this.onactivity();
+        }
+    };
+    HTTPSocket.prototype.onError = function (error) {
+        if (this.onerror) {
+            this.onerror(error);
+        }
+    };
+    HTTPSocket.prototype.openStream = function () {
+        var _this = this;
+        this.stream = runtime_1["default"].createSocketRequest("POST", getUniqueURL(this.hooks.getReceiveURL(this.location, this.session)));
+        this.stream.bind("chunk", function (chunk) {
+            _this.onChunk(chunk);
+        });
+        this.stream.bind("finished", function (status) {
+            _this.hooks.onFinished(_this, status);
+        });
+        this.stream.bind("buffer_too_long", function () {
+            _this.reconnect();
+        });
+        try {
+            this.stream.start();
+        }
+        catch (error) {
+            util_1["default"].defer(function () {
+                _this.onError(error);
+                _this.onClose(1006, "Could not start streaming", false);
+            });
+        }
+    };
+    HTTPSocket.prototype.closeStream = function () {
+        if (this.stream) {
+            this.stream.unbind_all();
+            this.stream.close();
+            this.stream = null;
+        }
+    };
+    return HTTPSocket;
+}());
+function getLocation(url) {
+    var parts = /([^\?]*)\/*(\??.*)/.exec(url);
+    return {
+        base: parts[1],
+        queryString: parts[2]
+    };
+}
+function getSendURL(url, session) {
+    return url.base + "/" + session + "/xhr_send";
+}
+function getUniqueURL(url) {
+    var separator = (url.indexOf('?') === -1) ? "?" : "&";
+    return url + separator + "t=" + (+new Date()) + "&n=" + autoIncrement++;
+}
+function replaceHost(url, hostname) {
+    var urlParts = /(https?:\/\/)([^\/:]+)((\/|:)?.*)/.exec(url);
+    return urlParts[1] + hostname + urlParts[3];
+}
+function randomNumber(max) {
+    return Math.floor(Math.random() * max);
+}
+function randomString(length) {
+    var result = [];
+    for (var i = 0; i < length; i++) {
+        result.push(randomNumber(32).toString(32));
+    }
+    return result.join('');
+}
+exports["default"] = HTTPSocket;
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var State;
+(function (State) {
+    State[State["CONNECTING"] = 0] = "CONNECTING";
+    State[State["OPEN"] = 1] = "OPEN";
+    State[State["CLOSED"] = 3] = "CLOSED";
+})(State || (State = {}));
+exports["default"] = State;
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var hooks = {
+    getReceiveURL: function (url, session) {
+        return url.base + "/" + session + "/xhr_streaming" + url.queryString;
+    },
+    onHeartbeat: function (socket) {
+        socket.sendRaw("[]");
+    },
+    sendHeartbeat: function (socket) {
+        socket.sendRaw("[]");
+    },
+    onFinished: function (socket, status) {
+        socket.onClose(1006, "Connection interrupted (" + status + ")", false);
+    }
+};
+exports["default"] = hooks;
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var hooks = {
+    getReceiveURL: function (url, session) {
+        return url.base + "/" + session + "/xhr" + url.queryString;
+    },
+    onHeartbeat: function () {
+    },
+    sendHeartbeat: function (socket) {
+        socket.sendRaw("[]");
+    },
+    onFinished: function (socket, status) {
+        if (status === 200) {
+            socket.reconnect();
+        }
+        else {
+            socket.onClose(1006, "Connection interrupted (" + status + ")", false);
+        }
+    }
+};
+exports["default"] = hooks;
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var runtime_1 = __webpack_require__(1);
+var hooks = {
+    getRequest: function (socket) {
+        var Constructor = runtime_1["default"].getXHRAPI();
+        var xhr = new Constructor();
+        xhr.onreadystatechange = xhr.onprogress = function () {
+            switch (xhr.readyState) {
+                case 3:
+                    if (xhr.responseText && xhr.responseText.length > 0) {
+                        socket.onChunk(xhr.status, xhr.responseText);
+                    }
+                    break;
+                case 4:
+                    if (xhr.responseText && xhr.responseText.length > 0) {
+                        socket.onChunk(xhr.status, xhr.responseText);
+                    }
+                    socket.emit("finished", xhr.status);
+                    socket.close();
+                    break;
+            }
+        };
+        return xhr;
+    },
+    abortRequest: function (xhr) {
+        xhr.onreadystatechange = null;
+        xhr.abort();
+    }
+};
+exports["default"] = hooks;
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var Collections = __webpack_require__(0);
+var util_1 = __webpack_require__(2);
+var level_1 = __webpack_require__(19);
+var Timeline = (function () {
+    function Timeline(key, session, options) {
+        this.key = key;
+        this.session = session;
+        this.events = [];
+        this.options = options || {};
+        this.sent = 0;
+        this.uniqueID = 0;
+    }
+    Timeline.prototype.log = function (level, event) {
+        if (level <= this.options.level) {
+            this.events.push(Collections.extend({}, event, { timestamp: util_1["default"].now() }));
+            if (this.options.limit && this.events.length > this.options.limit) {
+                this.events.shift();
+            }
+        }
+    };
+    Timeline.prototype.error = function (event) {
+        this.log(level_1["default"].ERROR, event);
+    };
+    Timeline.prototype.info = function (event) {
+        this.log(level_1["default"].INFO, event);
+    };
+    Timeline.prototype.debug = function (event) {
+        this.log(level_1["default"].DEBUG, event);
+    };
+    Timeline.prototype.isEmpty = function () {
+        return this.events.length === 0;
+    };
+    Timeline.prototype.send = function (sendfn, callback) {
+        var _this = this;
+        var data = Collections.extend({
+            session: this.session,
+            bundle: this.sent + 1,
+            key: this.key,
+            lib: "js",
+            version: this.options.version,
+            cluster: this.options.cluster,
+            features: this.options.features,
+            timeline: this.events
+        }, this.options.params);
+        this.events = [];
+        sendfn(data, function (error, result) {
+            if (!error) {
+                _this.sent++;
+            }
+            if (callback) {
+                callback(error, result);
+            }
+        });
+        return true;
+    };
+    Timeline.prototype.generateUniqueID = function () {
+        this.uniqueID++;
+        return this.uniqueID;
+    };
+    return Timeline;
+}());
+exports["default"] = Timeline;
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var Collections = __webpack_require__(0);
+var util_1 = __webpack_require__(2);
+var Errors = __webpack_require__(5);
+var transport_strategy_1 = __webpack_require__(66);
+var runtime_1 = __webpack_require__(1);
+var Transports = runtime_1["default"].Transports;
+exports.defineTransport = function (config, name, type, priority, options, manager) {
+    var transportClass = Transports[type];
+    if (!transportClass) {
+        throw new Errors.UnsupportedTransport(type);
+    }
+    var enabled = (!config.enabledTransports ||
+        Collections.arrayIndexOf(config.enabledTransports, name) !== -1) &&
+        (!config.disabledTransports ||
+            Collections.arrayIndexOf(config.disabledTransports, name) === -1);
+    var transport;
+    if (enabled) {
+        transport = new transport_strategy_1["default"](name, priority, manager ? manager.getAssistant(transportClass) : transportClass, Collections.extend({
+            key: config.key,
+            useTLS: config.useTLS,
+            timeline: config.timeline,
+            ignoreNullOrigin: config.ignoreNullOrigin
+        }, options));
+    }
+    else {
+        transport = UnsupportedStrategy;
+    }
+    return transport;
+};
+var UnsupportedStrategy = {
+    isSupported: function () {
+        return false;
+    },
+    connect: function (_, callback) {
+        var deferred = util_1["default"].defer(function () {
+            callback(new Errors.UnsupportedStrategy());
+        });
+        return {
+            abort: function () {
+                deferred.ensureAborted();
+            },
+            forceMinPriority: function () { }
+        };
+    }
+};
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var factory_1 = __webpack_require__(7);
+var util_1 = __webpack_require__(2);
+var Errors = __webpack_require__(5);
+var Collections = __webpack_require__(0);
+var TransportStrategy = (function () {
+    function TransportStrategy(name, priority, transport, options) {
+        this.name = name;
+        this.priority = priority;
+        this.transport = transport;
+        this.options = options || {};
+    }
+    TransportStrategy.prototype.isSupported = function () {
+        return this.transport.isSupported({
+            useTLS: this.options.useTLS
+        });
+    };
+    TransportStrategy.prototype.connect = function (minPriority, callback) {
+        var _this = this;
+        if (!this.isSupported()) {
+            return failAttempt(new Errors.UnsupportedStrategy(), callback);
+        }
+        else if (this.priority < minPriority) {
+            return failAttempt(new Errors.TransportPriorityTooLow(), callback);
+        }
+        var connected = false;
+        var transport = this.transport.createConnection(this.name, this.priority, this.options.key, this.options);
+        var handshake = null;
+        var onInitialized = function () {
+            transport.unbind("initialized", onInitialized);
+            transport.connect();
+        };
+        var onOpen = function () {
+            handshake = factory_1["default"].createHandshake(transport, function (result) {
+                connected = true;
+                unbindListeners();
+                callback(null, result);
+            });
+        };
+        var onError = function (error) {
+            unbindListeners();
+            callback(error);
+        };
+        var onClosed = function () {
+            unbindListeners();
+            var serializedTransport;
+            serializedTransport = Collections.safeJSONStringify(transport);
+            callback(new Errors.TransportClosed(serializedTransport));
+        };
+        var unbindListeners = function () {
+            transport.unbind("initialized", onInitialized);
+            transport.unbind("open", onOpen);
+            transport.unbind("error", onError);
+            transport.unbind("closed", onClosed);
+        };
+        transport.bind("initialized", onInitialized);
+        transport.bind("open", onOpen);
+        transport.bind("error", onError);
+        transport.bind("closed", onClosed);
+        transport.initialize();
+        return {
+            abort: function () {
+                if (connected) {
+                    return;
+                }
+                unbindListeners();
+                if (handshake) {
+                    handshake.close();
+                }
+                else {
+                    transport.close();
+                }
+            },
+            forceMinPriority: function (p) {
+                if (connected) {
+                    return;
+                }
+                if (_this.priority < p) {
+                    if (handshake) {
+                        handshake.close();
+                    }
+                    else {
+                        transport.close();
+                    }
+                }
+            }
+        };
+    };
+    return TransportStrategy;
+}());
+exports["default"] = TransportStrategy;
+function failAttempt(error, callback) {
+    util_1["default"].defer(function () {
+        callback(error);
+    });
+    return {
+        abort: function () { },
+        forceMinPriority: function () { }
+    };
+}
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var defaults_1 = __webpack_require__(9);
+exports.getGlobalConfig = function () {
+    return {
+        wsHost: defaults_1["default"].host,
+        wsPort: defaults_1["default"].ws_port,
+        wssPort: defaults_1["default"].wss_port,
+        wsPath: defaults_1["default"].ws_path,
+        httpHost: defaults_1["default"].sockjs_host,
+        httpPort: defaults_1["default"].sockjs_http_port,
+        httpsPort: defaults_1["default"].sockjs_https_port,
+        httpPath: defaults_1["default"].sockjs_path,
+        statsHost: defaults_1["default"].stats_host,
+        authEndpoint: defaults_1["default"].channel_auth_endpoint,
+        authTransport: defaults_1["default"].channel_auth_transport,
+        activity_timeout: defaults_1["default"].activity_timeout,
+        pong_timeout: defaults_1["default"].pong_timeout,
+        unavailable_timeout: defaults_1["default"].unavailable_timeout
+    };
+};
+exports.getClusterConfig = function (clusterName) {
+    return {
+        wsHost: "ws-" + clusterName + ".pusher.com",
+        httpHost: "sockjs-" + clusterName + ".pusher.com"
+    };
+};
+
+
+/***/ })
+/******/ ]);
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38).Buffer))
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
@@ -39088,9 +40667,9 @@ nacl.setPRNG = function(fn) {
 
 
 
-var base64 = __webpack_require__(48)
-var ieee754 = __webpack_require__(49)
-var isArray = __webpack_require__(50)
+var base64 = __webpack_require__(39)
+var ieee754 = __webpack_require__(40)
+var isArray = __webpack_require__(41)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -39120,8 +40699,8 @@ exports.INSPECT_MAX_BYTES = 50
  * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
  * get the Object implementation, which is slower but behaves correctly.
  */
-Buffer.TYPED_ARRAY_SUPPORT = window.TYPED_ARRAY_SUPPORT !== undefined
-  ? window.TYPED_ARRAY_SUPPORT
+Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
+  ? global.TYPED_ARRAY_SUPPORT
   : typedArraySupport()
 
 /*
@@ -40868,9 +42447,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 48 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41028,7 +42608,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 49 */
+/* 40 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -41118,7 +42698,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 50 */
+/* 41 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -41129,1431 +42709,18 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
-var dispatcher_1 = __webpack_require__(4);
-var timers_1 = __webpack_require__(6);
-var logger_1 = __webpack_require__(3);
-var Collections = __webpack_require__(0);
-var runtime_1 = __webpack_require__(1);
-var ConnectionManager = (function (_super) {
-    __extends(ConnectionManager, _super);
-    function ConnectionManager(key, options) {
-        var _this = _super.call(this) || this;
-        _this.key = key;
-        _this.options = options || {};
-        _this.state = "initialized";
-        _this.connection = null;
-        _this.usingTLS = !!options.useTLS;
-        _this.timeline = _this.options.timeline;
-        _this.errorCallbacks = _this.buildErrorCallbacks();
-        _this.connectionCallbacks = _this.buildConnectionCallbacks(_this.errorCallbacks);
-        _this.handshakeCallbacks = _this.buildHandshakeCallbacks(_this.errorCallbacks);
-        var Network = runtime_1["default"].getNetwork();
-        Network.bind("online", function () {
-            _this.timeline.info({ netinfo: "online" });
-            if (_this.state === "connecting" || _this.state === "unavailable") {
-                _this.retryIn(0);
-            }
-        });
-        Network.bind("offline", function () {
-            _this.timeline.info({ netinfo: "offline" });
-            if (_this.connection) {
-                _this.sendActivityCheck();
-            }
-        });
-        _this.updateStrategy();
-        return _this;
-    }
-    ConnectionManager.prototype.connect = function () {
-        if (this.connection || this.runner) {
-            return;
-        }
-        if (!this.strategy.isSupported()) {
-            this.updateState("failed");
-            return;
-        }
-        this.updateState("connecting");
-        this.startConnecting();
-        this.setUnavailableTimer();
-    };
-    ;
-    ConnectionManager.prototype.send = function (data) {
-        if (this.connection) {
-            return this.connection.send(data);
-        }
-        else {
-            return false;
-        }
-    };
-    ;
-    ConnectionManager.prototype.send_event = function (name, data, channel) {
-        if (this.connection) {
-            return this.connection.send_event(name, data, channel);
-        }
-        else {
-            return false;
-        }
-    };
-    ;
-    ConnectionManager.prototype.disconnect = function () {
-        this.disconnectInternally();
-        this.updateState("disconnected");
-    };
-    ;
-    ConnectionManager.prototype.isUsingTLS = function () {
-        return this.usingTLS;
-    };
-    ;
-    ConnectionManager.prototype.startConnecting = function () {
-        var _this = this;
-        var callback = function (error, handshake) {
-            if (error) {
-                _this.runner = _this.strategy.connect(0, callback);
-            }
-            else {
-                if (handshake.action === "error") {
-                    _this.emit("error", { type: "HandshakeError", error: handshake.error });
-                    _this.timeline.error({ handshakeError: handshake.error });
-                }
-                else {
-                    _this.abortConnecting();
-                    _this.handshakeCallbacks[handshake.action](handshake);
-                }
-            }
-        };
-        this.runner = this.strategy.connect(0, callback);
-    };
-    ;
-    ConnectionManager.prototype.abortConnecting = function () {
-        if (this.runner) {
-            this.runner.abort();
-            this.runner = null;
-        }
-    };
-    ;
-    ConnectionManager.prototype.disconnectInternally = function () {
-        this.abortConnecting();
-        this.clearRetryTimer();
-        this.clearUnavailableTimer();
-        if (this.connection) {
-            var connection = this.abandonConnection();
-            connection.close();
-        }
-    };
-    ;
-    ConnectionManager.prototype.updateStrategy = function () {
-        this.strategy = this.options.getStrategy({
-            key: this.key,
-            timeline: this.timeline,
-            useTLS: this.usingTLS
-        });
-    };
-    ;
-    ConnectionManager.prototype.retryIn = function (delay) {
-        var _this = this;
-        this.timeline.info({ action: "retry", delay: delay });
-        if (delay > 0) {
-            this.emit("connecting_in", Math.round(delay / 1000));
-        }
-        this.retryTimer = new timers_1.OneOffTimer(delay || 0, function () {
-            _this.disconnectInternally();
-            _this.connect();
-        });
-    };
-    ;
-    ConnectionManager.prototype.clearRetryTimer = function () {
-        if (this.retryTimer) {
-            this.retryTimer.ensureAborted();
-            this.retryTimer = null;
-        }
-    };
-    ;
-    ConnectionManager.prototype.setUnavailableTimer = function () {
-        var _this = this;
-        this.unavailableTimer = new timers_1.OneOffTimer(this.options.unavailableTimeout, function () {
-            _this.updateState("unavailable");
-        });
-    };
-    ;
-    ConnectionManager.prototype.clearUnavailableTimer = function () {
-        if (this.unavailableTimer) {
-            this.unavailableTimer.ensureAborted();
-        }
-    };
-    ;
-    ConnectionManager.prototype.sendActivityCheck = function () {
-        var _this = this;
-        this.stopActivityCheck();
-        this.connection.ping();
-        this.activityTimer = new timers_1.OneOffTimer(this.options.pongTimeout, function () {
-            _this.timeline.error({ pong_timed_out: _this.options.pongTimeout });
-            _this.retryIn(0);
-        });
-    };
-    ;
-    ConnectionManager.prototype.resetActivityCheck = function () {
-        var _this = this;
-        this.stopActivityCheck();
-        if (this.connection && !this.connection.handlesActivityChecks()) {
-            this.activityTimer = new timers_1.OneOffTimer(this.activityTimeout, function () {
-                _this.sendActivityCheck();
-            });
-        }
-    };
-    ;
-    ConnectionManager.prototype.stopActivityCheck = function () {
-        if (this.activityTimer) {
-            this.activityTimer.ensureAborted();
-        }
-    };
-    ;
-    ConnectionManager.prototype.buildConnectionCallbacks = function (errorCallbacks) {
-        var _this = this;
-        return Collections.extend({}, errorCallbacks, {
-            message: function (message) {
-                _this.resetActivityCheck();
-                _this.emit('message', message);
-            },
-            ping: function () {
-                _this.send_event('pusher:pong', {});
-            },
-            activity: function () {
-                _this.resetActivityCheck();
-            },
-            error: function (error) {
-                _this.emit("error", { type: "WebSocketError", error: error });
-            },
-            closed: function () {
-                _this.abandonConnection();
-                if (_this.shouldRetry()) {
-                    _this.retryIn(1000);
-                }
-            }
-        });
-    };
-    ;
-    ConnectionManager.prototype.buildHandshakeCallbacks = function (errorCallbacks) {
-        var _this = this;
-        return Collections.extend({}, errorCallbacks, {
-            connected: function (handshake) {
-                _this.activityTimeout = Math.min(_this.options.activityTimeout, handshake.activityTimeout, handshake.connection.activityTimeout || Infinity);
-                _this.clearUnavailableTimer();
-                _this.setConnection(handshake.connection);
-                _this.socket_id = _this.connection.id;
-                _this.updateState("connected", { socket_id: _this.socket_id });
-            }
-        });
-    };
-    ;
-    ConnectionManager.prototype.buildErrorCallbacks = function () {
-        var _this = this;
-        var withErrorEmitted = function (callback) {
-            return function (result) {
-                if (result.error) {
-                    _this.emit("error", { type: "WebSocketError", error: result.error });
-                }
-                callback(result);
-            };
-        };
-        return {
-            tls_only: withErrorEmitted(function () {
-                _this.usingTLS = true;
-                _this.updateStrategy();
-                _this.retryIn(0);
-            }),
-            refused: withErrorEmitted(function () {
-                _this.disconnect();
-            }),
-            backoff: withErrorEmitted(function () {
-                _this.retryIn(1000);
-            }),
-            retry: withErrorEmitted(function () {
-                _this.retryIn(0);
-            })
-        };
-    };
-    ;
-    ConnectionManager.prototype.setConnection = function (connection) {
-        this.connection = connection;
-        for (var event in this.connectionCallbacks) {
-            this.connection.bind(event, this.connectionCallbacks[event]);
-        }
-        this.resetActivityCheck();
-    };
-    ;
-    ConnectionManager.prototype.abandonConnection = function () {
-        if (!this.connection) {
-            return;
-        }
-        this.stopActivityCheck();
-        for (var event in this.connectionCallbacks) {
-            this.connection.unbind(event, this.connectionCallbacks[event]);
-        }
-        var connection = this.connection;
-        this.connection = null;
-        return connection;
-    };
-    ConnectionManager.prototype.updateState = function (newState, data) {
-        var previousState = this.state;
-        this.state = newState;
-        if (previousState !== newState) {
-            var newStateDescription = newState;
-            if (newStateDescription === "connected") {
-                newStateDescription += " with new socket ID " + data.socket_id;
-            }
-            logger_1["default"].debug('State changed', previousState + ' -> ' + newStateDescription);
-            this.timeline.info({ state: newState, params: data });
-            this.emit('state_change', { previous: previousState, current: newState });
-            this.emit(newState, data);
-        }
-    };
-    ConnectionManager.prototype.shouldRetry = function () {
-        return this.state === "connecting" || this.state === "connected";
-    };
-    return ConnectionManager;
-}(dispatcher_1["default"]));
-exports["default"] = ConnectionManager;
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var Collections = __webpack_require__(0);
-var factory_1 = __webpack_require__(7);
-var Errors = __webpack_require__(5);
-var Channels = (function () {
-    function Channels() {
-        this.channels = {};
-    }
-    Channels.prototype.add = function (name, pusher) {
-        if (!this.channels[name]) {
-            this.channels[name] = createChannel(name, pusher);
-        }
-        return this.channels[name];
-    };
-    Channels.prototype.all = function () {
-        return Collections.values(this.channels);
-    };
-    Channels.prototype.find = function (name) {
-        return this.channels[name];
-    };
-    Channels.prototype.remove = function (name) {
-        var channel = this.channels[name];
-        delete this.channels[name];
-        return channel;
-    };
-    Channels.prototype.disconnect = function () {
-        Collections.objectApply(this.channels, function (channel) {
-            channel.disconnect();
-        });
-    };
-    return Channels;
-}());
-exports["default"] = Channels;
-function createChannel(name, pusher) {
-    if (name.indexOf('private-encrypted-') === 0) {
-        if (false) { var errorMsg; }
-        return factory_1["default"].createEncryptedChannel(name, pusher);
-    }
-    else if (name.indexOf('private-') === 0) {
-        return factory_1["default"].createPrivateChannel(name, pusher);
-    }
-    else if (name.indexOf('presence-') === 0) {
-        return factory_1["default"].createPresenceChannel(name, pusher);
-    }
-    else {
-        return factory_1["default"].createChannel(name, pusher);
-    }
-}
-
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var Collections = __webpack_require__(0);
-var util_1 = __webpack_require__(2);
-var BestConnectedEverStrategy = (function () {
-    function BestConnectedEverStrategy(strategies) {
-        this.strategies = strategies;
-    }
-    BestConnectedEverStrategy.prototype.isSupported = function () {
-        return Collections.any(this.strategies, util_1["default"].method("isSupported"));
-    };
-    BestConnectedEverStrategy.prototype.connect = function (minPriority, callback) {
-        return connect(this.strategies, minPriority, function (i, runners) {
-            return function (error, handshake) {
-                runners[i].error = error;
-                if (error) {
-                    if (allRunnersFailed(runners)) {
-                        callback(true);
-                    }
-                    return;
-                }
-                Collections.apply(runners, function (runner) {
-                    runner.forceMinPriority(handshake.transport.priority);
-                });
-                callback(null, handshake);
-            };
-        });
-    };
-    return BestConnectedEverStrategy;
-}());
-exports["default"] = BestConnectedEverStrategy;
-function connect(strategies, minPriority, callbackBuilder) {
-    var runners = Collections.map(strategies, function (strategy, i, _, rs) {
-        return strategy.connect(minPriority, callbackBuilder(i, rs));
-    });
-    return {
-        abort: function () {
-            Collections.apply(runners, abortRunner);
-        },
-        forceMinPriority: function (p) {
-            Collections.apply(runners, function (runner) {
-                runner.forceMinPriority(p);
-            });
-        }
-    };
-}
-function allRunnersFailed(runners) {
-    return Collections.all(runners, function (runner) {
-        return Boolean(runner.error);
-    });
-}
-function abortRunner(runner) {
-    if (!runner.error && !runner.aborted) {
-        runner.abort();
-        runner.aborted = true;
-    }
-}
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var util_1 = __webpack_require__(2);
-var runtime_1 = __webpack_require__(1);
-var sequential_strategy_1 = __webpack_require__(18);
-var Collections = __webpack_require__(0);
-var CachedStrategy = (function () {
-    function CachedStrategy(strategy, transports, options) {
-        this.strategy = strategy;
-        this.transports = transports;
-        this.ttl = options.ttl || 1800 * 1000;
-        this.usingTLS = options.useTLS;
-        this.timeline = options.timeline;
-    }
-    CachedStrategy.prototype.isSupported = function () {
-        return this.strategy.isSupported();
-    };
-    CachedStrategy.prototype.connect = function (minPriority, callback) {
-        var usingTLS = this.usingTLS;
-        var info = fetchTransportCache(usingTLS);
-        var strategies = [this.strategy];
-        if (info && info.timestamp + this.ttl >= util_1["default"].now()) {
-            var transport = this.transports[info.transport];
-            if (transport) {
-                this.timeline.info({
-                    cached: true,
-                    transport: info.transport,
-                    latency: info.latency
-                });
-                strategies.push(new sequential_strategy_1["default"]([transport], {
-                    timeout: info.latency * 2 + 1000,
-                    failFast: true
-                }));
-            }
-        }
-        var startTimestamp = util_1["default"].now();
-        var runner = strategies.pop().connect(minPriority, function cb(error, handshake) {
-            if (error) {
-                flushTransportCache(usingTLS);
-                if (strategies.length > 0) {
-                    startTimestamp = util_1["default"].now();
-                    runner = strategies.pop().connect(minPriority, cb);
-                }
-                else {
-                    callback(error);
-                }
-            }
-            else {
-                storeTransportCache(usingTLS, handshake.transport.name, util_1["default"].now() - startTimestamp);
-                callback(null, handshake);
-            }
-        });
-        return {
-            abort: function () {
-                runner.abort();
-            },
-            forceMinPriority: function (p) {
-                minPriority = p;
-                if (runner) {
-                    runner.forceMinPriority(p);
-                }
-            }
-        };
-    };
-    return CachedStrategy;
-}());
-exports["default"] = CachedStrategy;
-function getTransportCacheKey(usingTLS) {
-    return "pusherTransport" + (usingTLS ? "TLS" : "NonTLS");
-}
-function fetchTransportCache(usingTLS) {
-    var storage = runtime_1["default"].getLocalStorage();
-    if (storage) {
-        try {
-            var serializedCache = storage[getTransportCacheKey(usingTLS)];
-            if (serializedCache) {
-                return JSON.parse(serializedCache);
-            }
-        }
-        catch (e) {
-            flushTransportCache(usingTLS);
-        }
-    }
-    return null;
-}
-function storeTransportCache(usingTLS, transport, latency) {
-    var storage = runtime_1["default"].getLocalStorage();
-    if (storage) {
-        try {
-            storage[getTransportCacheKey(usingTLS)] = Collections.safeJSONStringify({
-                timestamp: util_1["default"].now(),
-                transport: transport,
-                latency: latency
-            });
-        }
-        catch (e) {
-        }
-    }
-}
-function flushTransportCache(usingTLS) {
-    var storage = runtime_1["default"].getLocalStorage();
-    if (storage) {
-        try {
-            delete storage[getTransportCacheKey(usingTLS)];
-        }
-        catch (e) {
-        }
-    }
-}
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var timers_1 = __webpack_require__(6);
-var DelayedStrategy = (function () {
-    function DelayedStrategy(strategy, _a) {
-        var number = _a.delay;
-        this.strategy = strategy;
-        this.options = { delay: number };
-    }
-    DelayedStrategy.prototype.isSupported = function () {
-        return this.strategy.isSupported();
-    };
-    DelayedStrategy.prototype.connect = function (minPriority, callback) {
-        var strategy = this.strategy;
-        var runner;
-        var timer = new timers_1.OneOffTimer(this.options.delay, function () {
-            runner = strategy.connect(minPriority, callback);
-        });
-        return {
-            abort: function () {
-                timer.ensureAborted();
-                if (runner) {
-                    runner.abort();
-                }
-            },
-            forceMinPriority: function (p) {
-                minPriority = p;
-                if (runner) {
-                    runner.forceMinPriority(p);
-                }
-            }
-        };
-    };
-    return DelayedStrategy;
-}());
-exports["default"] = DelayedStrategy;
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var IfStrategy = (function () {
-    function IfStrategy(test, trueBranch, falseBranch) {
-        this.test = test;
-        this.trueBranch = trueBranch;
-        this.falseBranch = falseBranch;
-    }
-    IfStrategy.prototype.isSupported = function () {
-        var branch = this.test() ? this.trueBranch : this.falseBranch;
-        return branch.isSupported();
-    };
-    IfStrategy.prototype.connect = function (minPriority, callback) {
-        var branch = this.test() ? this.trueBranch : this.falseBranch;
-        return branch.connect(minPriority, callback);
-    };
-    return IfStrategy;
-}());
-exports["default"] = IfStrategy;
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var FirstConnectedStrategy = (function () {
-    function FirstConnectedStrategy(strategy) {
-        this.strategy = strategy;
-    }
-    FirstConnectedStrategy.prototype.isSupported = function () {
-        return this.strategy.isSupported();
-    };
-    FirstConnectedStrategy.prototype.connect = function (minPriority, callback) {
-        var runner = this.strategy.connect(minPriority, function (error, handshake) {
-            if (handshake) {
-                runner.abort();
-            }
-            callback(error, handshake);
-        });
-        return runner;
-    };
-    return FirstConnectedStrategy;
-}());
-exports["default"] = FirstConnectedStrategy;
-
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var dependencies_1 = __webpack_require__(11);
-function default_1() {
-    var self = this;
-    self.timeline.info(self.buildTimelineMessage({
-        transport: self.name + (self.options.useTLS ? "s" : "")
-    }));
-    if (self.hooks.isInitialized()) {
-        self.changeState("initialized");
-    }
-    else if (self.hooks.file) {
-        self.changeState("initializing");
-        dependencies_1.Dependencies.load(self.hooks.file, { useTLS: self.options.useTLS }, function (error, callback) {
-            if (self.hooks.isInitialized()) {
-                self.changeState("initialized");
-                callback(true);
-            }
-            else {
-                if (error) {
-                    self.onError(error);
-                }
-                self.onClose();
-                callback(false);
-            }
-        });
-    }
-    else {
-        self.onClose();
-    }
-}
-exports["default"] = default_1;
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var http_xdomain_request_1 = __webpack_require__(60);
-var http_1 = __webpack_require__(61);
-http_1["default"].createXDR = function (method, url) {
-    return this.createRequest(http_xdomain_request_1["default"], method, url);
-};
-exports["default"] = http_1["default"];
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var Errors = __webpack_require__(5);
-var hooks = {
-    getRequest: function (socket) {
-        var xdr = new window.XDomainRequest();
-        xdr.ontimeout = function () {
-            socket.emit("error", new Errors.RequestTimedOut());
-            socket.close();
-        };
-        xdr.onerror = function (e) {
-            socket.emit("error", e);
-            socket.close();
-        };
-        xdr.onprogress = function () {
-            if (xdr.responseText && xdr.responseText.length > 0) {
-                socket.onChunk(200, xdr.responseText);
-            }
-        };
-        xdr.onload = function () {
-            if (xdr.responseText && xdr.responseText.length > 0) {
-                socket.onChunk(200, xdr.responseText);
-            }
-            socket.emit("finished", 200);
-            socket.close();
-        };
-        return xdr;
-    },
-    abortRequest: function (xdr) {
-        xdr.ontimeout = xdr.onerror = xdr.onprogress = xdr.onload = null;
-        xdr.abort();
-    }
-};
-exports["default"] = hooks;
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var http_request_1 = __webpack_require__(62);
-var http_socket_1 = __webpack_require__(63);
-var http_streaming_socket_1 = __webpack_require__(65);
-var http_polling_socket_1 = __webpack_require__(66);
-var http_xhr_request_1 = __webpack_require__(67);
-var HTTP = {
-    createStreamingSocket: function (url) {
-        return this.createSocket(http_streaming_socket_1["default"], url);
-    },
-    createPollingSocket: function (url) {
-        return this.createSocket(http_polling_socket_1["default"], url);
-    },
-    createSocket: function (hooks, url) {
-        return new http_socket_1["default"](hooks, url);
-    },
-    createXHR: function (method, url) {
-        return this.createRequest(http_xhr_request_1["default"], method, url);
-    },
-    createRequest: function (hooks, method, url) {
-        return new http_request_1["default"](hooks, method, url);
-    }
-};
-exports["default"] = HTTP;
-
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
-var runtime_1 = __webpack_require__(1);
-var dispatcher_1 = __webpack_require__(4);
-var MAX_BUFFER_LENGTH = 256 * 1024;
-var HTTPRequest = (function (_super) {
-    __extends(HTTPRequest, _super);
-    function HTTPRequest(hooks, method, url) {
-        var _this = _super.call(this) || this;
-        _this.hooks = hooks;
-        _this.method = method;
-        _this.url = url;
-        return _this;
-    }
-    HTTPRequest.prototype.start = function (payload) {
-        var _this = this;
-        this.position = 0;
-        this.xhr = this.hooks.getRequest(this);
-        this.unloader = function () {
-            _this.close();
-        };
-        runtime_1["default"].addUnloadListener(this.unloader);
-        this.xhr.open(this.method, this.url, true);
-        if (this.xhr.setRequestHeader) {
-            this.xhr.setRequestHeader("Content-Type", "application/json");
-        }
-        this.xhr.send(payload);
-    };
-    HTTPRequest.prototype.close = function () {
-        if (this.unloader) {
-            runtime_1["default"].removeUnloadListener(this.unloader);
-            this.unloader = null;
-        }
-        if (this.xhr) {
-            this.hooks.abortRequest(this.xhr);
-            this.xhr = null;
-        }
-    };
-    HTTPRequest.prototype.onChunk = function (status, data) {
-        while (true) {
-            var chunk = this.advanceBuffer(data);
-            if (chunk) {
-                this.emit("chunk", { status: status, data: chunk });
-            }
-            else {
-                break;
-            }
-        }
-        if (this.isBufferTooLong(data)) {
-            this.emit("buffer_too_long");
-        }
-    };
-    HTTPRequest.prototype.advanceBuffer = function (buffer) {
-        var unreadData = buffer.slice(this.position);
-        var endOfLinePosition = unreadData.indexOf("\n");
-        if (endOfLinePosition !== -1) {
-            this.position += endOfLinePosition + 1;
-            return unreadData.slice(0, endOfLinePosition);
-        }
-        else {
-            return null;
-        }
-    };
-    HTTPRequest.prototype.isBufferTooLong = function (buffer) {
-        return this.position === buffer.length && buffer.length > MAX_BUFFER_LENGTH;
-    };
-    return HTTPRequest;
-}(dispatcher_1["default"]));
-exports["default"] = HTTPRequest;
-
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var state_1 = __webpack_require__(64);
-var util_1 = __webpack_require__(2);
-var runtime_1 = __webpack_require__(1);
-var autoIncrement = 1;
-var HTTPSocket = (function () {
-    function HTTPSocket(hooks, url) {
-        this.hooks = hooks;
-        this.session = randomNumber(1000) + "/" + randomString(8);
-        this.location = getLocation(url);
-        this.readyState = state_1["default"].CONNECTING;
-        this.openStream();
-    }
-    HTTPSocket.prototype.send = function (payload) {
-        return this.sendRaw(JSON.stringify([payload]));
-    };
-    HTTPSocket.prototype.ping = function () {
-        this.hooks.sendHeartbeat(this);
-    };
-    HTTPSocket.prototype.close = function (code, reason) {
-        this.onClose(code, reason, true);
-    };
-    HTTPSocket.prototype.sendRaw = function (payload) {
-        if (this.readyState === state_1["default"].OPEN) {
-            try {
-                runtime_1["default"].createSocketRequest("POST", getUniqueURL(getSendURL(this.location, this.session))).start(payload);
-                return true;
-            }
-            catch (e) {
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    };
-    HTTPSocket.prototype.reconnect = function () {
-        this.closeStream();
-        this.openStream();
-    };
-    ;
-    HTTPSocket.prototype.onClose = function (code, reason, wasClean) {
-        this.closeStream();
-        this.readyState = state_1["default"].CLOSED;
-        if (this.onclose) {
-            this.onclose({
-                code: code,
-                reason: reason,
-                wasClean: wasClean
-            });
-        }
-    };
-    HTTPSocket.prototype.onChunk = function (chunk) {
-        if (chunk.status !== 200) {
-            return;
-        }
-        if (this.readyState === state_1["default"].OPEN) {
-            this.onActivity();
-        }
-        var payload;
-        var type = chunk.data.slice(0, 1);
-        switch (type) {
-            case 'o':
-                payload = JSON.parse(chunk.data.slice(1) || '{}');
-                this.onOpen(payload);
-                break;
-            case 'a':
-                payload = JSON.parse(chunk.data.slice(1) || '[]');
-                for (var i = 0; i < payload.length; i++) {
-                    this.onEvent(payload[i]);
-                }
-                break;
-            case 'm':
-                payload = JSON.parse(chunk.data.slice(1) || 'null');
-                this.onEvent(payload);
-                break;
-            case 'h':
-                this.hooks.onHeartbeat(this);
-                break;
-            case 'c':
-                payload = JSON.parse(chunk.data.slice(1) || '[]');
-                this.onClose(payload[0], payload[1], true);
-                break;
-        }
-    };
-    HTTPSocket.prototype.onOpen = function (options) {
-        if (this.readyState === state_1["default"].CONNECTING) {
-            if (options && options.hostname) {
-                this.location.base = replaceHost(this.location.base, options.hostname);
-            }
-            this.readyState = state_1["default"].OPEN;
-            if (this.onopen) {
-                this.onopen();
-            }
-        }
-        else {
-            this.onClose(1006, "Server lost session", true);
-        }
-    };
-    HTTPSocket.prototype.onEvent = function (event) {
-        if (this.readyState === state_1["default"].OPEN && this.onmessage) {
-            this.onmessage({ data: event });
-        }
-    };
-    HTTPSocket.prototype.onActivity = function () {
-        if (this.onactivity) {
-            this.onactivity();
-        }
-    };
-    HTTPSocket.prototype.onError = function (error) {
-        if (this.onerror) {
-            this.onerror(error);
-        }
-    };
-    HTTPSocket.prototype.openStream = function () {
-        var _this = this;
-        this.stream = runtime_1["default"].createSocketRequest("POST", getUniqueURL(this.hooks.getReceiveURL(this.location, this.session)));
-        this.stream.bind("chunk", function (chunk) {
-            _this.onChunk(chunk);
-        });
-        this.stream.bind("finished", function (status) {
-            _this.hooks.onFinished(_this, status);
-        });
-        this.stream.bind("buffer_too_long", function () {
-            _this.reconnect();
-        });
-        try {
-            this.stream.start();
-        }
-        catch (error) {
-            util_1["default"].defer(function () {
-                _this.onError(error);
-                _this.onClose(1006, "Could not start streaming", false);
-            });
-        }
-    };
-    HTTPSocket.prototype.closeStream = function () {
-        if (this.stream) {
-            this.stream.unbind_all();
-            this.stream.close();
-            this.stream = null;
-        }
-    };
-    return HTTPSocket;
-}());
-function getLocation(url) {
-    var parts = /([^\?]*)\/*(\??.*)/.exec(url);
-    return {
-        base: parts[1],
-        queryString: parts[2]
-    };
-}
-function getSendURL(url, session) {
-    return url.base + "/" + session + "/xhr_send";
-}
-function getUniqueURL(url) {
-    var separator = (url.indexOf('?') === -1) ? "?" : "&";
-    return url + separator + "t=" + (+new Date()) + "&n=" + autoIncrement++;
-}
-function replaceHost(url, hostname) {
-    var urlParts = /(https?:\/\/)([^\/:]+)((\/|:)?.*)/.exec(url);
-    return urlParts[1] + hostname + urlParts[3];
-}
-function randomNumber(max) {
-    return Math.floor(Math.random() * max);
-}
-function randomString(length) {
-    var result = [];
-    for (var i = 0; i < length; i++) {
-        result.push(randomNumber(32).toString(32));
-    }
-    return result.join('');
-}
-exports["default"] = HTTPSocket;
-
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var State;
-(function (State) {
-    State[State["CONNECTING"] = 0] = "CONNECTING";
-    State[State["OPEN"] = 1] = "OPEN";
-    State[State["CLOSED"] = 3] = "CLOSED";
-})(State || (State = {}));
-exports["default"] = State;
-
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var hooks = {
-    getReceiveURL: function (url, session) {
-        return url.base + "/" + session + "/xhr_streaming" + url.queryString;
-    },
-    onHeartbeat: function (socket) {
-        socket.sendRaw("[]");
-    },
-    sendHeartbeat: function (socket) {
-        socket.sendRaw("[]");
-    },
-    onFinished: function (socket, status) {
-        socket.onClose(1006, "Connection interrupted (" + status + ")", false);
-    }
-};
-exports["default"] = hooks;
-
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var hooks = {
-    getReceiveURL: function (url, session) {
-        return url.base + "/" + session + "/xhr" + url.queryString;
-    },
-    onHeartbeat: function () {
-    },
-    sendHeartbeat: function (socket) {
-        socket.sendRaw("[]");
-    },
-    onFinished: function (socket, status) {
-        if (status === 200) {
-            socket.reconnect();
-        }
-        else {
-            socket.onClose(1006, "Connection interrupted (" + status + ")", false);
-        }
-    }
-};
-exports["default"] = hooks;
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var runtime_1 = __webpack_require__(1);
-var hooks = {
-    getRequest: function (socket) {
-        var Constructor = runtime_1["default"].getXHRAPI();
-        var xhr = new Constructor();
-        xhr.onreadystatechange = xhr.onprogress = function () {
-            switch (xhr.readyState) {
-                case 3:
-                    if (xhr.responseText && xhr.responseText.length > 0) {
-                        socket.onChunk(xhr.status, xhr.responseText);
-                    }
-                    break;
-                case 4:
-                    if (xhr.responseText && xhr.responseText.length > 0) {
-                        socket.onChunk(xhr.status, xhr.responseText);
-                    }
-                    socket.emit("finished", xhr.status);
-                    socket.close();
-                    break;
-            }
-        };
-        return xhr;
-    },
-    abortRequest: function (xhr) {
-        xhr.onreadystatechange = null;
-        xhr.abort();
-    }
-};
-exports["default"] = hooks;
-
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var Collections = __webpack_require__(0);
-var util_1 = __webpack_require__(2);
-var level_1 = __webpack_require__(19);
-var Timeline = (function () {
-    function Timeline(key, session, options) {
-        this.key = key;
-        this.session = session;
-        this.events = [];
-        this.options = options || {};
-        this.sent = 0;
-        this.uniqueID = 0;
-    }
-    Timeline.prototype.log = function (level, event) {
-        if (level <= this.options.level) {
-            this.events.push(Collections.extend({}, event, { timestamp: util_1["default"].now() }));
-            if (this.options.limit && this.events.length > this.options.limit) {
-                this.events.shift();
-            }
-        }
-    };
-    Timeline.prototype.error = function (event) {
-        this.log(level_1["default"].ERROR, event);
-    };
-    Timeline.prototype.info = function (event) {
-        this.log(level_1["default"].INFO, event);
-    };
-    Timeline.prototype.debug = function (event) {
-        this.log(level_1["default"].DEBUG, event);
-    };
-    Timeline.prototype.isEmpty = function () {
-        return this.events.length === 0;
-    };
-    Timeline.prototype.send = function (sendfn, callback) {
-        var _this = this;
-        var data = Collections.extend({
-            session: this.session,
-            bundle: this.sent + 1,
-            key: this.key,
-            lib: "js",
-            version: this.options.version,
-            cluster: this.options.cluster,
-            features: this.options.features,
-            timeline: this.events
-        }, this.options.params);
-        this.events = [];
-        sendfn(data, function (error, result) {
-            if (!error) {
-                _this.sent++;
-            }
-            if (callback) {
-                callback(error, result);
-            }
-        });
-        return true;
-    };
-    Timeline.prototype.generateUniqueID = function () {
-        this.uniqueID++;
-        return this.uniqueID;
-    };
-    return Timeline;
-}());
-exports["default"] = Timeline;
-
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var Collections = __webpack_require__(0);
-var util_1 = __webpack_require__(2);
-var Errors = __webpack_require__(5);
-var transport_strategy_1 = __webpack_require__(70);
-var runtime_1 = __webpack_require__(1);
-var Transports = runtime_1["default"].Transports;
-exports.defineTransport = function (config, name, type, priority, options, manager) {
-    var transportClass = Transports[type];
-    if (!transportClass) {
-        throw new Errors.UnsupportedTransport(type);
-    }
-    var enabled = (!config.enabledTransports ||
-        Collections.arrayIndexOf(config.enabledTransports, name) !== -1) &&
-        (!config.disabledTransports ||
-            Collections.arrayIndexOf(config.disabledTransports, name) === -1);
-    var transport;
-    if (enabled) {
-        transport = new transport_strategy_1["default"](name, priority, manager ? manager.getAssistant(transportClass) : transportClass, Collections.extend({
-            key: config.key,
-            useTLS: config.useTLS,
-            timeline: config.timeline,
-            ignoreNullOrigin: config.ignoreNullOrigin
-        }, options));
-    }
-    else {
-        transport = UnsupportedStrategy;
-    }
-    return transport;
-};
-var UnsupportedStrategy = {
-    isSupported: function () {
-        return false;
-    },
-    connect: function (_, callback) {
-        var deferred = util_1["default"].defer(function () {
-            callback(new Errors.UnsupportedStrategy());
-        });
-        return {
-            abort: function () {
-                deferred.ensureAborted();
-            },
-            forceMinPriority: function () { }
-        };
-    }
-};
-
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var factory_1 = __webpack_require__(7);
-var util_1 = __webpack_require__(2);
-var Errors = __webpack_require__(5);
-var Collections = __webpack_require__(0);
-var TransportStrategy = (function () {
-    function TransportStrategy(name, priority, transport, options) {
-        this.name = name;
-        this.priority = priority;
-        this.transport = transport;
-        this.options = options || {};
-    }
-    TransportStrategy.prototype.isSupported = function () {
-        return this.transport.isSupported({
-            useTLS: this.options.useTLS
-        });
-    };
-    TransportStrategy.prototype.connect = function (minPriority, callback) {
-        var _this = this;
-        if (!this.isSupported()) {
-            return failAttempt(new Errors.UnsupportedStrategy(), callback);
-        }
-        else if (this.priority < minPriority) {
-            return failAttempt(new Errors.TransportPriorityTooLow(), callback);
-        }
-        var connected = false;
-        var transport = this.transport.createConnection(this.name, this.priority, this.options.key, this.options);
-        var handshake = null;
-        var onInitialized = function () {
-            transport.unbind("initialized", onInitialized);
-            transport.connect();
-        };
-        var onOpen = function () {
-            handshake = factory_1["default"].createHandshake(transport, function (result) {
-                connected = true;
-                unbindListeners();
-                callback(null, result);
-            });
-        };
-        var onError = function (error) {
-            unbindListeners();
-            callback(error);
-        };
-        var onClosed = function () {
-            unbindListeners();
-            var serializedTransport;
-            serializedTransport = Collections.safeJSONStringify(transport);
-            callback(new Errors.TransportClosed(serializedTransport));
-        };
-        var unbindListeners = function () {
-            transport.unbind("initialized", onInitialized);
-            transport.unbind("open", onOpen);
-            transport.unbind("error", onError);
-            transport.unbind("closed", onClosed);
-        };
-        transport.bind("initialized", onInitialized);
-        transport.bind("open", onOpen);
-        transport.bind("error", onError);
-        transport.bind("closed", onClosed);
-        transport.initialize();
-        return {
-            abort: function () {
-                if (connected) {
-                    return;
-                }
-                unbindListeners();
-                if (handshake) {
-                    handshake.close();
-                }
-                else {
-                    transport.close();
-                }
-            },
-            forceMinPriority: function (p) {
-                if (connected) {
-                    return;
-                }
-                if (_this.priority < p) {
-                    if (handshake) {
-                        handshake.close();
-                    }
-                    else {
-                        transport.close();
-                    }
-                }
-            }
-        };
-    };
-    return TransportStrategy;
-}());
-exports["default"] = TransportStrategy;
-function failAttempt(error, callback) {
-    util_1["default"].defer(function () {
-        callback(error);
-    });
-    return {
-        abort: function () { },
-        forceMinPriority: function () { }
-    };
-}
-
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var defaults_1 = __webpack_require__(9);
-exports.getGlobalConfig = function () {
-    return {
-        wsHost: defaults_1["default"].host,
-        wsPort: defaults_1["default"].ws_port,
-        wssPort: defaults_1["default"].wss_port,
-        wsPath: defaults_1["default"].ws_path,
-        httpHost: defaults_1["default"].sockjs_host,
-        httpPort: defaults_1["default"].sockjs_http_port,
-        httpsPort: defaults_1["default"].sockjs_https_port,
-        httpPath: defaults_1["default"].sockjs_path,
-        statsHost: defaults_1["default"].stats_host,
-        authEndpoint: defaults_1["default"].channel_auth_endpoint,
-        authTransport: defaults_1["default"].channel_auth_transport,
-        activity_timeout: defaults_1["default"].activity_timeout,
-        pong_timeout: defaults_1["default"].pong_timeout,
-        unavailable_timeout: defaults_1["default"].unavailable_timeout
-    };
-};
-exports.getClusterConfig = function (clusterName) {
-    return {
-        wsHost: "ws-" + clusterName + ".pusher.com",
-        httpHost: "sockjs-" + clusterName + ".pusher.com"
-    };
-};
-
-
-/***/ })
-/******/ ]);
-});
-
-/***/ }),
-/* 37 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 if (false) {
   module.exports = require('./vue.common.prod.js')
 } else {
-  module.exports = __webpack_require__(38)
+  module.exports = __webpack_require__(43)
 }
 
 
 /***/ }),
-/* 38 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54496,10 +54663,10 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(39).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(44).setImmediate))
 
 /***/ }),
-/* 39 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -54555,7 +54722,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(40);
+__webpack_require__(45);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -54569,7 +54736,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 40 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -54759,18 +54926,18 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(6)))
 
 /***/ }),
-/* 41 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(42)
+var normalizeComponent = __webpack_require__(11)
 /* script */
-var __vue_script__ = __webpack_require__(43)
+var __vue_script__ = __webpack_require__(47)
 /* template */
-var __vue_template__ = __webpack_require__(44)
+var __vue_template__ = __webpack_require__(48)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54809,116 +54976,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 43 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54942,12 +55000,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
-        console.log('Component mounted.');
+        Echo.join("chat").here(function (users) {
+            console.log(users);
+        }).joining(function (user) {
+            console.log(user.name);
+        }).leaving(function (user) {
+            console.log(user.name);
+        });
     }
 });
 
 /***/ }),
-/* 44 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -54961,17 +55025,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
+    return _c("div", { staticClass: "container", attrs: { "2": "" } }, [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
           _c("div", { staticClass: "panel panel-default" }, [
             _c("div", { staticClass: "panel-heading" }, [
-              _vm._v("Example Component")
+              _vm._v("Ex222ample Component")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "panel-body" }, [
               _vm._v(
-                "\n                    I'm an example component!\n                "
+                "\n                    I'm an example2 component!\n                "
               )
             ])
           ])
@@ -54990,7 +55054,130 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(11)
+/* script */
+var __vue_script__ = __webpack_require__(50)
+/* template */
+var __vue_template__ = __webpack_require__(51)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/MyComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-261983ca", Component.options)
+  } else {
+    hotAPI.reload("data-v-261983ca", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        Echo.join("chat").here(function (users) {
+            console.log(users);
+        }).joining(function (user) {
+            console.log(user.name);
+        }).leaving(function (user) {
+            console.log(user.name);
+        });
+    }
+});
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+          _c("div", { staticClass: "panel panel-default" }, [
+            _c("div", { staticClass: "panel-heading" }, [
+              _vm._v("My Component")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "panel-body" }, [
+              _vm._v("\n                    Hi Mark\n                ")
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-261983ca", module.exports)
+  }
+}
+
+/***/ }),
+/* 52 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

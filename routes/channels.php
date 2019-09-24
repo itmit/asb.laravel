@@ -18,3 +18,7 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('bid.{bidID}', function ($user, $bidID) {
     return $user->id === Bid::findOrNew($bidID)->user_id;
 });
+
+Broadcast::channel('chat', function ($user) {
+    return $user;
+});
