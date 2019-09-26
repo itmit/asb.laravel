@@ -134,7 +134,7 @@
                     }
                 });
 
-            }, 5000);
+            }, 50000);
             }            
 
             // $(document).on('change', '#selectBidsByStatus', function() {
