@@ -15,10 +15,14 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('bid.{bidID}', function ($user, $bidID) {
-    return $user->id === Bid::findOrNew($bidID)->user_id;
-});
+// Broadcast::channel('bid.{bidID}', function ($user, $bidID) {
+//     return $user->id === Bid::findOrNew($bidID)->user_id;
+// });
 
 Broadcast::channel('chat', function ($user) {
     return $user;
+});
+
+Broadcast::channel('bid.{bidUID}', function ($bid, $bidUID) {
+    return $bid->bidUID == $bidUID;
 });

@@ -49,7 +49,7 @@ window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: 'MyKey',
+    key: 'c91c1b7e8c6ece46053b',
     wsHost: window.location.hostname,
     wsPort: 6001,
     disableStats: true,
