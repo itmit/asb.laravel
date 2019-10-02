@@ -235,6 +235,7 @@ class ClientController extends ApiBaseController
         $client = auth('api')->user()->toArray();
         $client['is_guard'] = (int) $client['is_guard'];
         $client['is_active'] = (int) $client['is_active'];
+        $client['sms_alert'] = (int) $client['sms_alert'];
 
         if($guard_enable != NULL)
         {
