@@ -141,7 +141,11 @@ class BidWebController extends BaseWebController
     public function show($id)
     {
         $bid = Bid::where('id', '=', $id)->first();
-        $guard = Client::where('id', '=', $bid->guard)->first();
+        if($bid->guard != NULL)
+        {
+            $guard = Client::where('id', '=', $bid->guard)->first();
+        }
+        else $guard = NULL;
 
         self::translateStatus($bid);
         self::translateType($bid);
@@ -333,7 +337,7 @@ class BidWebController extends BaseWebController
 
     public function closeByUser(Request $request)
     {
-        $bid = Bid::where('id', '=', $request->bidid)->update(['status' => 'Processed', 'guard' => Auth::id()]);
+        $bid = Bid::where('id', '=', $request->bidid)->update(['status' => 'Processed']);
 
         return 'close';
     }
