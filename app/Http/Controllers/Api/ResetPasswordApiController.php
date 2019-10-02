@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-// include_once base_path() . "/app/smsc_api.php";
-include_once base_path() . "/app/smsc_smpp.php";
+include_once base_path() . "/app/smsc_api.php";
+// include_once base_path() . "/app/smsc_smpp.php";
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -44,13 +44,13 @@ class ResetPasswordApiController extends ApiBaseController
 
         if($client != 0)
         {
-            // send_sms_mail($request['phone_number'], "Код для восстановления пароля: " . $code);
+            $sendsms = send_sms_mail($request['phone_number'], "Код для восстановления пароля: " . $code);
 
-            $S = new SMSC_SMPP();
+            // $S = new SMSC_SMPP();
 
-            $S->send_sms($request['phone_number'], "Код для восстановления пароля: " . $code);
+            // $S->send_sms($request['phone_number'], "Код для восстановления пароля: " . $code);
 
-            if ($S->send_sms($request['phone_number'], "Код для восстановления пароля: " . $code, "sender"))
+            if ($sendsms[1] > 0)
             return $this->sendResponse([],'Code was generated');
             else return $this->SendError('DB error', 'Something gone wrong', 401);
 
