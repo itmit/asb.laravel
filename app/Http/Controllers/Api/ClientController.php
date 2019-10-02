@@ -477,4 +477,17 @@ class ClientController extends ApiBaseController
     {
         Client::where('id', '=', $id)->update(['sms_alert' => 0, 'is_active' => 0, 'active_from' => NULL]);
     }
+
+    public function chechClientActiveStatus(int $id)
+    {
+        $client = auth('api')->user()->toArray();
+
+        $response = [
+            'is_active' => $client['is_active'],
+            'active_from' => $client['is_active'],
+        ];
+
+        // return $this->SendResponse(auth('api')->user()->toArray(), "");
+        return $this->SendResponse($response, "");
+    }
 }
