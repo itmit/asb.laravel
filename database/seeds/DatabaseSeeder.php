@@ -29,6 +29,12 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$qYiU8MseeJF5ingZpExLROT8szDD5FWriVGEzSv.rviPd9K9kenq.',
         ]);
 
+        $dispASB = User::create([
+            'name' => 'dispASB',
+            'email' => 'doNotDeleteThis@mail.ru',
+            'password' => '$2y$10$TU3LRJYJMmjFRmnyvnG.HegXuMXXK4XfhU65ZacCtbSzP0eT3nW0W',
+        ]);
+
         $adminRole = Role::create([
             'name' => 'super-admin',
             'display_name' => 'Главный администратор',
