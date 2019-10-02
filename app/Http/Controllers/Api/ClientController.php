@@ -420,11 +420,11 @@ class ClientController extends ApiBaseController
             uniqid('', true)
         );
 
+        // $payment = $client->getPaymentInfo($paymentId);
 
- return $this->sendResponse([
-                $client
-            ],
-                '');
+        dd($client);
+
+        return $this->sendResponse([$client],'');
     }
 
     public function sendSMS()
