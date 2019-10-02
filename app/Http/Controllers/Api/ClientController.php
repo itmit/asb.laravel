@@ -422,7 +422,7 @@ class ClientController extends ApiBaseController
 
         $newPayment = Payment::create([
             'yandex_kassa_id' => $paymentInfo->id,
-            'client' => auth('api')->id,
+            'client' => auth('api')->user()->id,
             'status' => $paymentInfo->status,
             'payment_token' => $data->payment_token,
         ]);
