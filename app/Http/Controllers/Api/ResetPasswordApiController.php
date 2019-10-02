@@ -50,6 +50,8 @@ class ResetPasswordApiController extends ApiBaseController
 
             // $S->send_sms($request['phone_number'], "Код для восстановления пароля: " . $code);
 
+            return $sendsms[0];
+
             if ($sendsms[1] > 0)
             return $this->sendResponse([],'Code was generated');
             else return $this->SendError('DB error', 'Something gone wrong', 401);
