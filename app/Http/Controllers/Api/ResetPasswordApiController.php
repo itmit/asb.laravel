@@ -44,13 +44,11 @@ class ResetPasswordApiController extends ApiBaseController
 
         if($client != 0)
         {
-            $sendsms = send_sms_mail($request['phone_number'], "Код для восстановления пароля: " . $code);
+            $sendsms = send_sms($request['phone_number'], "Код для восстановления пароля: " . $code);
 
             // $S = new SMSC_SMPP();
 
             // $S->send_sms($request['phone_number'], "Код для восстановления пароля: " . $code);
-
-            return $sendsms[0];
 
             if ($sendsms[1] > 0)
             return $this->sendResponse([],'Code was generated');
