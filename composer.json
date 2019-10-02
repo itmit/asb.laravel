@@ -15,7 +15,8 @@
         "paragonie/random_compat": "2.*",
         "pusher/pusher-php-server": "~3.0",
         "react/dns": "0.4.19",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "yandex-money/yandex-checkout-sdk-php": "*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
