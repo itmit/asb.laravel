@@ -20,13 +20,13 @@
     margin-left: 30px;
 }
 .left-menu .nav .active {
-    background-color: #2a88bd;
+    background-color: #000000;
 }
 .left-menu .nav .active a {
     color: white;
 }
 .left-menu .nav {
-    background-color: #3097d1;
+    background-color: #000000;
     border-radius: 5px;
 }
 .left-menu .nav li a {
@@ -34,10 +34,10 @@
     font-size: 20px;
 }
 .left-menu .nav li:hover {
-    background-color: #2a88bd;
+    background-color: #000000;
 }
 .left-menu .nav li a:hover {
-    background-color: #2a88bd;
+    background-color: #000000;
     border-radius: 5px;
 }
 .tabs-content .col-sm-12 {
@@ -59,7 +59,7 @@
     font-size: 20px;
 }
 .navbar-right li a {
-    background-color: #2a88bd;
+    background-color: #000000;
     margin: 7px;
     border-radius: 5px;
     padding-left: 60px;
@@ -70,10 +70,10 @@
     margin-top: 8px;
 }
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover, .dropdown-toggle {
-    background-color: #2a88bd !important;
+    background-color: #000000 !important;
 }
 .dropdown-menu {
-    background-color: #3097d1;
+    background-color: #000000;
     width: 100%;
 }
 .dropdown-menu a,
