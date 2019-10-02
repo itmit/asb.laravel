@@ -28,9 +28,15 @@
             Телефон: {{ $bid->location()->client()->phone_number }}
         </div>
         @if($bid->status != 'Ожидает принятия')
+            @if($guard != NULL)
         <div id="guard" data-guardlongitude="{{ $guard->longitude }}" data-guardlatitude="{{ $guard->latitude }}">
             Заявку принял: <a href="../guard/{{ $bid->guard }}">ГБР {{ $guard->name }}</a>
         </div>
+            @else
+            <div id="guard">
+                Заявка закрыта диспетчером
+            </div>
+            @endif
         @endif
         <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
             Координаты: {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
