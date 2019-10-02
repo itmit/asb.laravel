@@ -171,7 +171,7 @@
                     url     : 'closeByUser',
                     method    : 'post',
                     success: function (response) {
-                        console.log("closed");
+                        location.reload();
                     },
                     error: function (xhr, err) { 
                         console.log(err + " " + xhr);
