@@ -417,6 +417,8 @@ class ClientController extends ApiBaseController
             ),
             uniqid('', true)
         );
+
+        return $client;
     }
 
     public function sendSMS()
