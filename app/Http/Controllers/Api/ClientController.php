@@ -442,7 +442,8 @@ class ClientController extends ApiBaseController
         if($client_update > 0)
         {
             return $this->sendResponse([
-                $current_date
+                'active_from' => $current_date,
+                'is_active' => 1,
             ],
                 'Updated');
         }
