@@ -123,11 +123,11 @@
 
                         function init() {
                             myMap = new ymaps.Map("location", {
-                                center: [response['latitude'], response['longitude']],
+                                center: [response['longitude'], response['latitude']],
                                 zoom: 15
                             });
 
-                                let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
+                                let placeMark = new ymaps.Placemark([response['longitude'], response['latitude']]);
                                 myMap.geoObjects.add(placeMark);
                         }
                         is_map_open = 1;
@@ -136,9 +136,9 @@
                     {
                         myMap.geoObjects.removeAll()
 
-                        let placeMark = new ymaps.Placemark([response['latitude'], response['longitude']]);
+                        let placeMark = new ymaps.Placemark([response['longitude'], response['latitude']]);
                         myMap.geoObjects.add(placeMark);
-                        myMap.setCenter([response['latitude'], response['longitude']], 15);
+                        myMap.setCenter([response['longitude'], response['latitude']], 15);
                     }
                     $('#updated_at').html('');
                     $('#updated_at').html('Последнее обновление: ' + response['updated_at']);
