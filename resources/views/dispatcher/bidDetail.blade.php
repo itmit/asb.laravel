@@ -7,7 +7,7 @@
     </div>
     <div class="col-sm-12">
         <div data-bidstatus = "{{ $bid->status }}" class="bidstatus">
-            Статус: {{ $bid->status }}
+            Статус: {{ $bid->status }} <input type="submit" value="Закрыть заявку" data-bidid="{{ $bid->id }}" class="close-bid">
         </div>
         <div>
             Создана: {{ date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}
@@ -158,6 +158,10 @@
                 }, 5000);
             }
             
+            $('#close-bid').click(function (e) {
+                alert('eee');
+            })
+
         })
 
     </script>
