@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\smsc_api;
+use YandexCheckout\Client as YandexClient;
 
 class ClientController extends ApiBaseController
 {
@@ -364,39 +365,55 @@ class ClientController extends ApiBaseController
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 
-    public function setActivityFrom()
+    public function setActivityFrom(Request $data)
     {
-        $active_from = Client::where('id', '=', auth('api')->user()->id)->first(['active_from']);
-        $active_from_unix = strtotime($active_from->active_from);
+        // $active_from = Client::where('id', '=', auth('api')->user()->id)->first(['active_from']);
+        // $active_from_unix = strtotime($active_from->active_from);
 
-        $date = date_create();
-        $current_date = date_format($date, 'Y-m-d');
+        // $date = date_create();
+        // $current_date = date_format($date, 'Y-m-d');
 
-        // return 'cur: ' . $current_date . ' active from: ' . gmdate("Y-m-d", strtotime($active_from->active_from)) . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day",$active_from_unix));
+        // // return 'cur: ' . $current_date . ' active from: ' . gmdate("Y-m-d", strtotime($active_from->active_from)) . ' active til: ' . gmdate("Y-m-d", strtotime("+30 day",$active_from_unix));
 
-        if($active_from->active_from == NULL || gmdate("Y-m-d", strtotime("+30 day", $active_from_unix)) <= $current_date)
-        {
-            $date = date_create();
-            $current_date = date_format($date, 'Y-m-d H:i:s');
+        // if($active_from->active_from == NULL || gmdate("Y-m-d", strtotime("+30 day", $active_from_unix)) <= $current_date)
+        // {
+        //     $date = date_create();
+        //     $current_date = date_format($date, 'Y-m-d H:i:s');
 
-            $client = Client::where('id', '=', auth('api')->user()->id)
-            ->update([
-                'is_active' => 1,
-                'active_from' => $current_date,
-                'sms_alert' => 0
-                ]);
-            // return 'payment access';
-        }
-        else return $this->SendError('Payment error', 'Данный аккаунт уже оплачен', 401);
+        //     $client = Client::where('id', '=', auth('api')->user()->id)
+        //     ->update([
+        //         'is_active' => 1,
+        //         'active_from' => $current_date,
+        //         'sms_alert' => 0
+        //         ]);
+        //     // return 'payment access';
+        // }
+        // else return $this->SendError('Payment error', 'Данный аккаунт уже оплачен', 401);
 
-        if($client > 0)
-        {
-            return $this->sendResponse([
-                $client
-            ],
-                'Updated');
-        }
-        return $this->SendError('Update error', 'Something gone wrong', 401);
+        // if($client > 0)
+        // {
+        //     return $this->sendResponse([
+        //         $client
+        //     ],
+        //         'Updated');
+        // }
+        // return $this->SendError('Update error', 'Something gone wrong', 401);
+
+        $client = new YandexClient();
+        $client->setAuth('639060', 'test_nvj1kabpps6iSE3tzkulOIJEv8rqYW9VdskFi5xiWr8');
+
+        $client->createPayment(
+            array(
+                'payment_token' => $data->payment_token,
+                'amount' => array(
+                    'value' => 2,
+                    'currency' => 'RUB',
+                ),
+                'capture' => false,
+                'description' => 'Оплата АСБ подписки',
+            ),
+            uniqid('', true)
+        );
     }
 
     public function sendSMS()
