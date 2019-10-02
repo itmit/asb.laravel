@@ -158,10 +158,23 @@
                 }, 5000);
             }
             
-            $('#close-bid').click(function (e) {
-                alert('eee');
-            })
+            $('.close-bid').click(function (e) {
+                let bidid = $(this).data('bidid');
+                $.ajax({
+                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "json",
+                    data: {bidid: bidid},
+                    url     : 'bid/closeByUser',
+                    method    : 'post',
+                    success: function (response) {
+                        console.log("closed");
+                    },
+                    error: function (xhr, err) { 
+                        console.log(err + " " + xhr);
+                    }
+                })
 
+            })
         })
 
     </script>

@@ -25,6 +25,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::post('bid/updateList', 'Web\BidWebController@updateList');
     Route::post('bid/updateCoordinates', 'Web\BidWebController@updateCoordinates');
     Route::post('bid/alarmSound', 'Web\BidWebController@alarmSound');
+    Route::post('bid/closeByUser', 'Web\BidWebController@closeByUser');
     Route::post('clients/lastLocation', 'Web\ClientWebController@lastLocation');
     Route::post('clients/changeActivity', 'Web\ClientWebController@changeActivity');
     Route::post('clients/selectClientsByType', 'Web\ClientWebController@selectClientsByType');
@@ -39,6 +40,6 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
 Auth::routes();
 
 
-Route::post('messages', function(Illuminate\Http\Request $request) {
-	App\Events\PrivateChat::dispatch($request->all());
-});
+// Route::post('messages', function(Illuminate\Http\Request $request) {
+// 	App\Events\PrivateChat::dispatch($request->all());
+// });
