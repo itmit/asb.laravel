@@ -403,7 +403,7 @@ class ClientController extends ApiBaseController
         // return $this->SendError('Update error', 'Something gone wrong', 401);
 
         $client = new YandexClient();
-        $client->setAuth(env('YANDEX_KASSA_SHOP_ID'), env('YANDEX_KASSA_SECRET_KEY'));
+        $client->setAuth('639060', 'test_nvj1kabpps6iSE3tzkulOIJEv8rqYW9VdskFi5xiWr8');
 
         $client->createPayment(
             array(
