@@ -48,7 +48,7 @@
     padding-bottom: 30px;
 }
 .navbar-static-top {
-    background-color: #3097d1;
+    background-color: #000000;
 }
 .navbar-brand,
 .dropdown-toggle {
@@ -101,7 +101,7 @@ td {
 }
 .navbar-right a,
 .navbar-right a:hover {
-    background-color: #3097d1 !important;
+    background-color: #000000 !important;
     font-weight: bold;
 }
 .col-md-offset-4 button {
