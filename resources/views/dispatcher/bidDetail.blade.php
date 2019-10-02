@@ -7,7 +7,10 @@
     </div>
     <div class="col-sm-12">
         <div data-bidstatus = "{{ $bid->status }}" class="bidstatus">
-            Статус: {{ $bid->status }} <input type="submit" value="Закрыть заявку" data-bidid="{{ $bid->id }}" class="close-bid">
+            Статус: {{ $bid->status }} 
+            @if($bid->status != 'Выполнена')
+            <input type="submit" value="Закрыть заявку" data-bidid="{{ $bid->id }}" class="close-bid">
+            @endif
         </div>
         <div>
             Создана: {{ date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}
@@ -163,7 +166,7 @@
                 console.log(bidid);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "json",
+                    dataType: "html",
                     data: {bidid: bidid},
                     url     : 'closeByUser',
                     method    : 'post',

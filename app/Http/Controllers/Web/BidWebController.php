@@ -333,8 +333,8 @@ class BidWebController extends BaseWebController
 
     public function closeByUser(Request $request)
     {
-        $bid = Bid::where('id', '=', $request->bidid)->update(['status' => 'Processed']);
-        
+        $bid = Bid::where('id', '=', $request->bidid)->update(['status' => 'Processed', 'guard' => auth('api')->user()->id]);
+
         return 'close';
     }
 }
