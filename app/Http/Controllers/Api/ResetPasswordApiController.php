@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-include_once base_path() . "/app/smsc_api.php";
+// include_once base_path() . "/app/smsc_api.php";
 include_once base_path() . "/app/smsc_smpp.php";
 
 use Illuminate\Http\Request;
@@ -44,7 +44,7 @@ class ResetPasswordApiController extends ApiBaseController
 
         if($client != 0)
         {
-            send_sms_mail($request['phone_number'], "Код для восстановления пароля: " . $code);
+            // send_sms_mail($request['phone_number'], "Код для восстановления пароля: " . $code);
 
             $S = new SMSC_SMPP();
 
