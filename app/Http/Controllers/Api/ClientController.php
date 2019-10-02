@@ -233,6 +233,7 @@ class ClientController extends ApiBaseController
         $guard_enable = Bid::where('status', '=', 'Accepted')->where('guard', '=', $userId)->first();
 
         $client = auth('api')->user()->toArray();
+        $client['is_guard'] = (int) $client['is_guard'];
 
         if($guard_enable != NULL)
         {
