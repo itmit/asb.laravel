@@ -7,6 +7,7 @@ include_once base_path() . "/app/smsc_api.php";
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Bid;
+use App\Models\Payment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -414,11 +415,16 @@ class ClientController extends ApiBaseController
                 ),
                 'capture' => false,
                 'description' => 'Оплата АСБ подписки',
+
             ),
             uniqid('', true)
         );
 
-        return $client;
+
+ return $this->sendResponse([
+                $client
+            ],
+                '');
     }
 
     public function sendSMS()
