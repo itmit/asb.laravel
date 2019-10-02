@@ -406,7 +406,7 @@ class ClientController extends ApiBaseController
         $client = new YandexClient();
         $client->setAuth('639060', 'test_nvj1kabpps6iSE3tzkulOIJEv8rqYW9VdskFi5xiWr8');
 
-        $client->createPayment(
+        $paymentInfo = $client->createPayment(
             array(
                 'payment_token' => $data->payment_token,
                 'amount' => array(
@@ -422,7 +422,7 @@ class ClientController extends ApiBaseController
 
         // $payment = $client->getPaymentInfo($paymentId);
 
-        dd($client);
+        dd($paymentInfo);
 
         return $this->sendResponse([$client],'');
     }
