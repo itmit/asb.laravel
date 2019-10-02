@@ -421,6 +421,10 @@ class ClientController extends ApiBaseController
                 $idempotenceKey
             );
 
+            if($response->status != 'succeeded'){
+                return $this->SendError('Payment error', 'Оплата не удалась', 401);
+            }
+
             $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $response->status]);
 
             if($payment_confirm > 0)
@@ -438,7 +442,7 @@ class ClientController extends ApiBaseController
         if($client_update > 0)
         {
             return $this->sendResponse([
-                $client_update
+                $current_date
             ],
                 'Updated');
         }
