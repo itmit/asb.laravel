@@ -160,11 +160,12 @@
             
             $('.close-bid').click(function (e) {
                 let bidid = $(this).data('bidid');
+                console.log(bidid);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
                     data: {bidid: bidid},
-                    url     : 'bid/closeByUser',
+                    url     : 'closeByUser',
                     method    : 'post',
                     success: function (response) {
                         console.log("closed");
