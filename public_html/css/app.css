@@ -16,7 +16,7 @@
 }
 .tabs-content h1 {
     margin-bottom: 20px;
-    color: #3097d1;
+    color: #000000;
     margin-left: 30px;
 }
 .left-menu .nav .active {
@@ -30,7 +30,7 @@
     border-radius: 5px;
 }
 .left-menu .nav li a {
-    color: white;
+    color: #FFFF00;
     font-size: 20px;
 }
 .left-menu .nav li:hover {
