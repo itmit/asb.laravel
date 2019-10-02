@@ -410,7 +410,7 @@ class ClientController extends ApiBaseController
             array(
                 'payment_token' => $data->payment_token,
                 'amount' => array(
-                    'value' => 2,
+                    'value' => '2.00',
                     'currency' => 'RUB',
                 ),
                 'capture' => false,
@@ -420,11 +420,31 @@ class ClientController extends ApiBaseController
             uniqid('', true)
         );
 
+        $newPayment = Payment::create([
+            'yandex_kassa_id' => $paymentInfo->id,
+            'client' => Auth::id(),
+            'status' => $paymentInfo->status,
+            'payment_token' => $data->payment_token,
+        ]);
+
+        $paymentId = $paymentInfo->id;
+        $idempotenceKey = uniqid('', true);
+        $response = $client->capturePayment(
+            array(
+                'amount' => array(
+                    'value' => '2.00',
+                    'currency' => 'RUB',
+                ),
+            ),
+            $paymentId,
+            $idempotenceKey
+        );
+
         // $payment = $client->getPaymentInfo($paymentId);
 
-        dd($paymentInfo);
+        dd($response);
 
-        return $this->sendResponse([$client],'');
+        // return $this->sendResponse([$client],'');
     }
 
     public function sendSMS()
