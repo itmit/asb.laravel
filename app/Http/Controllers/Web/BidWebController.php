@@ -240,7 +240,7 @@ class BidWebController extends BaseWebController
             self::translateType($bid);
 
             $response = [
-                'updated_at' => date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
+                'updated_at' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                 'location' => [
                     'latitude' => $bid->location()->latitude,
                     'longitude' => $bid->location()->longitude
