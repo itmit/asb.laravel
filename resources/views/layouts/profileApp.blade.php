@@ -306,6 +306,7 @@
                             }).catch(error => {
                                 console.log('Alert sound error')
                             });
+                        }
                         
 
                     }
