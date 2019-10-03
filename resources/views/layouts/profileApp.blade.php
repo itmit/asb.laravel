@@ -257,14 +257,28 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a>Дата создания: ' + v.created_at + '</div>');
+                                            if(v.client.name == null)
+                                            {
+                                                $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            }
+                                            if(v.client.name != null)
+                                            {
+                                                $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            }
                                         });
                                         $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
                                     }
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a> Дата создания: ' + v.created_at + '</div><hr>');
+                                            if(v.client.name == null)
+                                            {
+                                                $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                            }
+                                            if(v.client.name != null)
+                                            {
+                                                $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                            }
                                         });
                                     }
                                     openModal = 1;
@@ -274,7 +288,15 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            if(v.client.name == null)
+                                            {
+                                                $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            }
+                                            if(v.client.name != null)
+                                            {
+                                                $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            }
+
                                             $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');                                        
                                             myMap = new ymaps.Map("map", {
                                             center: [v.location.latitude, v.location.longitude],
@@ -290,7 +312,15 @@
                                     {
                                         $('.modal-text').html('');
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                            if(v.client.name == null)
+                                            {
+                                                $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                            }
+                                            if(v.client.name != null)
+                                            {
+                                                $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                            }
+                                            
                                         });
                                     }
                                 }
