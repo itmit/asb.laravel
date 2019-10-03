@@ -141,7 +141,7 @@ class BidWebController extends BaseWebController
     public function show($id)
     {
 
-        return env('BROADCAST_DRIVER');
+        return config('app.name');
         $bid = Bid::where('id', '=', $id)->first();
         if($bid->guard != NULL)
         {
