@@ -299,16 +299,8 @@
                         }
                         
                         let audio = new Audio(location.origin + '/alert.mp3'); 
-                        let promise = audio.play();
-                        if (promise !== undefined) {
-                            promise.then(_ => {
-                                audio.play();
-                            }).catch(error => {
-                                console.log('Alert sound error')
-                            });
-                        }
+                        audio.resume().then(() => {audio.play();}
                         
-
                     }
                     if(response.length == 0)
                     {
