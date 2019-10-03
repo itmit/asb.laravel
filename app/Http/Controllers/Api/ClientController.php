@@ -385,7 +385,7 @@ class ClientController extends ApiBaseController
             $current_date = date_format($date, 'Y-m-d H:i:s');
 
             $client = new YandexClient();
-            $client->setAuth('639060', 'test_nvj1kabpps6iSE3tzkulOIJEv8rqYW9VdskFi5xiWr8');
+            $client->setAuth(config('app.YANDEX_KASSA_SHOP_ID'), config('app.YANDEX_KASSA_SECRET_KEY'));
 
             $paymentInfo = $client->createPayment(
                 array(
