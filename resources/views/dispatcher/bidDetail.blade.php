@@ -149,7 +149,7 @@
                                     iconImageSize: [40, 35],
                                     // Смещение левого верхнего угла иконки относительно
                                     // её "ножки" (точки привязки).
-                                    iconImageOffset: [20, 17.5]
+                                    iconImageOffset: [-20, -17.5]
                                 });
 
                                 myMap.geoObjects
