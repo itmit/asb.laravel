@@ -232,7 +232,7 @@
         let openModal = 0;
         var pathname = window.location.pathname;
         let urlcheck = /\/bid\/\d+$/.test(pathname); 
-        console.log(location.origin);
+        // console.log(location.origin);
         // || /\/bid\/\d+$/.test(pathname) == false
         setInterval(function(){ 
             $.ajax({
@@ -257,14 +257,14 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a>Дата создания: ' + v.created_at + '</div>');
+                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a>Дата создания: ' + v.created_at + '</div>');
                                         });
                                         $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
                                     }
                                     else
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + '</div><hr>');
+                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a> Дата создания: ' + v.created_at + '</div><hr>');
                                         });
                                     }
                                     openModal = 1;
@@ -274,7 +274,7 @@
                                     if(response.length == 1)
                                     {
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
                                             $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');                                        
                                             myMap = new ymaps.Map("map", {
                                             center: [v.location.latitude, v.location.longitude],
@@ -290,7 +290,7 @@
                                     {
                                         $('.modal-text').html('');
                                         $.each(response, function(k, v) {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
                                         });
                                     }
                                 }
@@ -298,9 +298,15 @@
                             
                         }
                         
+                        let audio = new Audio(location.origin + '/alert.mp3'); 
+                        let promise = audio.play();
+                        if (promise !== undefined) {
+                            promise.then(_ => {
+                                audio.play();
+                            }).catch(error => {
+                                console.log('Alert sound error')
+                            });
                         
-                        let audio = new Audio(location.origin + '/alert.mp3');
-                        audio.play();
 
                     }
                     if(response.length == 0)
