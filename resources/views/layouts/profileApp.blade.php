@@ -299,7 +299,7 @@
                         }
                         
                         let audio = new Audio(location.origin + '/alert.mp3'); 
-                        audio.resume().then(() => {audio.play();}
+                        audio.resume().then(() => {audio.play();})
                         
                     }
                     if(response.length == 0)
