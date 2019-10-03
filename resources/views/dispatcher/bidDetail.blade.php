@@ -10,7 +10,7 @@
             Статус: {{ $bid->status }} 
             @ability('super-admin,dispatcher', 'close-bid')
                 @if($bid->status != 'Выполнена')
-                    <input type="submit" value="Закрыть заявку" data-bidid="{{ $bid->id }}" class="close-bid">
+                    <input type="submit" value="Закрыть заявку" data-bidid="{{ $bid->id }}" class="close-bid btn btn-primary">
                 @endif
             @endability
         </div>
