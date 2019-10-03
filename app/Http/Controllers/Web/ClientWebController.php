@@ -236,12 +236,24 @@ class ClientWebController extends Controller
 
     public function changeActivity(Request $request)
     {
+        $date = date_create();
+        $current_date = date_format($date, 'Y-m-d H:i:s');
+
         $user = Auth::user();
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                $client = Client::where('id', '=', $request->clientID)
-                    ->update(['is_active' => $request->direction]);
+                if($request->direction == 0)
+                {
+                    $client = Client::where('id', '=', $request->clientID)
+                        ->update(['is_active' => $request->direction, 'active_from' => NULL, 'sms_alert' => 0]);
+                }
+                if($request->direction == 1)
+                {
+                    $client = Client::where('id', '=', $request->clientID)
+                        ->update(['is_active' => $request->direction, 'active_from' => $current_date, 'sms_alert' => 0]);
+                }
+                
                 return response()->json(['Активность пользователя изменена']);
             }
             else return response()->json(['Недостаточно прав']);

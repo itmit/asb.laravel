@@ -391,7 +391,7 @@ class ClientController extends ApiBaseController
                 array(
                     'payment_token' => $data->payment_token,
                     'amount' => array(
-                        'value' => '2.00',
+                        'value' => '1.00',
                         'currency' => 'RUB',
                     ),
                     'capture' => false,
@@ -413,7 +413,7 @@ class ClientController extends ApiBaseController
             $response = $client->capturePayment(
                 array(
                     'amount' => array(
-                        'value' => '2.00',
+                        'value' => '1.00',
                         'currency' => 'RUB',
                     ),
                 ),
