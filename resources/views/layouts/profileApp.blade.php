@@ -232,7 +232,7 @@
         let openModal = 0;
         var pathname = window.location.pathname;
         let urlcheck = /\/bid\/\d+$/.test(pathname); 
-        console.log(location.href.split("lk.asb-security.ru")[1]);
+        console.log(location.href.split("lk.asb-security.ru/")[0]);
         // || /\/bid\/\d+$/.test(pathname) == false
         setInterval(function(){ 
             $.ajax({
