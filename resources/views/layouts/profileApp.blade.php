@@ -235,6 +235,9 @@
         // console.log(urlcheck);
         // || /\/bid\/\d+$/.test(pathname) == false
         setInterval(function(){ 
+
+            return window.location.href.match(/^.*\//);
+
             $.ajax({
                 headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 dataType: "json",
