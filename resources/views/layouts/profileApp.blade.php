@@ -299,7 +299,7 @@
                         }
                         
                         
-                        let audio = new Audio('alert.mp3');
+                        let audio = new Audio(location.origin + 'alert.mp3');
                         audio.play();
 
                     }
