@@ -24,7 +24,7 @@
             Тип: {{ $bid->type }}
         </div>
         <div>
-            Клиент: <a href="../client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name }}</a>
+            Клиент: <a href="../client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name ??  $bid->location()->client()->organization}}</a>
         </div>
         <div>
             Телефон: {{ $bid->location()->client()->phone_number }}
