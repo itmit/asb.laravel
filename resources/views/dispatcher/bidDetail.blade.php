@@ -144,7 +144,7 @@
                                     // Необходимо указать данный тип макета.
                                     iconLayout: 'default#image',
                                     // Своё изображение иконки метки.
-                                    iconImageHref: '../storage/caricon.png',
+                                    iconImageHref: '../caricon.png',
                                     // Размеры метки.
                                     iconImageSize: [40, 35],
                                     // Смещение левого верхнего угла иконки относительно
