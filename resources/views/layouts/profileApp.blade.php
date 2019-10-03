@@ -298,8 +298,9 @@
                             
                         }
                         
-                        let audio = new AudioContext(location.origin + '/alert.mp3'); 
-                        audio.resume().then(() => {audio.play();})
+                        let audio = new Audio(location.origin + '/alert.mp3'); 
+                        audio.pause();
+                        audio.play();
                         
                     }
                     if(response.length == 0)
