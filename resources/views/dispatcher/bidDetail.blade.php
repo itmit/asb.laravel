@@ -8,9 +8,11 @@
     <div class="col-sm-12">
         <div data-bidstatus = "{{ $bid->status }}" class="bidstatus">
             Статус: {{ $bid->status }} 
-            @if($bid->status != 'Выполнена')
-            <input type="submit" value="Закрыть заявку" data-bidid="{{ $bid->id }}" class="close-bid">
-            @endif
+            @ability('super-admin,dispatcher', 'close-bid')
+                @if($bid->status != 'Выполнена')
+                    <input type="submit" value="Закрыть заявку" data-bidid="{{ $bid->id }}" class="close-bid">
+                @endif
+            @endability
         </div>
         <div>
             Создана: {{ date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}
