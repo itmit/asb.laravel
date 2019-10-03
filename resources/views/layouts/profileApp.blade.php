@@ -298,7 +298,7 @@
                             
                         }
                         
-                        let audio = new Audio(location.origin + '/alert.mp3'); 
+                        let audio = new AudioContext(location.origin + '/alert.mp3'); 
                         audio.resume().then(() => {audio.play();})
                         
                     }
@@ -314,7 +314,7 @@
                 }
             });
 
-            }, 7000);
+            }, 5000);
     });
 
 
