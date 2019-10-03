@@ -141,7 +141,7 @@ class BidWebController extends BaseWebController
     public function show($id)
     {
 
-        return env('YANDEX_KASSA_SHOP_ID', 'default');
+        return env('YANDEX_KASSA_SHOP_ID', true);
         $bid = Bid::where('id', '=', $id)->first();
         if($bid->guard != NULL)
         {
