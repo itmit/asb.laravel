@@ -49,7 +49,7 @@ class PointOnMapApiController extends ApiBaseController
                 $record->save();
                 $id = $record->id;
 
-                $record = Bid::where('uid', '=', $request->uid)->lockForUpdate()->first();
+                $record = Bid::where('uid', '=', $request->uid)->first();
                 // usleep(1);
                 $record->location = $id;
                 $record->save();
