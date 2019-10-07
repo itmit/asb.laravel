@@ -264,6 +264,8 @@ class ClientController extends ApiBaseController
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
+        return $request->file('contents');
+
         $path = Storage::putFileAs(
             'public/avatars', $request->file('contents'), auth('api')->user()->id . '.jpg'
         );
