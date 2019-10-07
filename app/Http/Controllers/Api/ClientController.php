@@ -268,7 +268,7 @@ class ClientController extends ApiBaseController
             'public/avatars', $request->file('contents'), auth('api')->user()->id . '.jpg'
         );
 
-        return $path;
+        // return $path;
 
         $user = Client::where('id', '=', auth('api')->user()->id)
             ->update(['user_picture' => 'storage/avatars/' . auth('api')->user()->id . '.jpg']);
