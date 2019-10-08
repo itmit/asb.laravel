@@ -45,7 +45,7 @@ class Client extends Authenticatable
      */
     public function location()
     {
-        return $this->belongsTo(PointOnMap::class, 'client_id')->get()->first();
+        return $this->hasMany(PointOnMap::class, 'client_id')->get()->first();
     }
 
     /**
