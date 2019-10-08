@@ -42,7 +42,7 @@ class Client extends Authenticatable
 
     public function location()
     {
-        return $this->hasOne(PointOnMap::class)->get()->first();
+        return $this->hasMany(PointOnMap::class)->get()->first();
     }
 
     /**
