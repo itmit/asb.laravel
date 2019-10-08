@@ -10,7 +10,7 @@ class PointOnMap extends Model
      * @var array
      */
     protected $fillable = [
-        'client_id',
+        'client',
         'latitude',
         'longitude',
     ];
