@@ -257,7 +257,7 @@ class ClientController extends ApiBaseController
     public function changePhoto(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:10000',
+            'contents' => 'image|mimes:jpeg,jpg,png,gif|required|size:100000',
         ]);
 
         if ($validator->fails()) { 
