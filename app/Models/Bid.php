@@ -23,14 +23,7 @@ class Bid extends Model
 
     public function client()
     {
+        dd($this->belongsTo(Client::class, 'client')->get()->first());
         return $this->belongsTo(Client::class, 'client')->get()->first();
-    }
-
-     /**
-     * @return User
-     */
-    public function location()
-    {
-        return $this->hasMany(PointOnMap::class, 'client_id')->get()->first();
     }
 }
