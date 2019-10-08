@@ -40,6 +40,9 @@ class Client extends Authenticatable
         return $this->hasMany(Bid::class)->get()->first();
     }
 
+    /**
+     * @return User
+     */
     public function location()
     {
         return $this->hasMany(PointOnMap::class)->get()->first();
