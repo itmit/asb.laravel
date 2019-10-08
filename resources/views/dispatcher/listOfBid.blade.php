@@ -36,13 +36,13 @@
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
-                            {{-- <div class="js-location" data-longitude="{{ $bid->client()->location()->latitude }}" data-latitude="{{ $bid->client()->location()->longitude }}"> --}}
+                            <div class="js-location" data-longitude="{{ $bid->client()->location()->latitude }}" data-latitude="{{ $bid->client()->location()->longitude }}">
                                 <a href="client/{{ $bid->client()->id }}">
                                     @if($bid->client()->name != NULL) {{ $bid->client()->name }}
                                     @else {{ $bid->client()->organization }}
                                     @endif
                                 </a>
-                            {{-- </div> --}}
+                            </div>
                         </td>
                         <td>
                             
