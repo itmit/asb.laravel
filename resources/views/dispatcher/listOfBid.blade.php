@@ -36,23 +36,23 @@
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
-                            <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
-                                <a href="client/{{ $bid->location()->client()->id }}">
-                                    @if($bid->location()->client()->name != NULL) {{ $bid->location()->client()->name }}
-                                    @else {{ $bid->location()->client()->organization }}
+                            <div class="js-location" data-longitude="{{ $bid->client()->location()->latitude }}" data-latitude="{{ $bid->client()->location()->longitude }}">
+                                <a href="client/{{ $bid->client()->id }}">
+                                    @if($bid->client()->name != NULL) {{ $bid->client()->name }}
+                                    @else {{ $bid->client()->organization }}
                                     @endif
                                 </a>
                             </div>
                         </td>
                         <td>
                             
-                                @if($bid->location()->client()->guard != NULL)
-                                @else {{ $bid->location()->client()->guard }}
+                                @if($bid->client()->guard != NULL)
+                                @else {{ $bid->client()->guard }}
                                 @endif
                             
                         </td>
                         <td>
-                            {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
+                            {{-- {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }} --}}
                         </td>
                         <td>{{ $bid->type }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>
