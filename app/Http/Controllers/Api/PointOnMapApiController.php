@@ -58,6 +58,18 @@ class PointOnMapApiController extends ApiBaseController
                 DB::rollback();
                 return $this->sendError(0, 'Ошибка');
             }
+
+            $pom = PointOnMap::create([
+                'client' => auth('api')->user()->id,
+                'latitude' => $request->input('latitude'),
+                'longitude' => $request->input('longitude')
+            ]);
+
+            $active_bids = DB::table('bid')->join('point_on_map', 'location', '=', 'point_on_map.id')
+            ->where('point_on_map.client', '=', $pom->client)
+            ->where('bid', '<>', 'Processed')
+            ->update(['bid.location' => $pom->id]);
+            
             // $pom = PointOnMap::create([
             //     'client' => auth('api')->user()->id,
             //     'latitude' => $request->input('latitude'),
