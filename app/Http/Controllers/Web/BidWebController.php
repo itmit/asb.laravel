@@ -242,11 +242,11 @@ class BidWebController extends BaseWebController
             $response = [
                 'updated_at' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                 'location' => [
-                    'latitude' => $bid->location()->latitude,
-                    'longitude' => $bid->location()->longitude
+                    'latitude' => $bid->client()->location()->latitude,
+                    'longitude' => $bid->client()->location()->longitude
                 ],
                 'guard' => [
-                    'guard_latitude' => $guard->latitude,
+                    'guard_latitude' => $bid->client()->location()->latitude,
                     'guard_longitude' => $guard->longitude,
                     'guard_name' => $guard->name,
                 ]
@@ -261,8 +261,8 @@ class BidWebController extends BaseWebController
             $response = [
                 'updated_at' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                 'location' => [
-                    'latitude' => $bid->location()->latitude,
-                    'longitude' => $bid->location()->longitude
+                    'latitude' => $bid->client()->location()->latitude,
+                    'longitude' => $bid->client()->location()->longitude
                 ]
             ];
         }
