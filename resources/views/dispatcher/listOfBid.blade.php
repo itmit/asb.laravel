@@ -42,7 +42,7 @@
                                     @else {{ $bid->client()->organization }}
                                     @endif
                                 </a>
-                            </div> --}}
+                            </div>
                         </td>
                         <td>
                             
