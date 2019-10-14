@@ -427,7 +427,7 @@ class ClientController extends ApiBaseController
 
         $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
 
-        $paymentId = $paymentInfo->id;
+        $paymentId = $paymentId->id;
 
         $idempotenceKey = uniqid('', true);
         $response = $client->capturePayment(
