@@ -25,8 +25,8 @@ class BidApiController extends ApiBaseController
         if(request('status'))
         {
             $bids = DB::table('bid')
-            ->rightJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
-            ->join('clients', 'point_on_map.client', '=', 'clients.id')
+            ->leftJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
+            ->leftJoin('clients', 'point_on_map.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             // ->where('clients.representative', '=', $this->getRepresentativeId())
             ->where('bid.status', '=', request('status'))
@@ -38,8 +38,8 @@ class BidApiController extends ApiBaseController
         else 
         {
             $bids = DB::table('bid')
-            ->rightJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
-            ->join('clients', 'point_on_map.client', '=', 'clients.id')
+            ->leftJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
+            ->leftJoin('clients', 'point_on_map.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             // ->where('clients.representative', '=', $this->getRepresentativeId())
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
