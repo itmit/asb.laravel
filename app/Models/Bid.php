@@ -23,7 +23,7 @@ class Bid extends Model
 
     public function client()
     {
-        dd($this->belongsTo(Client::class, 'client')->get()->first());
-        // return $this->belongsTo(Client::class, 'client')->get()->first();
+        // dd($this->belongsTo(Client::class, 'client')->get()->first());
+        return $this->belongsTo(Client::class, 'client')->get()->first();
     }
 }
