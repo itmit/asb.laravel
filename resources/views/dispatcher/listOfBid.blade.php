@@ -56,7 +56,7 @@
                         </td>
                         <td>{{ $bid->type }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>
-                        <td>{{ date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))) }}</td>
+                        <td>{{ date('H:i d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow'))) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
