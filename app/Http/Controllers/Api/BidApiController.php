@@ -25,7 +25,7 @@ class BidApiController extends ApiBaseController
         if(request('status'))
         {
             $bids = DB::table('bid')
-            ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+            ->join('point_on_map', 'bid.client', '=', 'point_on_map.client')
             ->join('clients', 'point_on_map.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             // ->where('clients.representative', '=', $this->getRepresentativeId())
@@ -38,7 +38,7 @@ class BidApiController extends ApiBaseController
         else 
         {
             $bids = DB::table('bid')
-            ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
+            ->join('point_on_map', 'bid.client', '=', 'point_on_map.client')
             ->join('clients', 'point_on_map.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             // ->where('clients.representative', '=', $this->getRepresentativeId())
@@ -104,12 +104,7 @@ class BidApiController extends ApiBaseController
         }
 
         Bid::create([
-            'location' =>
-                PointOnMap::create([
-                    'client' => auth('api')->user()->id,
-                    'latitude' => $request->input('latitude'),
-                    'longitude' => $request->input('longitude')
-                ])->id,
+            'client' => auth('api')->user()->id,
             'status' => 'PendingAcceptance',
             'uid' => $request->input('uid'),
             'type' => $request->input('type')
