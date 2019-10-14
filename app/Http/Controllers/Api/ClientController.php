@@ -396,6 +396,10 @@ class ClientController extends ApiBaseController
                         'value' => '1.00',
                         'currency' => 'RUB',
                     ),
+                    'confirmation' => array(
+                        'type' => 'redirect',
+                        'return_url' => 'http://www.google.com',
+                    ),
                     'capture' => false,
                     'description' => 'Оплата АСБ подписки',
 
@@ -428,7 +432,7 @@ class ClientController extends ApiBaseController
         $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
 
         $paymentId = $paymentInfo->id;
-        
+
         $idempotenceKey = uniqid('', true);
         $response = $client->capturePayment(
             array(
