@@ -452,6 +452,9 @@ class ClientController extends ApiBaseController
 
         if($payment_confirm > 0)
         {
+            $date = date_create();
+            $current_date = date_format($date, 'Y-m-d H:i:s');
+
             $client_update = Client::where('id', '=', auth('api')->user()->id)
             ->update([
                 'is_active' => 1,
