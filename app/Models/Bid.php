@@ -9,12 +9,7 @@ class Bid extends Model
     /**
      * @var array
      */
-    protected $fillable = [
-        'location',
-        'status',
-        'uid',
-        'type',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * @var string
