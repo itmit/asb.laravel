@@ -24,17 +24,18 @@ class BidApiController extends ApiBaseController
     {
         if(request('status'))
         {
-            $bids = DB::table('bid')
-            ->leftJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
-            ->join('clients', 'bid.client', '=', 'clients.id')
-            ->join('users', 'clients.representative', '=', 'users.id')
-            // ->where('clients.representative', '=', $this->getRepresentativeId())
-            ->where('bid.status', '=', request('status'))
-            ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-                'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture', 'bid.type')
-            ->orderBy('bid.created_at', 'desc')
-            ->distinct()
-            ->get();
+            // $bids = DB::table('bid')
+            // ->leftJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
+            // ->join('clients', 'bid.client', '=', 'clients.id')
+            // ->join('users', 'clients.representative', '=', 'users.id')
+            // // ->where('clients.representative', '=', $this->getRepresentativeId())
+            // ->where('bid.status', '=', request('status'))
+            // ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
+            //     'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture', 'bid.type')
+            // ->orderBy('bid.created_at', 'desc')
+            // ->distinct()
+            // ->get();
+            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
         }
         else 
         {
@@ -85,8 +86,8 @@ class BidApiController extends ApiBaseController
                 'uid'   => $bid->uid,
                 'status' => $bid->status,
                 'type' => $bid->type,
-                'updated_at' => $bid->client()->location()->created_at,
-                'created_at' => $bid->created_at,
+                'updated_at' => date('H:i:s d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow'))),
+                'created_at' => date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                 'location' => [
                     'latitude' => $bid->client()->location()->latitude,
                     'longitude' => $bid->client()->location()->longitude
