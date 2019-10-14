@@ -33,6 +33,23 @@ class Client extends Authenticatable
     }
 
     /**
+     * @return User
+     */
+    public function bid()
+    {
+        return $this->hasMany(Bid::class)->get()->first();
+    }
+
+    /**
+     * @return User
+     */
+    public function location()
+    {
+        // dd($this->hasMany(PointOnMap::class, 'client')->get()->first());
+        return $this->hasMany(PointOnMap::class, 'client')->latest()->first();
+    }
+
+    /**
      * Get the login username to be used by the controller.
      *
      * @return string

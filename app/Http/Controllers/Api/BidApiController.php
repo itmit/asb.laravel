@@ -24,49 +24,81 @@ class BidApiController extends ApiBaseController
     {
         if(request('status'))
         {
-            $bids = DB::table('bid')
-            ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-            ->join('clients', 'point_on_map.client', '=', 'clients.id')
-            ->join('users', 'clients.representative', '=', 'users.id')
-            // ->where('clients.representative', '=', $this->getRepresentativeId())
-            ->where('bid.status', '=', request('status'))
-            ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-                'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture', 'bid.type')
-            ->orderBy('bid.updated_at', 'desc')
-            ->get();
+            // $bids = DB::table('bid')
+            // ->leftJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
+            // ->join('clients', 'bid.client', '=', 'clients.id')
+            // ->join('users', 'clients.representative', '=', 'users.id')
+            // // ->where('clients.representative', '=', $this->getRepresentativeId())
+            // ->where('bid.status', '=', request('status'))
+            // ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
+            //     'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture', 'bid.type')
+            // ->orderBy('bid.created_at', 'desc')
+            // ->distinct()
+            // ->get();
+            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
         }
         else 
         {
-            $bids = DB::table('bid')
-            ->join('point_on_map', 'bid.location', '=', 'point_on_map.id')
-            ->join('clients', 'point_on_map.client', '=', 'clients.id')
-            ->join('users', 'clients.representative', '=', 'users.id')
-            // ->where('clients.representative', '=', $this->getRepresentativeId())
-            ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
-                'clients.phone_number', 'clients.organization', 'bid.updated_at', 'clients.note', 'clients.user_picture', 'bid.created_at', 'bid.uid', 'bid.type')
-            ->orderBy('bid.updated_at', 'desc')
-            ->get();
+            // $bids = DB::table('bid')
+            // ->leftJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
+            // ->leftJoin('clients', 'bid.client', '=', 'clients.id')
+            // ->join('users', 'clients.representative', '=', 'users.id')
+            // // ->where('clients.representative', '=', $this->getRepresentativeId())
+            // ->whereIn('client', function($query){
+            //     $query->select('paper_type_id')
+            //     ->from(with(new ProductCategory)->getTable())
+            //     ->whereIn('category_id', ['223', '15'])
+            //     ->where('active', 1);
+            // })
+            // ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
+            //     'clients.phone_number', 'clients.organization', 'bid.updated_at', 'clients.note', 'clients.user_picture', 'bid.created_at', 'bid.uid', 'bid.type')
+            // ->orderBy('bid.created_at', 'desc')
+            // ->distinct()
+            // ->get();
+            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
         }
 
         $response = [];
+        // foreach ($bids as $bid) {
+        //     $response[] = [
+        //         'uid'   => $bid->uid,
+        //         'status' => $bid->status,
+        //         'type' => $bid->type,
+        //         'updated_at' => $bid->updated_at,
+        //         'created_at' => $bid->created_at,
+        //         'location' => [
+        //             'latitude' => $bid->latitude,
+        //             'longitude' => $bid->longitude
+        //         ],
+        //         'client' => [
+        //             'name' => $bid->name,
+        //             'email' => $bid->email,
+        //             'phone_number' => $bid->phone_number,
+        //             'organization' => $bid->organization,
+        //             'note' => $bid->note, 
+        //             'user_picture' => $bid->user_picture
+        //         ]
+        //     ];
+        // }
+
         foreach ($bids as $bid) {
             $response[] = [
                 'uid'   => $bid->uid,
                 'status' => $bid->status,
                 'type' => $bid->type,
-                'updated_at' => $bid->updated_at,
-                'created_at' => $bid->created_at,
+                'updated_at' => date('H:i:s d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow'))),
+                'created_at' => date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                 'location' => [
-                    'latitude' => $bid->latitude,
-                    'longitude' => $bid->longitude
+                    'latitude' => $bid->client()->location()->latitude,
+                    'longitude' => $bid->client()->location()->longitude
                 ],
                 'client' => [
-                    'name' => $bid->name,
-                    'email' => $bid->email,
-                    'phone_number' => $bid->phone_number,
-                    'organization' => $bid->organization,
-                    'note' => $bid->note, 
-                    'user_picture' => $bid->user_picture
+                    'name' => $bid->client()->name,
+                    'email' => $bid->client()->email,
+                    'phone_number' => $bid->client()->phone_number,
+                    'organization' => $bid->client()->organization,
+                    'note' =>$bid->client()->note, 
+                    'user_picture' => $bid->client()->user_picture
                 ]
             ];
         }
@@ -104,12 +136,7 @@ class BidApiController extends ApiBaseController
         }
 
         Bid::create([
-            'location' =>
-                PointOnMap::create([
-                    'client' => auth('api')->user()->id,
-                    'latitude' => $request->input('latitude'),
-                    'longitude' => $request->input('longitude')
-                ])->id,
+            'client' => auth('api')->user()->id,
             'status' => 'PendingAcceptance',
             'uid' => $request->input('uid'),
             'type' => $request->input('type')
