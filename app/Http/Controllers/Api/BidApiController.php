@@ -32,7 +32,7 @@ class BidApiController extends ApiBaseController
             ->where('bid.status', '=', request('status'))
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
                 'clients.phone_number', 'clients.organization', 'bid.created_at', 'bid.updated_at', 'bid.uid', 'clients.note', 'clients.user_picture', 'bid.type')
-            ->orderBy('bid.updated_at', 'desc')
+            ->orderBy('bid.created_at', 'desc')
             ->distinct()
             ->get();
         }
@@ -40,12 +40,12 @@ class BidApiController extends ApiBaseController
         {
             $bids = DB::table('bid')
             ->leftJoin('point_on_map', 'bid.client', '=', 'point_on_map.client')
-            ->join('clients', 'bid.client', '=', 'clients.id')
+            ->leftJoin('clients', 'bid.client', '=', 'clients.id')
             ->join('users', 'clients.representative', '=', 'users.id')
             // ->where('clients.representative', '=', $this->getRepresentativeId())
             ->select('bid.status', 'point_on_map.latitude', 'point_on_map.longitude', 'clients.name', 'clients.email',
                 'clients.phone_number', 'clients.organization', 'bid.updated_at', 'clients.note', 'clients.user_picture', 'bid.created_at', 'bid.uid', 'bid.type')
-            ->orderBy('bid.updated_at', 'desc')
+            ->orderBy('bid.created_at', 'desc')
             ->distinct()
             ->get();
         }
