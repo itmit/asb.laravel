@@ -24,10 +24,10 @@
             Тип: {{ $bid->type }}
         </div>
         <div>
-            Клиент: <a href="../client/{{ $bid->location()->client()->id }}">{{ $bid->location()->client()->name ??  $bid->location()->client()->organization}}</a>
+            Клиент: <a href="../client/{{ $bid->client()->id }}">{{ $bid->client()->name ??  $bid->client()->organization}}</a>
         </div>
         <div>
-            Телефон: {{ $bid->location()->client()->phone_number }}
+            Телефон: {{ $bid->client()->phone_number }}
         </div>
         @if($bid->status != 'Ожидает принятия')
             @if($guard != NULL)
@@ -40,8 +40,8 @@
             </div>
             @endif
         @endif
-        <div class="js-location" data-longitude="{{ $bid->location()->latitude }}" data-latitude="{{ $bid->location()->longitude }}">
-            Координаты: {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
+        <div class="js-location" data-longitude="{{ $bid->client()->location()->latitude }}" data-latitude="{{ $bid->client()->location()->longitude }}">
+            Координаты: {{ $bid->client()->location()->latitude }} | {{ $bid->client()->location()->longitude }}
         </div>
         <div id="map" style="width: 600px; height: 400px"></div>
     </div>
@@ -123,7 +123,7 @@
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
-                            $('.updated').html('Обновлена: ' + response['updated_at']);
+                            $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
                             $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
                             $('.js-location').data('longitude', response['location']['longitude']);
                             $('.js-location').data('latitude', response['location']['latitude']);

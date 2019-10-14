@@ -35,62 +35,10 @@ class PointOnMapApiController extends ApiBaseController
             return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
-        if($request->uid)
-        {
-            $id = NULL;
-            DB::beginTransaction();
-            try {
-            
-                $record = new PointOnMap;
-                // usleep(1);
-                $record->client = auth('api')->user()->id;
-                $record->latitude = $request->input('latitude');
-                $record->longitude = $request->input('longitude');
-                $record->save();
-                $id = $record->id;
-
-                $record = Bid::where('uid', '=', $request->uid)->first();
-                // usleep(1);
-                $record->location = $id;
-                $record->save();
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollback();
-                return $this->sendError(0, 'Ошибка');
-            }
-
-            $pom = PointOnMap::create([
-                'client' => auth('api')->user()->id,
-                'latitude' => $request->input('latitude'),
-                'longitude' => $request->input('longitude')
-            ]);
-
-            $active_bids = DB::table('bid')->join('point_on_map', 'location', '=', 'point_on_map.id')
-            ->where('point_on_map.client', '=', $pom->client)
-            ->where('bid', '<>', 'Processed')
-            ->update(['bid.location' => $pom->id]);
-            
-            // $pom = PointOnMap::create([
-            //     'client' => auth('api')->user()->id,
-            //     'latitude' => $request->input('latitude'),
-            //     'longitude' => $request->input('longitude')
-            // ]);
-
-            // $bid = Bid::where('uid', '=', $request->uid)
-            // ->update(['location' => $pom->id]);
-        }
-        else
-        {
-            $pom = PointOnMap::create([
-                'client' => auth('api')->user()->id,
-                'latitude' => $request->input('latitude'),
-                'longitude' => $request->input('longitude')
-            ]);
-
-            $active_bids = DB::table('bid')->join('point_on_map', 'location', '=', 'point_on_map.id')
-            ->where('point_on_map.client', '=', $pom->client)
-            ->where('bid', '<>', 'Processed')
-            ->update(['bid.location' => $pom->id]);
-        }
+        PointOnMap::create([
+            'client' => auth('api')->user()->id,
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+        ]);
     }
 }

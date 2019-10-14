@@ -21,8 +21,9 @@ class Bid extends Model
      */
     protected $table = 'bid';
 
-    public function location()
+    public function client()
     {
-        return $this->belongsTo(PointOnMap::class, 'location')->get()->first();
+        // dd($this->belongsTo(Client::class, 'client')->get()->first());
+        return $this->belongsTo(Client::class, 'client')->get()->first();
     }
 }
