@@ -416,7 +416,7 @@ class ClientController extends ApiBaseController
         }
         else return $this->SendError('Payment error', 'Данный аккаунт уже оплачен', 401);
 
-        dd($paymentInfo);
+        return $paymentInfo;
     }
 
     public function capturePayment(Request $request)
