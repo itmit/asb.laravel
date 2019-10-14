@@ -76,14 +76,14 @@ class BidWebController extends BaseWebController
                         'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                         'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
-                            'latitude' => $bid->location()->latitude,
-                            'longitude' => $bid->location()->longitude
+                            'latitude' => $bid->client()->location()->latitude,
+                            'longitude' => $bid->client()->location()->longitude
                         ],
                         'client' => [
-                            'id' => $bid->location()->client()->id,
-                            'name' => $bid->location()->client()->name,
-                            'organization' => $bid->location()->client()->organization,
-                            'email' => $bid->location()->client()->email
+                            'id' => $bid->client()->id,
+                            'name' => $bid->client()->name,
+                            'organization' => $bid->client()->organization,
+                            'email' => $bid->client()->email
                         ],
                         'guard' => $guard_name,
                     ];
@@ -119,14 +119,14 @@ class BidWebController extends BaseWebController
                         'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                         'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
-                            'latitude' => $bid->location()->latitude,
-                            'longitude' => $bid->location()->longitude
+                            'latitude' => $bid->client()->location()->latitude,
+                            'longitude' => $bid->client()->location()->longitude
                         ],
                         'client' => [
-                            'id' => $bid->location()->client()->id,
-                            'name' => $bid->location()->client()->name,
-                            'organization' => $bid->location()->client()->organization,
-                            'email' => $bid->location()->client()->email
+                            'id' => $bid->client()->id,
+                            'name' => $bid->client()->name,
+                            'organization' => $bid->client()->organization,
+                            'email' => $bid->client()->email
                         ],
                         'guard' => $guard_name,
                     ];
