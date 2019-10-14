@@ -123,7 +123,7 @@
                         url     : '../bid/updateCoordinates',
                         method    : 'post',
                         success: function (response) {
-                            $('.updated').html('Обновлена: ' + response['updated_at']);
+                            $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
                             $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
                             $('.js-location').data('longitude', response['location']['longitude']);
                             $('.js-location').data('latitude', response['location']['latitude']);
