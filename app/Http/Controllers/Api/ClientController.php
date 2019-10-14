@@ -409,39 +409,53 @@ class ClientController extends ApiBaseController
                 'status' => $paymentInfo->status,
                 'payment_token' => $data->payment_token,
             ]);
-
-            return $paymentInfo->confirmation_url;
-
-            $paymentId = $paymentInfo->id;
-            $idempotenceKey = uniqid('', true);
-            $response = $client->capturePayment(
-                array(
-                    'amount' => array(
-                        'value' => '1.00',
-                        'currency' => 'RUB',
-                    ),
-                ),
-                $paymentId,
-                $idempotenceKey
-            );
-
-            if($response->status != 'succeeded'){
-                return $this->SendError('Payment error', 'Оплата не удалась', 401);
-            }
-
-            $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $response->status]);
-
-            if($payment_confirm > 0)
-            {
-                $client_update = Client::where('id', '=', auth('api')->user()->id)
-                ->update([
-                    'is_active' => 1,
-                    'active_from' => $current_date,
-                    'sms_alert' => 0
-                    ]);
-            }
         }
         else return $this->SendError('Payment error', 'Данный аккаунт уже оплачен', 401);
+
+        return $paymentInfo->confirmation_url;
+    }
+
+    public function capturePayment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'payment_token' => 'required|string'
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
+        $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
+
+        $paymentId = $paymentInfo->id;
+        
+        $idempotenceKey = uniqid('', true);
+        $response = $client->capturePayment(
+            array(
+                'amount' => array(
+                    'value' => '1.00',
+                    'currency' => 'RUB',
+                ),
+            ),
+            $paymentId,
+            $idempotenceKey
+        );
+
+        if($response->status != 'succeeded'){
+            return $this->SendError('Payment error', 'Оплата не удалась', 401);
+        }
+
+        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $response->status]);
+
+        if($payment_confirm > 0)
+        {
+            $client_update = Client::where('id', '=', auth('api')->user()->id)
+            ->update([
+                'is_active' => 1,
+                'active_from' => $current_date,
+                'sms_alert' => 0
+                ]);
+        }
 
         if($client_update > 0)
         {
@@ -452,12 +466,6 @@ class ClientController extends ApiBaseController
                 'Updated');
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
-
-        
-
-        // dd($response);
-
-        // return $this->sendResponse([$client],'');
     }
 
     public function sendSMS()
