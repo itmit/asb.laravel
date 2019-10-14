@@ -427,7 +427,7 @@ class ClientController extends ApiBaseController
 
         $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
 
-        $paymentId = $paymentId->id;
+        $paymentId = $paymentId->yandex_kassa_id;
 
         $client = new YandexClient();
         $client->setAuth(config('app.YANDEX_KASSA_SHOP_ID'), config('app.YANDEX_KASSA_SECRET_KEY'));
