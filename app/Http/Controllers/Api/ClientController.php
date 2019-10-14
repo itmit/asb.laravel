@@ -396,10 +396,6 @@ class ClientController extends ApiBaseController
                         'value' => '1.00',
                         'currency' => 'RUB',
                     ),
-                    'confirmation' => array(
-                        'type' => 'redirect',
-                        'return_url' => 'http://www.google.com',
-                    ),
                     'capture' => false,
                     'description' => 'Оплата АСБ подписки',
 
