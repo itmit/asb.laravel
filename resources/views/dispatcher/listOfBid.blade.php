@@ -46,13 +46,13 @@
                         </td>
                         <td>
                             
-                                @if($bid->location()->client()->guard != NULL)
-                                @else {{ $bid->location()->client()->guard }}
+                                @if($bid->client()->guard != NULL)
+                                @else {{ $bid->client()->guard }}
                                 @endif
                             
                         </td>
                         <td>
-                            {{ $bid->location()->latitude }} | {{ $bid->location()->longitude }}
+                            {{ $bid->client()->location()->latitude }} | {{ $bid->client()->location()->longitude }}
                         </td>
                         <td>{{ $bid->type }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>

@@ -19,8 +19,12 @@ class CreateBidTable extends Migration
             $table->string('uid');
             $table->enum('type', ['Alert', 'Call']);
             $table->integer('guard')->nullable();
+            // $table->integer('location')->unsigned();
             $table->integer('client')->unsigned();
             $table->enum('status', ['Accepted', 'PendingAcceptance', 'Processed']);
+
+            // $table->foreign('location')->references('id')->on('point_on_map')
+            //     ->onUpdate('cascade');
 
             $table->foreign('client')->references('id')->on('clients')
                 ->onUpdate('cascade');
