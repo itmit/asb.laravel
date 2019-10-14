@@ -373,8 +373,8 @@ class ClientController extends ApiBaseController
 
     public function setActivityFrom(Request $data)
     {
-        return config('app.locale');
-        return config('app.YANDEX_KASSA_SHOP_ID') . ' | ' . config('app.YANDEX_KASSA_SECRET_KEY');
+        // return config('app.locale');
+        return config('app.YANDEX_KASSA_SHOP_ID');
         $active_from = Client::where('id', '=', auth('api')->user()->id)->first(['active_from']);
         $active_from_unix = strtotime($active_from->active_from);
 
