@@ -410,6 +410,8 @@ class ClientController extends ApiBaseController
                 'payment_token' => $data->payment_token,
             ]);
 
+            return $paymentInfo->confirmation_url;
+
             $paymentId = $paymentInfo->id;
             $idempotenceKey = uniqid('', true);
             $response = $client->capturePayment(
