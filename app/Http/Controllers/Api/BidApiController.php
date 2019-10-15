@@ -86,8 +86,8 @@ class BidApiController extends ApiBaseController
                 'uid'   => $bid->uid,
                 'status' => $bid->status,
                 'type' => $bid->type,
-                'updated_at' => date('H:i:s d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow'))),
-                'created_at' => date('H:i:s d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
+                'updated_at' => date('Y-m-d H:i:s', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow'))),
+                'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                 'location' => [
                     'latitude' => $bid->client()->location()->latitude,
                     'longitude' => $bid->client()->location()->longitude
