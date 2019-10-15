@@ -32,9 +32,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('client/updateCurrentLocation', 'Api\ClientController@updateCurrentLocation');
     Route::post('client/capturePayment', 'Api\ClientController@capturePayment');
     Route::post('client/chechClientActiveStatus', 'Api\ClientController@chechClientActiveStatus');
+    Route::post('client/setActivityFrom', 'Api\ClientController@setActivityFrom');
 });
 
-Route::post('client/setActivityFrom', 'Api\ClientController@setActivityFrom');
+
 Route::post('client/sendSMS', 'Api\ClientController@sendSMS');
 
 Route::post('client/checkDates', 'Api\ClientController@checkDates');
