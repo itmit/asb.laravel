@@ -200,8 +200,6 @@ class BidApiController extends ApiBaseController
         // self::translateStatus($bid);
         // self::translateType($bid);
 
-        return $bid->client()->location()->created_at;
-
         $response = [
             'updated_at' => date('Y-m-d H:i:s', strtotime($bid->client()->location()->created_at)),
             'location' => [
