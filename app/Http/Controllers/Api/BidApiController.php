@@ -55,7 +55,7 @@ class BidApiController extends ApiBaseController
             // ->orderBy('bid.created_at', 'desc')
             // ->distinct()
             // ->get();
-            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+            $bids = Bid::all()->sortByDesc('created_at');
         }
 
         $response = [];
