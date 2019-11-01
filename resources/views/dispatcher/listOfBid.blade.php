@@ -35,7 +35,7 @@
 
                 @foreach($bids as $bid)
                 <?php
-                return $bid->client()->location()->latitude;
+                return $bid->client()->location()->id;
                 ?>
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
