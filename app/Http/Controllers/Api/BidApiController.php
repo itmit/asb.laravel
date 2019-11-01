@@ -82,6 +82,7 @@ class BidApiController extends ApiBaseController
         // }
 
         foreach ($bids as $bid) {
+            if($bid->client()->location() == NULL) continue;
             $response[] = [
                 'uid'   => $bid->uid,
                 'status' => $bid->status,
