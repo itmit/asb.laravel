@@ -52,7 +52,7 @@
                             
                         </td>
                         <td>
-                            {{ $bid->client()->location()->latitude }} | {{ $bid->client()->location()->longitude }}
+                            {{-- {{ $bid->client()->location()->latitude }} | {{ $bid->client()->location()->longitude }} --}}
                         </td>
                         <td>{{ $bid->type }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>
