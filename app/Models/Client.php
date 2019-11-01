@@ -47,11 +47,6 @@ class Client extends Authenticatable
         return $this->hasMany(PointOnMap::class, 'client')->latest()->first();
     }
 
-    public function test()
-    {
-        return 'aaa';
-    }
-
     /**
      * Get the login username to be used by the controller.
      *
