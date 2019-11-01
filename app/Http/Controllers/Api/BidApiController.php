@@ -142,6 +142,12 @@ class BidApiController extends ApiBaseController
             'uid' => $request->input('uid'),
             'type' => $request->input('type')
         ]);
+
+        PointOnMap::create([
+            'client' => auth('api')->user()->id,
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+        ]);
     }
 
     public function changeStatus(Request $request)
