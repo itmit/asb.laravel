@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
 class Client extends Authenticatable
 {
@@ -46,7 +47,8 @@ class Client extends Authenticatable
     public function location()
     {
         // dd($this->hasMany(PointOnMap::class, 'client')->get()->first());
-        return $this->hasMany(PointOnMap::class, 'client')->latest()->first();
+        // return $this->hasMany(PointOnMap::class, 'client')->latest()->first();
+        return $this->hasMany(PointOnMap::class, 'client')->get()->first();
     }
 
     /**
