@@ -33,6 +33,10 @@
                 </thead>
                 <tbody>
 
+                <?php
+                dd($bids);
+                ?>
+
                 @foreach($bids as $bid)
                 <?php
                 return $bid->client()->test();
