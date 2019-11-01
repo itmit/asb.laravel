@@ -34,9 +34,6 @@
                 <tbody>
 
                 @foreach($bids as $bid)
-                <?php
-                return 'aa: ' . $bid->client()->test();
-                ?>
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
@@ -60,7 +57,7 @@
                         </td>
                         <td>{{ $bid->type }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>
-                        {{-- <td>{{ date('H:i d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow'))) }}</td> --}}
+                        <td>{{ date('H:i d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow'))) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
