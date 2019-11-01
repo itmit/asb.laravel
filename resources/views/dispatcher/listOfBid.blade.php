@@ -32,7 +32,11 @@
                 </tr>
                 </thead>
                 <tbody>
+                        <?php
+                        dd($bids);
+                        ?>
                 @foreach($bids as $bid)
+                
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
