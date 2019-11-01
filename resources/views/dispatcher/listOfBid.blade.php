@@ -34,6 +34,9 @@
                 <tbody>
 
                 @foreach($bids as $bid)
+                @if($bid->client()->location() == NULL)
+                    @continue
+                @endif
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
