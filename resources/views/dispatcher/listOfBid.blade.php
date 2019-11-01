@@ -35,7 +35,7 @@
 
                 @foreach($bids as $bid)
                 <?php
-                return $bid->client()->test();
+                return 'aa: ' . $bid->client()->test();
                 ?>
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
