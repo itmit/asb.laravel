@@ -94,6 +94,7 @@ class BidApiController extends ApiBaseController
                     'longitude' => $bid->client()->location()->longitude
                 ],
                 'client' => [
+                    'type' => $bid->client()->type,
                     'name' => $bid->client()->name,
                     'email' => $bid->client()->email,
                     'phone_number' => $bid->client()->phone_number,
