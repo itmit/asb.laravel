@@ -99,7 +99,11 @@ class BidApiController extends ApiBaseController
                     'phone_number' => $bid->client()->phone_number,
                     'organization' => $bid->client()->organization,
                     'note' =>$bid->client()->note, 
-                    'user_picture' => $bid->client()->user_picture
+                    'user_picture' => $bid->client()->user_picture,
+                    'passport' => $bid->client()->passport,
+                    'INN' => $bid->client()->INN,
+                    'OGRN' => $bid->client()->OGRN,
+                    'director' => $bid->client()->director
                 ]
             ];
         }
