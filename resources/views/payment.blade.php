@@ -8,7 +8,7 @@
 //Инициализация виджета. Все параметры обязательные.
 const checkout = new window.YandexCheckout({
     confirmation_token: '{{ $paymentInfo->confirmation->confirmation_token }}', //Токен, который перед проведением оплаты нужно получить от Яндекс.Кассы
-    return_url: 'http://asb.itmit-studio.ru/success?user={{ $user }}', //Ссылка на страницу завершения оплаты
+    return_url: 'http://asb.itmit-studio.ru/api/paymentSuccess?user={{ $user }}', //Ссылка на страницу завершения оплаты
     error_callback(error) {
         //Обработка ошибок инициализации
     }
