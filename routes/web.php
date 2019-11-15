@@ -37,7 +37,6 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::delete('representative/delete', 'Web\RepresentativeWebController@destroy');
 });
 
-Route::get('payment', 'Web\PaymentController@index');
 Auth::routes();
 
 // Route::post('messages', function(Illuminate\Http\Request $request) {
