@@ -2,19 +2,9 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Client;
-use App\Models\User;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\View\View;
 use YandexCheckout\Client as YandexClient;
 
-class GuardWebController extends Controller
+class PaymentController extends Controller
 {
     public function index() 
     {
