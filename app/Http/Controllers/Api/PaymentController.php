@@ -36,7 +36,7 @@ class PaymentController extends Controller
 
     public function showSuccess(Request $request) 
     {
-        if ($request->input('status') == "Success") {
+        if ($request->input('status') == "success") {
             
             $date = date_create();
             $current_date = date_format($date, 'Y-m-d H:i:s');
