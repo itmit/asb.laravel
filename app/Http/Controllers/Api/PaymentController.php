@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use Nexmo\Network\Number\Request;
 use YandexCheckout\Client as YandexClient;
 
 class PaymentController extends Controller
@@ -27,7 +28,24 @@ class PaymentController extends Controller
         );
 
         return view('payment', [
-            "paymentInfo" => $paymentInfo
+            "paymentInfo" => $paymentInfo,
+            "user" => auth('api')->user()->id
         ]);
+    }
+
+    public function showSuccess(Request $request) 
+    {
+        if ($request->input('status') == "Success") {
+            $date = date_create();
+            $current_date = date_format($date, 'Y-m-d H:i:s');
+
+            Client::where('id', '=', $request->input('user'))->update([
+                'is_active' => 1,
+                'active_from' => $current_date,
+                'sms_alert' => 0
+                ]);
+
+            return "Success";
+        }
     }
 }
