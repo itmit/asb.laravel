@@ -2,8 +2,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Nexmo\Network\Number\Request;
+use Illuminate\Support\Facades\Request;
 use YandexCheckout\Client as YandexClient;
+use Models\Client;
 
 class PaymentController extends Controller
 {
@@ -36,6 +37,7 @@ class PaymentController extends Controller
     public function showSuccess(Request $request) 
     {
         if ($request->input('status') == "Success") {
+            
             $date = date_create();
             $current_date = date_format($date, 'Y-m-d H:i:s');
 
