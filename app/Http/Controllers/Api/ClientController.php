@@ -448,25 +448,26 @@ class ClientController extends ApiBaseController
             return $this->SendError('Payment error', 'Оплата не удалась', 401);
         }
 
-        return $this->activateClient($paymentId, $response->status);
+        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $status]);
+        if ($payment_confirm > 0)
+        {
+            return $this->activateClient();
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 
-    private function activateClient($paymentId, $status = 'succeeded')
+    private function activateClient()
     {
-        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $status]);
-        $client_update = 0;
-        if($payment_confirm > 0)
-        {
-            $date = date_create();
-            $current_date = date_format($date, 'Y-m-d H:i:s');
+        $date = date_create();
+        $current_date = date_format($date, 'Y-m-d H:i:s');
 
-            $client_update = Client::where('id', '=', auth('api')->user()->id)
-            ->update([
-                'is_active' => 1,
-                'active_from' => $current_date,
-                'sms_alert' => 0
-                ]);
-        }
+        $client_update = Client::where('id', '=', auth('api')->user()->id)
+        ->update([
+            'is_active' => 1,
+            'active_from' => $current_date,
+            'sms_alert' => 0
+            ]);
+        
 
         if($client_update > 0)
         {
@@ -489,7 +490,12 @@ class ClientController extends ApiBaseController
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
-        return $this->activateClient($request->payment_token);
+        $payment_confirm = Payment::where('payment_token', '=', $paymentId)->update(['status' => 'succeeded']);
+        if ($payment_confirm > 0)
+        {
+            return $this->activateClient();
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 
     public function getPaymentStatus(Request $request)
