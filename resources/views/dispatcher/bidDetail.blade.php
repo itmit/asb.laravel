@@ -166,7 +166,7 @@
                             console.log("Error: " + xhr + " " + err);
                         }
                     });
-                }, 5000);
+                }, 10000);
             }
             
             $('.close-bid').click(function (e) {

@@ -448,20 +448,26 @@ class ClientController extends ApiBaseController
             return $this->SendError('Payment error', 'Оплата не удалась', 401);
         }
 
-        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $response->status]);
-
-        if($payment_confirm > 0)
+        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $status]);
+        if ($payment_confirm > 0)
         {
-            $date = date_create();
-            $current_date = date_format($date, 'Y-m-d H:i:s');
-
-            $client_update = Client::where('id', '=', auth('api')->user()->id)
-            ->update([
-                'is_active' => 1,
-                'active_from' => $current_date,
-                'sms_alert' => 0
-                ]);
+            return $this->activateClient();
         }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+
+    private function activateClient()
+    {
+        $date = date_create();
+        $current_date = date_format($date, 'Y-m-d H:i:s');
+
+        $client_update = Client::where('id', '=', auth('api')->user()->id)
+        ->update([
+            'is_active' => 1,
+            'active_from' => $current_date,
+            'sms_alert' => 0
+            ]);
+        
 
         if($client_update > 0)
         {
@@ -470,6 +476,24 @@ class ClientController extends ApiBaseController
                 'is_active' => 1,
             ],
                 'Updated');
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+
+    public function activate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'payment_token' => 'required|string'
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
+        $payment_confirm = Payment::where('payment_token', '=', $request->payment_token)->update(['status' => 'succeeded']);
+        if ($payment_confirm > 0)
+        {
+            return $this->activateClient();
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
