@@ -492,8 +492,9 @@ class ClientController extends ApiBaseController
         $client->setAuth(config('app.YANDEX_KASSA_SHOP_ID'), config('app.YANDEX_KASSA_SECRET_KEY'));
 
         $payment = $client->getPaymentInfo($paymentId);
+        $paymentStatus = $payment->status;
         return $this->sendResponse([
-            $payment
+            $paymentStatus
         ],
             'payment');
     }
