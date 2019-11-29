@@ -490,7 +490,7 @@ class ClientController extends ApiBaseController
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
-        $payment_confirm = Payment::where('payment_token', '=', $paymentId)->update(['status' => 'succeeded']);
+        $payment_confirm = Payment::where('payment_token', '=', $request->payment_token)->update(['status' => 'succeeded']);
         if ($payment_confirm > 0)
         {
             return $this->activateClient();
