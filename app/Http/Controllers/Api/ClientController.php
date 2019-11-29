@@ -454,7 +454,7 @@ class ClientController extends ApiBaseController
     private function activateClient($paymentId, $status = 'succeeded')
     {
         $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $status]);
-
+        $client_update = 0;
         if($payment_confirm > 0)
         {
             $date = date_create();
