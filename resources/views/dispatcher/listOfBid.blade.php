@@ -105,7 +105,7 @@
                             }
                             else
                             {
-                                result += '<td>' + response[i]['guard']['guard_name'] + '</td>';
+                                result += '<td>' + response[i]['guard'] + '</td>';
                             }
                             
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
