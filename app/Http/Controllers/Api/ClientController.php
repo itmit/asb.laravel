@@ -474,6 +474,30 @@ class ClientController extends ApiBaseController
         return $this->SendError('Update error', 'Something gone wrong', 401);
     }
 
+    public function getPaymentStatus(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'payment_token' => 'required|string'
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
+        $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
+
+        $paymentId = $paymentId->yandex_kassa_id;
+
+        $client = new YandexClient();
+        $client->setAuth(config('app.YANDEX_KASSA_SHOP_ID'), config('app.YANDEX_KASSA_SECRET_KEY'));
+
+        $payment = $client->getPaymentInfo($paymentId);
+        return $this->sendResponse([
+            $payment
+        ],
+            'payment');
+    }
+
     public function sendSMS()
     {
         // return send_sms("79997913230", "Ваш пароль: 123", 1, 0, 0, 0, "SMSC.RU");
