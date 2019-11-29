@@ -99,7 +99,15 @@
                             {
                                 result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
                             }
-                            result += '<td>' + response[i]['guard']['guard_name'] + '</td>';
+                            if(response[i]['guard'] == null)
+                            {     
+                                result += '<td></td>';
+                            }
+                            else
+                            {
+                                result += '<td>' + response[i]['guard']['guard_name'] + '</td>';
+                            }
+                            
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
                             result += '<td>' + response[i]['type'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
