@@ -448,7 +448,12 @@ class ClientController extends ApiBaseController
             return $this->SendError('Payment error', 'Оплата не удалась', 401);
         }
 
-        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $response->status]);
+        return $this->activateClient($paymentId, $response->status);
+    }
+
+    private function activateClient($paymentId, $status = 'succeeded')
+    {
+        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $status]);
 
         if($payment_confirm > 0)
         {
@@ -472,6 +477,19 @@ class ClientController extends ApiBaseController
                 'Updated');
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+
+    public function activate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'payment_token' => 'required|string'
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }
+
+        return $this->activateClient($request->payment_token);
     }
 
     public function getPaymentStatus(Request $request)

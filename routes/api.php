@@ -34,7 +34,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('client/chechClientActiveStatus', 'Api\ClientController@chechClientActiveStatus');
     Route::post('client/setActivityFrom', 'Api\ClientController@setActivityFrom');
     Route::post('client/getPaymentStatus', 'Api\ClientController@getPaymentStatus');
-    
+
+    Route::post('client/activate', 'Api\ClientController@activate');
+
     Route::get('payment', 'Api\PaymentController@index');
 });
 
