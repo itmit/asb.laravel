@@ -40,7 +40,7 @@
                     <tr class="bid" style="transition-duration:1s">
                         <td><a href="bid/{{ $bid->id }}"> {{ $bid->status }} </a></td>
                         <td>
-                            <div class="js-location" data-longitude="{{ $bid->client()->location()->latitude }}" data-latitude="{{ $bid->client()->location()->longitude }}">
+                            <div class="js-location" data-longitude="{{ $bid->latitude }}" data-latitude="{{ $bid->longitude }}">
                                 <a href="client/{{ $bid->client()->id }}">
                                     @if($bid->client()->name != NULL) {{ $bid->client()->name }}
                                     @else {{ $bid->client()->organization }}
@@ -56,7 +56,7 @@
                             
                         </td>
                         <td>
-                            {{ $bid->client()->location()->latitude }} | {{ $bid->client()->location()->longitude }}
+                            {{ $bid->latitude }} | {{ $bid->longitude }}
                         </td>
                         <td>{{ $bid->type }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>
