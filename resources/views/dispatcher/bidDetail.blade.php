@@ -115,6 +115,8 @@
 
             $(window).focus(function() {
                 
+                document.title='ASB';
+
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
                     let bidid = $('h1').data('bidid');
