@@ -121,7 +121,7 @@
                 {
                     let bidid = $('h1').data('bidid');
                     let timer = setInterval(updateTimer(), 10000);
-                    function() updateTimer
+                    function updateTimer()
                     {
                         $.ajax({
                             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
