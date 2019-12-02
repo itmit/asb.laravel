@@ -62,7 +62,6 @@
             document.title='ASB';
 
             let $bidStatus = $('.bidstatus');
-            let timer = setInterval(updateTimer(), 10000);
 
             // Функция ymaps.ready() будет вызвана, когда
             // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
@@ -121,6 +120,7 @@
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
                     let bidid = $('h1').data('bidid');
+                    let timer = setInterval(updateTimer(), 10000);
                     
                     function updateTimer()
                     {
