@@ -47,16 +47,6 @@
     </div>
     <script>
 
-    // let $locations = $('.js-location');
-    // var map;
-    // console.log($locations.first().data('latitude'));
-    // function initMap() {
-    // map = new google.maps.Map(document.getElementById('map'), {
-    //     center: {lat: $locations.first().data('latitude'), lng: $locations.first().data('longitude')},
-    //     zoom: 15
-    // });
-    // }
-
     $(document).ready(function()
         {
             document.title='ASB';
@@ -70,7 +60,7 @@
             function init() {
                 let $locations = $('.js-location');
                 // Создание карты.
-                myMap = new ymaps.Map("map", {
+                window.myMap = new ymaps.Map("map", {
                     // Координаты центра карты.
                     // Порядок по умолчанию: «широта, долгота».
                     // Чтобы не определять координаты центра карты вручную,
@@ -101,13 +91,13 @@
                             iconImageOffset: [0, 0]
                         });
 
-                        myMap.geoObjects
+                        window.myMap.geoObjects
                             .add(placeMark)
                             .add(placeMarkGuard);
                     }
                     else
                     {
-                        myMap.geoObjects
+                        window.myMap.geoObjects
                         .add(placeMark);
                     }
                 });
@@ -128,7 +118,7 @@
                         $('.js-location').data('longitude', response['location']['longitude']);
                         $('.js-location').data('latitude', response['location']['latitude']);
 
-                        myMap.geoObjects.removeAll()
+                        window.myMap.geoObjects.removeAll()
 
                         MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
                         '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
@@ -152,13 +142,13 @@
                                 iconImageOffset: [-20, -17.5]
                             });
 
-                            myMap.geoObjects
+                            window.myMap.geoObjects
                                 .add(placeMark)
                                 .add(placeMarkGuard);
                         }
                         else
                         {
-                            myMap.geoObjects
+                            window.myMap.geoObjects
                             .add(placeMark);
                         }
                     },
@@ -176,7 +166,6 @@
 
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
-                    
                     timer = setInterval(updateTimer(), 10000);
                 }
                 
