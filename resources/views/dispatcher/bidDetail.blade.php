@@ -113,7 +113,7 @@
                 });
             }
 
-            // let timer = setInterval(updateTimer(), 10000);
+            let timer = setInterval(updateTimer(), 10000);
 
             $(window).focus(function() {
                 
@@ -122,7 +122,7 @@
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
                     let bidid = $('h1').data('bidid');
-                    let timer = setInterval(updateTimer(), 10000);
+                    timer = setInterval(updateTimer(), 10000);
                     
                     function updateTimer()
                     {
