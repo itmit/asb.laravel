@@ -202,11 +202,4 @@ class BidApiController extends ApiBaseController
         
         return $this->sendResponse($response, 'Updated');
     }
-
-    // public function testFunc(Request $bidID)
-    // {
-    //     $bid = Bid::findOrFail($bidID)->first();
-
-    //     return event(new ChangeStatus($bid));
-    // }
 }
