@@ -120,8 +120,9 @@
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
                     let bidid = $('h1').data('bidid');
-                    let timer = setInterval(function()
-                    { 
+                    let timer = setInterval(updateTimer, 10000);
+                    function() updateTimer
+                    {
                         $.ajax({
                             headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                             dataType: "json",
@@ -172,7 +173,7 @@
                                 console.log("Error: " + xhr + " " + err);
                             }
                         });
-                    }, 10000);
+                    }
                 }
                 
                 $('.close-bid').click(function (e) {
