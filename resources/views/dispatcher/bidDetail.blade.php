@@ -61,6 +61,8 @@
         {
             $(window).focus(function() {
 
+                document.title='ASB';
+
                 let $bidStatus = $('.bidstatus');
 
                 // Функция ymaps.ready() будет вызвана, когда
