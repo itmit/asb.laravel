@@ -59,134 +59,142 @@
 
     $(document).ready(function()
         {
-            let $bidStatus = $('.bidstatus');
+            $(window).focus(function() {
 
-            // Функция ymaps.ready() будет вызвана, когда
-            // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
-            ymaps.ready(init);
+                let $bidStatus = $('.bidstatus');
 
-            function init() {
-                let $locations = $('.js-location');
-                // Создание карты.
-                myMap = new ymaps.Map("map", {
-                    // Координаты центра карты.
-                    // Порядок по умолчанию: «широта, долгота».
-                    // Чтобы не определять координаты центра карты вручную,
-                    // воспользуйтесь инструментом Определение координат.
-                    center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
-                    // Уровень масштабирования. Допустимые значения:
-                    // от 0 (весь мир) до 19.
-                    zoom: 15
-                });
+                // Функция ymaps.ready() будет вызвана, когда
+                // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+                ymaps.ready(init);
 
-                $locations.each(function () {
-                    let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+                function init() {
+                    let $locations = $('.js-location');
+                    // Создание карты.
+                    myMap = new ymaps.Map("map", {
+                        // Координаты центра карты.
+                        // Порядок по умолчанию: «широта, долгота».
+                        // Чтобы не определять координаты центра карты вручную,
+                        // воспользуйтесь инструментом Определение координат.
+                        center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
+                        // Уровень масштабирования. Допустимые значения:
+                        // от 0 (весь мир) до 19.
+                        zoom: 15
+                    });
 
-                    if($bidStatus.data('bidstatus') == 'Принята')
-                    {
+                    $locations.each(function () {
+                        let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
 
-                        let placeMarkGuard = new ymaps.Placemark([$('#guard').data('guardlongitude'), $('#guard').data('guardlatitude')], {}, {
-                            // preset: "islands#circleDotIcon",
-                            // iconColor: '#ff0000',
-                            // Необходимо указать данный тип макета.
-                            iconLayout: 'default#image',
-                            // Своё изображение иконки метки.
-                            iconImageHref: '../caricon.png',
-                            // Размеры метки.
-                            iconImageSize: [40, 35],
-                            // Смещение левого верхнего угла иконки относительно
-                            // её "ножки" (точки привязки).
-                            iconImageOffset: [0, 0]
-                        });
+                        if($bidStatus.data('bidstatus') == 'Принята')
+                        {
 
-                        myMap.geoObjects
-                            .add(placeMark)
-                            .add(placeMarkGuard);
-                    }
-                    else
-                    {
-                        myMap.geoObjects
-                        .add(placeMark);
-                    }
-                });
-            }
+                            let placeMarkGuard = new ymaps.Placemark([$('#guard').data('guardlongitude'), $('#guard').data('guardlatitude')], {}, {
+                                // preset: "islands#circleDotIcon",
+                                // iconColor: '#ff0000',
+                                // Необходимо указать данный тип макета.
+                                iconLayout: 'default#image',
+                                // Своё изображение иконки метки.
+                                iconImageHref: '../caricon.png',
+                                // Размеры метки.
+                                iconImageSize: [40, 35],
+                                // Смещение левого верхнего угла иконки относительно
+                                // её "ножки" (точки привязки).
+                                iconImageOffset: [0, 0]
+                            });
 
-            if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
-            {
-                let bidid = $('h1').data('bidid');
-                setInterval(function()
-                { 
-                    $.ajax({
-                        headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        dataType: "json",
-                        data: {bidid: bidid, bidStatus: $bidStatus.data('bidstatus')},
-                        url     : '../bid/updateCoordinates',
-                        method    : 'post',
-                        success: function (response) {
-                            $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
-                            $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
-                            $('.js-location').data('longitude', response['location']['longitude']);
-                            $('.js-location').data('latitude', response['location']['latitude']);
-
-                            myMap.geoObjects.removeAll()
-
-                            MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
-                            '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
-                            );
-
-                            let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
-
-                            if($bidStatus.data('bidstatus') == 'Принята')
-                            {
-                                let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
-                                    // preset: "islands#circleDotIcon",
-                                    // iconColor: '#ff0000',
-                                    // Необходимо указать данный тип макета.
-                                    iconLayout: 'default#image',
-                                    // Своё изображение иконки метки.
-                                    iconImageHref: '../caricon.png',
-                                    // Размеры метки.
-                                    iconImageSize: [40, 35],
-                                    // Смещение левого верхнего угла иконки относительно
-                                    // её "ножки" (точки привязки).
-                                    iconImageOffset: [-20, -17.5]
-                                });
-
-                                myMap.geoObjects
-                                    .add(placeMark)
-                                    .add(placeMarkGuard);
-                            }
-                            else
-                            {
-                                myMap.geoObjects
-                                .add(placeMark);
-                            }
-                        },
-                        error: function (xhr, err) { 
-                            console.log("Error: " + xhr + " " + err);
+                            myMap.geoObjects
+                                .add(placeMark)
+                                .add(placeMarkGuard);
+                        }
+                        else
+                        {
+                            myMap.geoObjects
+                            .add(placeMark);
                         }
                     });
-                }, 10000);
-            }
-            
-            $('.close-bid').click(function (e) {
-                let bidid = $(this).data('bidid');
-                console.log(bidid);
-                $.ajax({
-                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "html",
-                    data: {bidid: bidid},
-                    url     : 'closeByUser',
-                    method    : 'post',
-                    success: function (response) {
-                        location.reload();
-                    },
-                    error: function (xhr, err) { 
-                        console.log(err + " " + xhr);
-                    }
+                }
+
+                if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
+                {
+                    let bidid = $('h1').data('bidid');
+                    setInterval(function()
+                    { 
+                        $.ajax({
+                            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            dataType: "json",
+                            data: {bidid: bidid, bidStatus: $bidStatus.data('bidstatus')},
+                            url     : '../bid/updateCoordinates',
+                            method    : 'post',
+                            success: function (response) {
+                                $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
+                                $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
+                                $('.js-location').data('longitude', response['location']['longitude']);
+                                $('.js-location').data('latitude', response['location']['latitude']);
+
+                                myMap.geoObjects.removeAll()
+
+                                MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                                '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+                                );
+
+                                let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
+
+                                if($bidStatus.data('bidstatus') == 'Принята')
+                                {
+                                    let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
+                                        // preset: "islands#circleDotIcon",
+                                        // iconColor: '#ff0000',
+                                        // Необходимо указать данный тип макета.
+                                        iconLayout: 'default#image',
+                                        // Своё изображение иконки метки.
+                                        iconImageHref: '../caricon.png',
+                                        // Размеры метки.
+                                        iconImageSize: [40, 35],
+                                        // Смещение левого верхнего угла иконки относительно
+                                        // её "ножки" (точки привязки).
+                                        iconImageOffset: [-20, -17.5]
+                                    });
+
+                                    myMap.geoObjects
+                                        .add(placeMark)
+                                        .add(placeMarkGuard);
+                                }
+                                else
+                                {
+                                    myMap.geoObjects
+                                    .add(placeMark);
+                                }
+                            },
+                            error: function (xhr, err) { 
+                                console.log("Error: " + xhr + " " + err);
+                            }
+                        });
+                    }, 10000);
+                }
+                
+                $('.close-bid').click(function (e) {
+                    let bidid = $(this).data('bidid');
+                    console.log(bidid);
+                    $.ajax({
+                        headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        dataType: "html",
+                        data: {bidid: bidid},
+                        url     : 'closeByUser',
+                        method    : 'post',
+                        success: function (response) {
+                            location.reload();
+                        },
+                        error: function (xhr, err) { 
+                            console.log(err + " " + xhr);
+                        }
+                    })
+
                 })
 
-            })
+            }); //Во вкладке
+            $(window).blur(function() {
+                document.title='документ неактивен';
+            }); //Покинули вкладку
+            
         })
 
     </script>
