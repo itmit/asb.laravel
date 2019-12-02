@@ -17,8 +17,7 @@ class CreatePointOnMapTable extends Migration
         Schema::create('point_on_map', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client')->unsigned()->nullable();
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->integer('bid')->unsigned();
             $table->timestamps();
 
             $table->foreign('client')->references('id')->on('clients')

@@ -141,17 +141,18 @@ class BidApiController extends ApiBaseController
             return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
-        Bid::create([
+        $bid = Bid::create([
             'client' => auth('api')->user()->id,
             'status' => 'PendingAcceptance',
             'uid' => $request->input('uid'),
-            'type' => $request->input('type')
+            'type' => $request->input('type'),
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
         ]);
 
         PointOnMap::create([
             'client' => auth('api')->user()->id,
-            'latitude' => $request->input('latitude'),
-            'longitude' => $request->input('longitude'),
+            'bid' => $bid->id
         ]);
     }
 
