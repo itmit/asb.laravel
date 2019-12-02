@@ -237,7 +237,7 @@
             }); //Во вкладке
             $(window).blur(function() {
                 document.title='документ неактивен';
-                // clearInterval(timer);
+                clearInterval(timer);
             }); //Покинули вкладку
             
         })

@@ -21,8 +21,7 @@ class PointOnMapApiController extends ApiBaseController
     {
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
-            'longitude' => 'required',
-            'uid' => 'required|uuid'
+            'longitude' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -43,7 +42,7 @@ class PointOnMapApiController extends ApiBaseController
             'bid' => $bid->id
         ]);
 
-        Bid::where('uid', '=', $request->input('uid'))->update([
+        Bid::where('client', '=', auth('api')->user()->id)->where('status', '<>', 'Accepted')->update([
             'latitude' => $request->input('latitude'),
             'longitude' => $request->input('longitude'),
         ]);
