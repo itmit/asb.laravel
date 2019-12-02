@@ -59,27 +59,6 @@ class BidApiController extends ApiBaseController
         }
 
         $response = [];
-        // foreach ($bids as $bid) {
-        //     $response[] = [
-        //         'uid'   => $bid->uid,
-        //         'status' => $bid->status,
-        //         'type' => $bid->type,
-        //         'updated_at' => $bid->updated_at,
-        //         'created_at' => $bid->created_at,
-        //         'location' => [
-        //             'latitude' => $bid->latitude,
-        //             'longitude' => $bid->longitude
-        //         ],
-        //         'client' => [
-        //             'name' => $bid->name,
-        //             'email' => $bid->email,
-        //             'phone_number' => $bid->phone_number,
-        //             'organization' => $bid->organization,
-        //             'note' => $bid->note, 
-        //             'user_picture' => $bid->user_picture
-        //         ]
-        //     ];
-        // }
 
         foreach ($bids as $bid) {
             if($bid->client()->location() == NULL) continue;
@@ -87,11 +66,11 @@ class BidApiController extends ApiBaseController
                 'uid'   => $bid->uid,
                 'status' => $bid->status,
                 'type' => $bid->type,
-                'updated_at' => date('Y-m-d H:i:s', strtotime($bid->client()->location()->created_at)),
+                'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
                 'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
                 'location' => [
-                    'latitude' => $bid->client()->location()->latitude,
-                    'longitude' => $bid->client()->location()->longitude
+                    'latitude' => $bid->latitude,
+                    'longitude' => $bid->longitude
                 ],
                 'client' => [
                     'type' => $bid->client()->type,
