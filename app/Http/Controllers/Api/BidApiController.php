@@ -193,10 +193,10 @@ class BidApiController extends ApiBaseController
         // self::translateType($bid);
 
         $response = [
-            'updated_at' => date('Y-m-d H:i:s', strtotime($bid->client()->location()->created_at)),
+            'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
             'location' => [
-                'latitude' => $bid->client()->location()->latitude,
-                'longitude' => $bid->client()->location()->longitude
+                'latitude' => $bid->latitude,
+                'longitude' => $bid->longitude
             ],
         ];
         

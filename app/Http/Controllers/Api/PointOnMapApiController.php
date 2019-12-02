@@ -22,6 +22,7 @@ class PointOnMapApiController extends ApiBaseController
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
             'longitude' => 'required',
+            'uid' => 'required|uuid'
         ]);
 
         if ($validator->fails()) {
@@ -35,8 +36,14 @@ class PointOnMapApiController extends ApiBaseController
             return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
+        $bid = Bid::where('uid', '=', $request->input('uid'))->first();
+
         PointOnMap::create([
             'client' => auth('api')->user()->id,
+            'bid' => $bid->id
+        ]);
+
+        Bid::where('uid', '=', $request->input('uid'))->update([
             'latitude' => $request->input('latitude'),
             'longitude' => $request->input('longitude'),
         ]);
