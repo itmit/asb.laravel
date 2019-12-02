@@ -40,8 +40,8 @@
             </div>
             @endif
         @endif
-        <div class="js-location" data-longitude="{{ $bid->client()->location()->latitude }}" data-latitude="{{ $bid->client()->location()->longitude }}">
-            Координаты: {{ $bid->client()->location()->latitude }} | {{ $bid->client()->location()->longitude }}
+        <div class="js-location" data-longitude="{{ $bid->latitude }}" data-latitude="{{ $bid->longitude }}">
+            Координаты: {{ $bid->latitude }} | {{ $bid->longitude }}
         </div>
         <div id="map" style="width: 600px; height: 400px"></div>
     </div>
