@@ -113,7 +113,7 @@
                 });
             }
 
-            let timer = setInterval(updateTimer(), 10000);
+            // let timer = setInterval(updateTimer(), 10000);
 
             $(window).focus(function() {
                 
