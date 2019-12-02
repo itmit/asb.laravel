@@ -46,7 +46,7 @@ class ClientWebController extends Controller
             );
             }
             if ($user->hasRole('dispatcher')) {
-                $repId = $user->dispatcher->representative;
+                // $repId = $user->dispatcher->representative;
                 return view('dispatcher.listOfClients', [
                     // 'clients' => Client::where('representative', '=', $repId)
                     //     ->orWhere('representative', '=', $asb->id)
