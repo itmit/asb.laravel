@@ -113,6 +113,7 @@
                 });
             }
 
+            let bidid = $('h1').data('bidid');
             function updateTimer()
             {
                 $.ajax({
@@ -175,7 +176,7 @@
 
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
-                    let bidid = $('h1').data('bidid');
+                    
                     timer = setInterval(updateTimer(), 10000);
                 }
                 
