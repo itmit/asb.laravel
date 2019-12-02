@@ -35,7 +35,7 @@ class PointOnMapApiController extends ApiBaseController
             return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
-        // $bid = Bid::where('uid', '=', $request->input('uid'))->first();
+        $bid = Bid::where('uid', '=', $request->input('uid'))->first();
 
         PointOnMap::create([
             'client' => auth('api')->user()->id,

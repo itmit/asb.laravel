@@ -186,16 +186,9 @@
                                 if($bidStatus.data('bidstatus') == 'Принята')
                                 {
                                     let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
-                                        // preset: "islands#circleDotIcon",
-                                        // iconColor: '#ff0000',
-                                        // Необходимо указать данный тип макета.
                                         iconLayout: 'default#image',
-                                        // Своё изображение иконки метки.
                                         iconImageHref: '../caricon.png',
-                                        // Размеры метки.
                                         iconImageSize: [40, 35],
-                                        // Смещение левого верхнего угла иконки относительно
-                                        // её "ножки" (точки привязки).
                                         iconImageOffset: [-20, -17.5]
                                     });
                                     myMap.geoObjects
@@ -236,7 +229,7 @@
 
             }); //Во вкладке
             $(window).blur(function() {
-                document.title='документ неактивен';
+                document.title='ASB (не обновляется)';
                 clearInterval(timer);
             }); //Покинули вкладку
             
