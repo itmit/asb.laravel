@@ -59,70 +59,63 @@
 
     $(document).ready(function()
         {
-            let mapLoaded = 0;
-            
+
+            // Функция ymaps.ready() будет вызвана, когда
+            // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+            ymaps.ready(init);
+
+            function init() {
+                let $locations = $('.js-location');
+                // Создание карты.
+                myMap = new ymaps.Map("map", {
+                    // Координаты центра карты.
+                    // Порядок по умолчанию: «широта, долгота».
+                    // Чтобы не определять координаты центра карты вручную,
+                    // воспользуйтесь инструментом Определение координат.
+                    center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
+                    // Уровень масштабирования. Допустимые значения:
+                    // от 0 (весь мир) до 19.
+                    zoom: 15
+                });
+
+                $locations.each(function () {
+                    let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+
+                    if($bidStatus.data('bidstatus') == 'Принята')
+                    {
+
+                        let placeMarkGuard = new ymaps.Placemark([$('#guard').data('guardlongitude'), $('#guard').data('guardlatitude')], {}, {
+                            // preset: "islands#circleDotIcon",
+                            // iconColor: '#ff0000',
+                            // Необходимо указать данный тип макета.
+                            iconLayout: 'default#image',
+                            // Своё изображение иконки метки.
+                            iconImageHref: '../caricon.png',
+                            // Размеры метки.
+                            iconImageSize: [40, 35],
+                            // Смещение левого верхнего угла иконки относительно
+                            // её "ножки" (точки привязки).
+                            iconImageOffset: [0, 0]
+                        });
+
+                        myMap.geoObjects
+                            .add(placeMark)
+                            .add(placeMarkGuard);
+                    }
+                    else
+                    {
+                        myMap.geoObjects
+                        .add(placeMark);
+                    }
+                });
+            }
+
             $(window).focus(function() {
 
                 document.title='ASB';
 
                 let $bidStatus = $('.bidstatus');
-
-                if(mapLoaded == 0)
-                {
-                    // Функция ymaps.ready() будет вызвана, когда
-                    // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
-                    ymaps.ready(init);
-
-                    function init() {
-                        let $locations = $('.js-location');
-                        // Создание карты.
-                        myMap = new ymaps.Map("map", {
-                            // Координаты центра карты.
-                            // Порядок по умолчанию: «широта, долгота».
-                            // Чтобы не определять координаты центра карты вручную,
-                            // воспользуйтесь инструментом Определение координат.
-                            center: [$locations.first().data('longitude'), $locations.first().data('latitude')],
-                            // Уровень масштабирования. Допустимые значения:
-                            // от 0 (весь мир) до 19.
-                            zoom: 15
-                        });
-
-                        $locations.each(function () {
-                            let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
-
-                            if($bidStatus.data('bidstatus') == 'Принята')
-                            {
-
-                                let placeMarkGuard = new ymaps.Placemark([$('#guard').data('guardlongitude'), $('#guard').data('guardlatitude')], {}, {
-                                    // preset: "islands#circleDotIcon",
-                                    // iconColor: '#ff0000',
-                                    // Необходимо указать данный тип макета.
-                                    iconLayout: 'default#image',
-                                    // Своё изображение иконки метки.
-                                    iconImageHref: '../caricon.png',
-                                    // Размеры метки.
-                                    iconImageSize: [40, 35],
-                                    // Смещение левого верхнего угла иконки относительно
-                                    // её "ножки" (точки привязки).
-                                    iconImageOffset: [0, 0]
-                                });
-
-                                myMap.geoObjects
-                                    .add(placeMark)
-                                    .add(placeMarkGuard);
-                            }
-                            else
-                            {
-                                myMap.geoObjects
-                                .add(placeMark);
-                            }
-                        });
-                        mapLoaded = 1;
-                    }
-                }
-
                 
-
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
                     let bidid = $('h1').data('bidid');
