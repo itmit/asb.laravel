@@ -59,9 +59,9 @@
 
     $(document).ready(function()
         {
+            let mapLoaded = 0;
+            
             $(window).focus(function() {
-
-                let mapLoaded = 0;
 
                 document.title='ASB';
 
