@@ -448,7 +448,7 @@ class ClientController extends ApiBaseController
             return $this->SendError('Payment error', 'Оплата не удалась', 401);
         }
 
-        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $status]);
+        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => 'succeeded']);
         if ($payment_confirm > 0)
         {
             return $this->activateClient();
