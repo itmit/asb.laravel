@@ -60,7 +60,7 @@
             function init() {
                 let $locations = $('.js-location');
                 // Создание карты.
-                window.myMap = new ymaps.Map("map", {
+                myMap = new ymaps.Map("map", {
                     // Координаты центра карты.
                     // Порядок по умолчанию: «широта, долгота».
                     // Чтобы не определять координаты центра карты вручную,
@@ -91,13 +91,13 @@
                             iconImageOffset: [0, 0]
                         });
 
-                        window.myMap.geoObjects
+                        myMap.geoObjects
                             .add(placeMark)
                             .add(placeMarkGuard);
                     }
                     else
                     {
-                        window.myMap.geoObjects
+                        myMap.geoObjects
                         .add(placeMark);
                     }
                 });
@@ -118,7 +118,7 @@
                         $('.js-location').data('longitude', response['location']['longitude']);
                         $('.js-location').data('latitude', response['location']['latitude']);
 
-                        window.myMap.geoObjects.removeAll()
+                        myMap.geoObjects.removeAll()
 
                         MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
                         '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
@@ -142,13 +142,13 @@
                                 iconImageOffset: [-20, -17.5]
                             });
 
-                            window.myMap.geoObjects
+                            myMap.geoObjects
                                 .add(placeMark)
                                 .add(placeMarkGuard);
                         }
                         else
                         {
-                            window.myMap.geoObjects
+                            myMap.geoObjects
                             .add(placeMark);
                         }
                     },
@@ -191,7 +191,7 @@
             }); //Во вкладке
             $(window).blur(function() {
                 document.title='документ неактивен';
-                clearInterval(timer);
+                // clearInterval(timer);
             }); //Покинули вкладку
             
         })
