@@ -157,7 +157,7 @@
 
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
-                    timer();
+                    $(document).timer();
                 }
                 
                 $('.close-bid').click(function (e) {
