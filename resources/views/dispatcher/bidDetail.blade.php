@@ -103,60 +103,53 @@
                 });
             }
 
-            let bidid = $('h1').data('bidid');
-            function updateTimer()
+            function timer()
             {
-                $.ajax({
-                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "json",
-                    data: {bidid: bidid, bidStatus: $bidStatus.data('bidstatus')},
-                    url     : '../bid/updateCoordinates',
-                    method    : 'post',
-                    success: function (response) {
-                        $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
-                        $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
-                        $('.js-location').data('longitude', response['location']['longitude']);
-                        $('.js-location').data('latitude', response['location']['latitude']);
-
-                        myMap.geoObjects.removeAll()
-
-                        MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
-                        '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
-                        );
-
-                        let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
-
-                        if($bidStatus.data('bidstatus') == 'Принята')
-                        {
-                            let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
-                                // preset: "islands#circleDotIcon",
-                                // iconColor: '#ff0000',
-                                // Необходимо указать данный тип макета.
-                                iconLayout: 'default#image',
-                                // Своё изображение иконки метки.
-                                iconImageHref: '../caricon.png',
-                                // Размеры метки.
-                                iconImageSize: [40, 35],
-                                // Смещение левого верхнего угла иконки относительно
-                                // её "ножки" (точки привязки).
-                                iconImageOffset: [-20, -17.5]
-                            });
-
-                            myMap.geoObjects
-                                .add(placeMark)
-                                .add(placeMarkGuard);
+                let bidid = $('h1').data('bidid');
+                timer = setInterval(function()
+                { 
+                    $.ajax({
+                        headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        dataType: "json",
+                        data: {bidid: bidid, bidStatus: $bidStatus.data('bidstatus')},
+                        url     : '../bid/updateCoordinates',
+                        method    : 'post',
+                        success: function (response) {
+                            $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
+                            $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
+                            $('.js-location').data('longitude', response['location']['longitude']);
+                            $('.js-location').data('latitude', response['location']['latitude']);
+                            myMap.geoObjects.removeAll()
+                            MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                            '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+                            );
+                            let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
+                            if($bidStatus.data('bidstatus') == 'Принята')
+                            {
+                                let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
+                                    iconLayout: 'default#image',
+                                    iconImageHref: '../caricon.png',
+                                    iconImageSize: [40, 35],
+                                    iconImageOffset: [-20, -17.5]
+                                });
+                                myMap.geoObjects
+                                    .add(placeMark)
+                                    .add(placeMarkGuard);
+                            }
+                            else
+                            {
+                                myMap.geoObjects
+                                .add(placeMark);
+                            }
+                        },
+                        error: function (xhr, err) { 
+                            console.log("Error: " + xhr + " " + err);
                         }
-                        else
-                        {
-                            myMap.geoObjects
-                            .add(placeMark);
-                        }
-                    },
-                    error: function (xhr, err) { 
-                        console.log("Error: " + xhr + " " + err);
-                    }
-                });
+                    });
+                }, 10000);
             }
+
+            timer();
 
             $(window).focus(function() {
                 
@@ -164,48 +157,7 @@
 
                 if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
                 {
-                    let bidid = $('h1').data('bidid');
-                    let timer = setInterval(function()
-                    { 
-                        $.ajax({
-                            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                            dataType: "json",
-                            data: {bidid: bidid, bidStatus: $bidStatus.data('bidstatus')},
-                            url     : '../bid/updateCoordinates',
-                            method    : 'post',
-                            success: function (response) {
-                                $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
-                                $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
-                                $('.js-location').data('longitude', response['location']['longitude']);
-                                $('.js-location').data('latitude', response['location']['latitude']);
-                                myMap.geoObjects.removeAll()
-                                MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
-                                '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
-                                );
-                                let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
-                                if($bidStatus.data('bidstatus') == 'Принята')
-                                {
-                                    let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
-                                        iconLayout: 'default#image',
-                                        iconImageHref: '../caricon.png',
-                                        iconImageSize: [40, 35],
-                                        iconImageOffset: [-20, -17.5]
-                                    });
-                                    myMap.geoObjects
-                                        .add(placeMark)
-                                        .add(placeMarkGuard);
-                                }
-                                else
-                                {
-                                    myMap.geoObjects
-                                    .add(placeMark);
-                                }
-                            },
-                            error: function (xhr, err) { 
-                                console.log("Error: " + xhr + " " + err);
-                            }
-                        });
-                    }, 10000);
+                    timer();
                 }
                 
                 $('.close-bid').click(function (e) {
