@@ -278,7 +278,7 @@ class BidWebController extends BaseWebController
 
         if ($user->hasRole('dispatcher'))
         {
-            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->limit(10)->sortByDesc('created_at');
 
             $response = [];
             if(count($bids) == 1)
