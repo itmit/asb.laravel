@@ -31,7 +31,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
         if($request->clientType == 'Individual')
