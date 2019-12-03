@@ -1,4 +1,4 @@
-@extends('layouts.profileApp')
+@extends('layouts.bidDetailApp')
 
 @section('content')
     <h1 data-bidid="{{ $bid->id }}">Заявка {{ $bid->id }}</h1>
