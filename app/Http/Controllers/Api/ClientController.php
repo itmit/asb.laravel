@@ -49,7 +49,7 @@ class ClientController extends ApiBaseController
     public function storeIndividual($request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|string|min:11',
+            'phone_number' => 'required|string|min:18',
         ]);
 
         if ($validator->fails()) {
@@ -112,7 +112,7 @@ class ClientController extends ApiBaseController
     public function storeEntity($request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|string|min:11',
+            'phone_number' => 'required|string|min:18',
         ]);
 
         if ($validator->fails()) {
@@ -127,7 +127,7 @@ class ClientController extends ApiBaseController
 
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:6',
-            'phone_number' => 'required|string|min:11|unique:clients,phone_number',
+            'phone_number' => 'required|string|min:18|unique:clients,phone_number',
             'organization' => 'required|string|min:2',
         ]);
 
