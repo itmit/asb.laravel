@@ -200,25 +200,6 @@
                         });
                     }, 10000);
                 }
-                
-                $('.close-bid').click(function (e) {
-                    let bidid = $(this).data('bidid');
-                    console.log(bidid);
-                    $.ajax({
-                        headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                        dataType: "html",
-                        data: {bidid: bidid},
-                        url     : 'closeByUser',
-                        method    : 'post',
-                        success: function (response) {
-                            location.reload();
-                        },
-                        error: function (xhr, err) { 
-                            console.log(err + " " + xhr);
-                        }
-                    })
-
-                })
 
             }); //Во вкладке
             $(window).blur(function() {
@@ -226,6 +207,25 @@
                 clearInterval(timer);
             }); //Покинули вкладку
             
+            $('.close-bid').click(function (e) {
+                let bidid = $(this).data('bidid');
+                console.log(bidid);
+                $.ajax({
+                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    dataType: "html",
+                    data: {bidid: bidid},
+                    url     : 'closeByUser',
+                    method    : 'post',
+                    success: function (response) {
+                        location.reload();
+                    },
+                    error: function (xhr, err) { 
+                        console.log(err + " " + xhr);
+                    }
+                })
+
+            })
+
         })
 
     </script>
