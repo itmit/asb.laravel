@@ -26,11 +26,13 @@ class GuardWebController extends Controller
         $user = Auth::user();
         if ($user instanceof User) {
             if ($user->hasRole('dispatcher')) {
-                $repId = $user->dispatcher()->representative;
+                // $repId = $user->dispatcher()->representative;
                 return view('representative.guardList', [
-                    'guards' => Client::where('representative', '=', $repId)
-                        ->where('is_guard', '=', 1)
-                        ->orderBy('created_at', 'desc')->get()
+                    // 'guards' => Client::where('representative', '=', $repId)
+                    //     ->where('is_guard', '=', 1)
+                    //     ->orderBy('created_at', 'desc')->get()
+                    'guards' => Client::where('is_guard', '=', 1)
+                         ->orderBy('created_at', 'desc')->get()
                 ]
             );
         }
