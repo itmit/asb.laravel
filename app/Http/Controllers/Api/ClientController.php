@@ -53,7 +53,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
         $number = $request['phone_number'];
@@ -69,14 +69,14 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
         $asb = User::where('name', '=', 'dispASB')->first(['id']);
 
         if($asb == NULL)
         {
-            return response()->json(['error'], 401);
+            return $this->sendError("DB Error", "Validation error", 401);
         }
 
         $client = Client::create([
@@ -422,7 +422,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return $this->sendError($validator->errors()->first(), "Validation error", 401); 
         }
 
         $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
@@ -487,7 +487,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);         
         }
 
         $payment_confirm = Payment::where('payment_token', '=', $request->payment_token)->update(['status' => 'succeeded']);
@@ -505,7 +505,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);         
         }
 
         $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
