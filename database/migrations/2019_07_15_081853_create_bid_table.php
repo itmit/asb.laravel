@@ -18,7 +18,7 @@ class CreateBidTable extends Migration
             $table->increments('id');
             $table->string('uid');
             $table->enum('type', ['Alert', 'Call']);
-            $table->integer('guard')->nullable();
+            $table->integer('guard')->unsigned()->nullable();
 
             $table->integer('client')->unsigned();
             $table->enum('status', ['Accepted', 'PendingAcceptance', 'Processed']);
