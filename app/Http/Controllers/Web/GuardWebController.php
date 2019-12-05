@@ -13,6 +13,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
 
 class GuardWebController extends Controller
 {
@@ -116,7 +117,7 @@ class GuardWebController extends Controller
         Client::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
+            'password' => Hash::make($request['password']),
             'phone_number' => $number,
             'representative' => $repId,
             'is_guard' => 1,
