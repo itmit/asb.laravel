@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class ClientWebController extends Controller
 {
@@ -148,7 +149,7 @@ class ClientWebController extends Controller
         Client::create([
             'name' => $request['indv_name'],
             'email' => $request['indv_email'],
-            'password' => bcrypt($request['password']),
+            'password' => Hash::make($request['password']),
             'phone_number' => $number,
             'representative' => $request['representative'],
             'passport' => $request['indv_passport'],
@@ -189,7 +190,7 @@ class ClientWebController extends Controller
         $client = Client::create([
             'organization' => $request['ent_organization'],
             'email' => $request['ent_email'],
-            'password' => bcrypt($request['password']),
+            'password' => Hash::make($request['password']),
             'phone_number' => $number,
             'representative' => $request['representative'],
             'INN' => $request['ent_INN'],
