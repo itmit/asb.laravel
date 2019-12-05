@@ -25,11 +25,11 @@ class CreateBidTable extends Migration
             $table->double('latitude');
             $table->double('longitude');
 
-            $table->foreign('client')->references('id')->on('clients')
-                ->onUpdate('cascade');
+            // $table->foreign('client')->references('id')->on('clients')
+            //     ->onUpdate('cascade');
 
-            $table->foreign('guard')->references('id')->on('clients')
-                ->onUpdate('cascade');
+            // $table->foreign('guard')->references('id')->on('clients')
+            //     ->onUpdate('cascade');
 
             $table->timestamps();
         });
