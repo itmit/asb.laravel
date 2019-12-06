@@ -120,7 +120,7 @@
                         let bidsCount = $('tbody').html();
                         if (bidsCount != '')
                         {
-                            if(selectBidsByStatus == "PendingAcceptance")
+                            if(selectBidsByStatus == "active")
                             {
                                 if(bidColor)
                                 {
