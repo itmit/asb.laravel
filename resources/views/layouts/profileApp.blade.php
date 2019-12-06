@@ -306,7 +306,7 @@
                                                 //     let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
                                                 //     myMap.geoObject.add(placeMark); 
                                                 // }
-                                                
+
                                                 ymaps.ready(init);
 
                                                 function init() {
@@ -324,7 +324,7 @@
                                                     });
 
                                                     $locations.each(function () {
-                                                        let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+                                                        let placeMark = new ymaps.Placemark([v.location.latitude, v.location.latitude]);
                                                             myMap.geoObjects
                                                             .add(placeMark);
                                                     });
