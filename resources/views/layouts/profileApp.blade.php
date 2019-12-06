@@ -310,7 +310,7 @@
                                                 ymaps.ready(init);
 
                                                 function init() {
-                                                    let $locations = $('.js-location');
+                                                    
                                                     // Создание карты.
                                                     myMap = new ymaps.Map("map", {
                                                         // Координаты центра карты.
@@ -323,11 +323,11 @@
                                                         zoom: 15
                                                     });
 
-                                                    $locations.each(function () {
-                                                        let placeMark = new ymaps.Placemark([v.location.latitude, v.location.latitude]);
-                                                            myMap.geoObjects
-                                                            .add(placeMark);
-                                                    });
+                                                   
+                                                    let placeMark = new ymaps.Placemark([v.location.latitude, v.location.latitude]);
+                                                        myMap.geoObjects
+                                                        .add(placeMark);
+                                                
                                                 }           
                                                                                     
                                             });
