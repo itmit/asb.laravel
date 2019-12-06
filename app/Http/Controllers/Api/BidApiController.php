@@ -120,6 +120,12 @@ class BidApiController extends ApiBaseController
             return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
+        $isBid = Bid::where('client', '=', auth('api')->user()->id)->where('status', '=', 'PendingAcceptance')->first();
+        if($isBid != NULL)
+        {
+            return $this->sendError('Bid create error', "Уже есть активная тревога", 401);
+        }
+
         $bid = Bid::create([
             'client' => auth('api')->user()->id,
             'status' => 'PendingAcceptance',
