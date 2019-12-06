@@ -1,7 +1,6 @@
 @extends('layouts.bidDetailApp')
 
 @section('content')
-<?  phpinfo()   ?>
     <h1 data-bidid="{{ $bid->id }}">Заявка {{ $bid->id }}</h1>
     <div class="col-sm-12">
         <a href="/bid">Назад</a>
