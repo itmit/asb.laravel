@@ -285,7 +285,6 @@
                                     {
                                         if(response.length == 1)
                                         {
-                                            ymaps.ready(init);
 
                                             $.each(response, function(k, v) {
                                                 if(v.client.name == null)
@@ -307,6 +306,9 @@
                                                 //     let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
                                                 //     myMap.geoObject.add(placeMark); 
                                                 // }
+                                                
+                                                ymaps.ready(init);
+
                                                 function init() {
                                                     let $locations = $('.js-location');
                                                     // Создание карты.
