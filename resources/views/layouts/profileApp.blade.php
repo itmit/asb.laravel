@@ -232,117 +232,122 @@
         let openModal = 0;
         var pathname = window.location.pathname;
         let urlcheck = /\/bid\/\d+$/.test(pathname); 
-        // console.log(location.origin);
-        // || /\/bid\/\d+$/.test(pathname) == false
-        setInterval(function(){ 
-            if(pathname != '/bid')
+        if(pathname != '/bid')
+        {
+            if(urlcheck != true)
             {
-                if(urlcheck != true)
-                {
-                $.ajax({
-                    headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    dataType: "json",
-                    url     : '../bid/alarmSound',
-                    method    : 'post',
-                    success: function (response) {
-                        if(response.length != 0)
-                        {
-                            if(openModal == 0)
-                            {
-                                $('#myModal').modal('toggle');
-                                $('#myModal').modal({
-                                backdrop: 'static',
-                                keyboard: false
-                                })
-                                if(response.length == 1)
+                setInterval(function(){ 
+                        $.ajax({
+                            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            dataType: "json",
+                            url     : '../bid/alarmSound',
+                            method    : 'post',
+                            success: function (response) {
+                                if(response.length != 0)
                                 {
-                                    $.each(response, function(k, v) {
-                                        if(v.client.name == null)
+                                    if(openModal == 0)
+                                    {
+                                        $('#myModal').modal('toggle');
+                                        $('#myModal').modal({
+                                        backdrop: 'static',
+                                        keyboard: false
+                                        })
+                                        if(response.length == 1)
                                         {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            $.each(response, function(k, v) {
+                                                if(v.client.name == null)
+                                                {
+                                                    $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                                }
+                                                if(v.client.name != null)
+                                                {
+                                                    $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                                }
+                                            });
+                                            $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
                                         }
-                                        if(v.client.name != null)
+                                        else
                                         {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                            $.each(response, function(k, v) {
+                                                if(v.client.name == null)
+                                                {
+                                                    $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                                }
+                                                if(v.client.name != null)
+                                                {
+                                                    $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                                }
+                                            });
                                         }
-                                    });
-                                    $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');
-                                }
-                                else
-                                {
-                                    $.each(response, function(k, v) {
-                                        if(v.client.name == null)
+                                        openModal = 1;
+                                    }
+                                    if(openModal == 1)
+                                    {
+                                        if(response.length == 1)
                                         {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
-                                        }
-                                        if(v.client.name != null)
-                                        {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
-                                        }
-                                    });
-                                }
-                                openModal = 1;
-                            }
-                            if(openModal == 1)
-                            {
-                                if(response.length == 1)
-                                {
-                                    $.each(response, function(k, v) {
-                                        if(v.client.name == null)
-                                        {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
-                                        }
-                                        if(v.client.name != null)
-                                        {
-                                            $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
-                                        }
+                                            ymaps.ready(init);
 
-                                        $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>');                                        
-                                        myMap = new ymaps.Map("map", {
-                                        center: [v.location.latitude, v.location.longitude],
-                                        zoom: 15
-                                        });   
-                                        let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
-                                        myMap.geoObject.add(placeMark);                                     
-                                    });
+                                            $.each(response, function(k, v) {
+                                                if(v.client.name == null)
+                                                {
+                                                    $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                                }
+                                                if(v.client.name != null)
+                                                {
+                                                    $('.modal-text').html('<div><a href="../bid/' + v.id + '">Новая активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div>');
+                                                }
+
+                                                $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>'); 
+
+                                                function init() {
+                                                    myMap = new ymaps.Map("map", {
+                                                    center: [v.location.latitude, v.location.longitude],
+                                                    zoom: 15
+                                                    });   
+                                                    let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
+                                                    myMap.geoObject.add(placeMark); 
+                                                }
+
+                                                                                    
+                                            });
+                                            
+                                        }
+                                        else
+                                        {
+                                            $('.modal-text').html('');
+                                            $.each(response, function(k, v) {
+                                                if(v.client.name == null)
+                                                {
+                                                    $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                                }
+                                                if(v.client.name != null)
+                                                {
+                                                    $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
+                                                }
+                                                
+                                            });
+                                        }
+                                    }
+
+                                    let audio = new Audio(location.origin + '/alert.mp3'); 
+                                    audio.pause();
+                                    audio.play();
                                     
                                 }
-                                else
+                                if(response.length == 0)
                                 {
-                                    $('.modal-text').html('');
-                                    $.each(response, function(k, v) {
-                                        if(v.client.name == null)
-                                        {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.organization + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
-                                        }
-                                        if(v.client.name != null)
-                                        {
-                                            $('.modal-text').append('<div><a href="../bid/' + v.id + '">Активная тревога!</a> Клиент: <a href="../client/' + v.client.id + '">' + v.client.name + '</a> Дата создания: ' + v.created_at + ' телефон: '+ v.client.phone_number +'</div><hr>');
-                                        }
-                                        
-                                    });
+                                    openModal = 0;
+                                    $('#myModal').modal('hide');
                                 }
+                                
+                            },
+                            error: function (xhr, err) { 
+                                console.log("Error: " + xhr + " " + err);
                             }
-
-                            let audio = new Audio(location.origin + '/alert.mp3'); 
-                            audio.pause();
-                            audio.play();
-                            
-                        }
-                        if(response.length == 0)
-                        {
-                            openModal = 0;
-                            $('#myModal').modal('hide');
-                        }
-                        
-                    },
-                    error: function (xhr, err) { 
-                        console.log("Error: " + xhr + " " + err);
-                    }
-                })
-                };
+                        })
+                }, 10000);
             };
-        }, 10000);
+        };
     });
 
 
