@@ -3,7 +3,7 @@
 @section('content')
     <h1 data-bidid="{{ $bid->id }}">Заявка {{ $bid->id }}</h1>
     <div class="col-sm-12">
-        <a href="{{ url()->previous() }}">Назад</a>
+        <a href="/bid">Назад</a>
     </div>
     <div class="col-sm-12">
         <div data-bidstatus = "{{ $bid->status }}" class="bidstatus">

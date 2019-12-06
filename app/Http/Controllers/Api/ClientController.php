@@ -257,7 +257,7 @@ class ClientController extends ApiBaseController
     public function changePhoto(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:100000',
+            'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:5000',
         ]);
 
         if ($validator->fails()) { 
@@ -280,7 +280,7 @@ class ClientController extends ApiBaseController
             ],
                 'Updated');
         }
-        return $this->SendError('Update error', 'Something gone wrong', 401);
+        return $this->SendError('Update error', 'Фотография не была загружена', 401);
     }
 
     public function note(Request $request)
