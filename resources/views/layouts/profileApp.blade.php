@@ -339,9 +339,9 @@
                     error: function (xhr, err) { 
                         console.log("Error: " + xhr + " " + err);
                     }
-                });
-
-                }, 10000);
+                }
+            });
+        }, 10000);
     });
 
 
