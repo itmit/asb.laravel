@@ -299,42 +299,27 @@
 
                                                 $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>'); 
 
-                                                if($mapInit == 0)
-                                                {
-                                                    ymaps.ready(init);
+                                                ymaps.ready(init);
 
-                                                    function init() {
-                                                        
-                                                        // Создание карты.
-                                                        myMap = new ymaps.Map("map", {
-                                                            // Координаты центра карты.
-                                                            // Порядок по умолчанию: «широта, долгота».
-                                                            // Чтобы не определять координаты центра карты вручную,
-                                                            // воспользуйтесь инструментом Определение координат.
-                                                            center: [v.location.latitude, v.location.longitude],
-                                                            // Уровень масштабирования. Допустимые значения:
-                                                            // от 0 (весь мир) до 19.
-                                                            zoom: 15
-                                                        });
-
+                                                function init() {
                                                     
-                                                        let placeMark = new ymaps.Placemark([v.location.latitude, v.location.longitude]);
-                                                            myMap.geoObjects
-                                                            .add(placeMark);
+                                                    // Создание карты.
+                                                    myMap = new ymaps.Map("map", {
+                                                        // Координаты центра карты.
+                                                        // Порядок по умолчанию: «широта, долгота».
+                                                        // Чтобы не определять координаты центра карты вручную,
+                                                        // воспользуйтесь инструментом Определение координат.
+                                                        center: [v.location.latitude, v.location.longitude],
+                                                        // Уровень масштабирования. Допустимые значения:
+                                                        // от 0 (весь мир) до 19.
+                                                        zoom: 15
+                                                    });
 
-                                                        $mapInit = 1;
-
-                                                    }  
-                                                }
-                                                else
-                                                {
-                                                    myMap.geoObjects.removeAll();
+                                                
                                                     let placeMark = new ymaps.Placemark([v.location.latitude, v.location.longitude]);
                                                         myMap.geoObjects
                                                         .add(placeMark);
                                                 }
-                                                         
-                                                                                    
                                             });
                                             
                                         }
