@@ -54,7 +54,14 @@ class BidWebController extends BaseWebController
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
+                if($request->input('selectBidsByStatus') == 'active')
+                {
+                    $bids = Bid::all()->where('status', '<>', 'Processed')->sortByDesc('created_at');
+                }
+                else
+                {
+                    $bids = Bid::all()->where('status', '=', 'Processed')->sortByDesc('created_at');
+                }
 
                 $response = [];
                 self::translateStatus($bids);
@@ -83,7 +90,8 @@ class BidWebController extends BaseWebController
                             'id' => $bid->client()->id,
                             'name' => $bid->client()->name,
                             'organization' => $bid->client()->organization,
-                            'email' => $bid->client()->email
+                            'email' => $bid->client()->email,
+                            'phone_number' => $bid->client()->phone_number
                         ],
                         'guard' => $guard_name,
                     ];
@@ -93,7 +101,14 @@ class BidWebController extends BaseWebController
             }
             else
             {
-                $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
+                if($request->input('selectBidsByStatus') == 'active')
+                {
+                    $bids = Bid::all()->where('status', '<>', 'Processed')->sortByDesc('created_at');
+                }
+                else
+                {
+                    $bids = Bid::all()->where('status', '=', 'Processed')->sortByDesc('created_at');
+                }
 
                 $response = [];
                 self::translateStatus($bids);
@@ -126,7 +141,8 @@ class BidWebController extends BaseWebController
                             'id' => $bid->client()->id,
                             'name' => $bid->client()->name,
                             'organization' => $bid->client()->organization,
-                            'email' => $bid->client()->email
+                            'email' => $bid->client()->email,
+                            'phone_number' => $bid->client()->phone_number
                         ],
                         'guard' => $guard_name,
                     ];

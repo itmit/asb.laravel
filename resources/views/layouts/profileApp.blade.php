@@ -306,7 +306,6 @@
                                             myMap.geoObject.add(placeMark);                                     
                                         });
                                         
-                                        
                                     }
                                     else
                                     {

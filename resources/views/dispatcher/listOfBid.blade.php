@@ -14,9 +14,9 @@
             </select> --}}
 
             <ul class="nav nav-tabs" id="myTab">
-                <li data-type="PendingAcceptance" class="active"><a href="#">Ожидает принятия</a></li>
-                <li data-type="Accepted"><a href="#">Принята</a></li>
-                <li data-type="Processed"><a href="#">Выполнена</a></li>
+                <li data-type="active" class="active"><a href="#">Активные</a></li>
+                {{-- <li data-type="Accepted"><a href="#">Принята</a></li> --}}
+                <li data-type="closed"><a href="#">Выполненные</a></li>
             </ul>
 
             <table class="table table-bordered" style="width: 100%">
@@ -27,6 +27,7 @@
                     <th>ГБР</th>
                     <th>Место</th>
                     <th>Тип</th>
+                    <th>Телефон</th>
                     <th>Дата создания</th>
                     <th>Дата обновления</th>
                 </tr>
@@ -59,6 +60,7 @@
                             {{ $bid->latitude }} | {{ $bid->longitude }}
                         </td>
                         <td>{{ $bid->type }}</td>
+                        <td>{{ lient()->phone_number }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))) }}</td>
                         <td>{{ date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))) }}</td>
                     </tr>
@@ -78,7 +80,6 @@
             {
                 setInterval(function(){ 
                 let selectBidsByStatus = $('#myTab li.active').data('type');
-                // console.log(selectBidsByStatus);
                 $.ajax({
                     headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     dataType: "json",
@@ -86,7 +87,6 @@
                     url     : 'bid/updateList',
                     method    : 'post',
                     success: function (response) {
-                        // console.log(response);
                         let result = '';
                         for(var i = 0; i < response.length; i++) {
                             result += '<tr class="bid">';
@@ -110,6 +110,7 @@
                             
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
                             result += '<td>' + response[i]['type'] + '</td>';
+                            result += '<td>' + response[i]['client']['phone_number'] + '</td>';
                             result += '<td>' + response[i]['created_at'] + '</td>';
                             result += '<td>' + response[i]['updated_at'] + '</td>';
                             result += '</tr>';
