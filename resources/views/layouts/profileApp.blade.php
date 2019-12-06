@@ -324,7 +324,7 @@
                                                     });
 
                                                    
-                                                    let placeMark = new ymaps.Placemark([v.location.latitude, v.location.latitude]);
+                                                    let placeMark = new ymaps.Placemark([v.location.latitude, v.location.longitude]);
                                                         myMap.geoObjects
                                                         .add(placeMark);
                                                 
