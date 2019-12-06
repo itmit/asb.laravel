@@ -299,15 +299,34 @@
 
                                                 $('.modal-text').append('<div id="map" style="width: 600px; height: 400px"></div>'); 
 
+                                                // function init() {
+                                                //     myMap = new ymaps.Map("map", {
+                                                //     center: [v.location.latitude, v.location.longitude],
+                                                //     zoom: 15
+                                                //     });   
+                                                //     let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
+                                                //     myMap.geoObject.add(placeMark); 
+                                                // }
                                                 function init() {
+                                                    let $locations = $('.js-location');
+                                                    // Создание карты.
                                                     myMap = new ymaps.Map("map", {
-                                                    center: [v.location.latitude, v.location.longitude],
-                                                    zoom: 15
-                                                    });   
-                                                    let placeMark = new ymaps.Placemark([v.location.longitude, v.location.latitude]);
-                                                    myMap.geoObject.add(placeMark); 
-                                                }
+                                                        // Координаты центра карты.
+                                                        // Порядок по умолчанию: «широта, долгота».
+                                                        // Чтобы не определять координаты центра карты вручную,
+                                                        // воспользуйтесь инструментом Определение координат.
+                                                        center: [v.location.latitude, v.location.longitude],
+                                                        // Уровень масштабирования. Допустимые значения:
+                                                        // от 0 (весь мир) до 19.
+                                                        zoom: 15
+                                                    });
 
+                                                    $locations.each(function () {
+                                                        let placeMark = new ymaps.Placemark([$(this).data('longitude'), $(this).data('latitude')]);
+                                                            myMap.geoObjects
+                                                            .add(placeMark);
+                                                    });
+                                                }           
                                                                                     
                                             });
                                             
