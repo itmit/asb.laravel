@@ -92,11 +92,11 @@ class BidApiController extends ApiBaseController
             $i++;
         }
 
-
-        return $this->sendResponse(
-            $clients[$i-1],
-            'Bids retrieved successfully.'
-        );
+        return $clients[$i-1]['id'];
+        // return $this->sendResponse(
+        //     $clients[$i-1],
+        //     'Bids retrieved successfully.'
+        // );
 
         return $this->sendResponse(
             $response,
