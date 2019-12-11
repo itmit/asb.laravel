@@ -101,7 +101,7 @@ class BidApiController extends ApiBaseController
             ->when(request('status'), function ($query) {
             return $query->where('status', 'PendingAcceptance');
         })
-        ->sortBy('created_at', 'desc')
+        ->orderBy('created_at', 'desc')
         ->get();
         
         $response = [];
