@@ -65,34 +65,34 @@ class BidApiController extends ApiBaseController
         foreach ($bids as $bid) {
             if($bid->client()->location() == NULL) continue;
             $clients[$i] = $bid->client();
-            // $response[] = [
-            //     'uid'   => $bid->uid,
-            //     'status' => $bid->status,
-            //     'type' => $bid->type,
-            //     'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
-            //     'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
-            //     'location' => [
-            //         'latitude' => $bid->latitude,
-            //         'longitude' => $bid->longitude
-            //     ],
-            //     'client' => [
-            //         'type' => $bid->client()->type,
-            //         'name' => $bid->client()->name,
-            //         'email' => $bid->client()->email,
-            //         'phone_number' => $bid->client()->phone_number,
-            //         'organization' => $bid->client()->organization,
-            //         'note' =>$bid->client()->note, 
-            //         'user_picture' => $bid->client()->user_picture,
-            //         'passport' => $bid->client()->passport,
-            //         'INN' => $bid->client()->INN,
-            //         'OGRN' => $bid->client()->OGRN,
-            //         'director' => $bid->client()->director
-            //     ]
-            // ];
+            $response[] = [
+                'uid'   => $bid->uid,
+                'status' => $bid->status,
+                'type' => $bid->type,
+                'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
+                'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
+                'location' => [
+                    'latitude' => $bid->latitude,
+                    'longitude' => $bid->longitude
+                ],
+                'client' => [
+                    'type' => $clients[$i]['type'],
+                    'name' => $clients[$i]['name'],
+                    'email' => $clients[$i]['email'],
+                    'phone_number' => $clients[$i]['phone_number'],
+                    'organization' => $clients[$i]['organization'],
+                    'note' => $clients[$i]['note'], 
+                    'user_picture' => $clients[$i]['user_picture'],
+                    'passport' => $clients[$i]['passport'],
+                    'INN' => $clients[$i]['INN'],
+                    'OGRN' => $clients[$i]['OGRN'],
+                    'director' => $clients[$i]['director']
+                ]
+            ];
             $i++;
         }
 
-        return $clients[$i-1]['id'];
+        // return $clients[$i-1]['id'];
         // return $this->sendResponse(
         //     $clients[$i-1],
         //     'Bids retrieved successfully.'
