@@ -291,6 +291,7 @@ class BidWebController extends BaseWebController
     public function alarmSound()
     {
         $user = Auth::user();
+        $i=0;
 
         if ($user->hasRole('dispatcher'))
         {
