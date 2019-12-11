@@ -299,84 +299,57 @@ class BidWebController extends BaseWebController
             $response = [];
             $clients = [];
             
-            // if(count($bids) == 1)
-            // {
-            //     foreach ($bids as $bid)
-            //     {
-            //         $clients[$i] = $bid->client();
-            //         $response[] = [
-            //             'id'   => $bid->id,
-            //             'status' => $bid->status,
-            //             'type' => $bid->type,
-            //             'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-            //             'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
-            //             'location' => [
-            //                 'latitude' => $bid->latitude,
-            //                 'longitude' => $bid->longitude
-            //             ],
-            //             'client' => [
-            //                 'id' => $clients[$i]['id'],
-            //                 'name' => $clients[$i]['name'],
-            //                 'organization' => $clients[$i]['organization'],
-            //                 'email' => $clients[$i]['email'],
-            //                 'phone_number' => $clients[$i]['phone_number']
-            //             ]
-            //         ];
-            //         $i++;
-            //     }
-
-            //     return response()->json($response);
-            // }
-            // if(count($bids) > 1)
-            // {
-            //     foreach ($bids as $bid)
-            //     {
-            //         $clients[$i] = $bid->client();
-            //         $response[] = [
-            //             'id'   => $bid->id,
-            //             'status' => $bid->status,
-            //             'type' => $bid->type,
-            //             'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-            //             'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
-            //             'location' => [
-            //                 'latitude' => $bid->latitude,
-            //                 'longitude' => $bid->longitude
-            //             ],
-            //             'client' => [
-            //                 'id' => $clients[$i]['id'],
-            //                 'name' => $clients[$i]['name'],
-            //                 'organization' => $clients[$i]['organization'],
-            //                 'email' => $clients[$i]['email'],
-            //                 'phone_number' => $clients[$i]['phone_number']
-            //             ]
-            //         ];
-            //         $i++;
-            //     }
-            //     return response()->json($response);
-            // }
-            if(count($bids) > 0)
+            if(count($bids) == 1)
             {
                 foreach ($bids as $bid)
                 {
                     $clients[$i] = $bid->client();
-                        $response[] = [
-                            'id'   => $bid->id,
-                            'status' => $bid->status,
-                            'type' => $bid->type,
-                            'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-                            'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
-                            'location' => [
-                                'latitude' => $bid->latitude,
-                                'longitude' => $bid->longitude
-                            ],
-                            'client' => [
-                                'id' => $clients[$i]['id'],
-                                'name' => $clients[$i]['name'],
-                                'organization' => $clients[$i]['organization'],
-                                'email' => $clients[$i]['email'],
-                                'phone_number' => $clients[$i]['phone_number']
-                            ]
-                        ];
+                    $response[] = [
+                        'id'   => $bid->id,
+                        'status' => $bid->status,
+                        'type' => $bid->type,
+                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
+                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
+                        'location' => [
+                            'latitude' => $bid->latitude,
+                            'longitude' => $bid->longitude
+                        ],
+                        'client' => [
+                            'id' => $clients[$i]['id'],
+                            'name' => $clients[$i]['name'],
+                            'organization' => $clients[$i]['organization'],
+                            'email' => $clients[$i]['email'],
+                            'phone_number' => $clients[$i]['phone_number']
+                        ]
+                    ];
+                    $i++;
+                }
+
+                return response()->json($response);
+            }
+            if(count($bids) > 1)
+            {
+                foreach ($bids as $bid)
+                {
+                    $clients[$i] = $bid->client();
+                    $response[] = [
+                        'id'   => $bid->id,
+                        'status' => $bid->status,
+                        'type' => $bid->type,
+                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
+                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
+                        'location' => [
+                            'latitude' => $bid->latitude,
+                            'longitude' => $bid->longitude
+                        ],
+                        'client' => [
+                            'id' => $clients[$i]['id'],
+                            'name' => $clients[$i]['name'],
+                            'organization' => $clients[$i]['organization'],
+                            'email' => $clients[$i]['email'],
+                            'phone_number' => $clients[$i]['phone_number']
+                        ]
+                    ];
                     $i++;
                 }
                 return response()->json($response);
