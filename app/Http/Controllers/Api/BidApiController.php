@@ -59,9 +59,14 @@ class BidApiController extends ApiBaseController
         }
 
         $response = [];
+        $clients = [];
+        $i=0;
 
         foreach ($bids as $bid) {
             if($bid->client()->location() == NULL) continue;
+            $clients[$i] = [
+                $bid->client()
+            ];
             $response[] = [
                 'uid'   => $bid->uid,
                 'status' => $bid->status,
@@ -86,7 +91,14 @@ class BidApiController extends ApiBaseController
                     'director' => $bid->client()->director
                 ]
             ];
+            $i++;
         }
+
+
+        return $this->sendResponse(
+            $clients,
+            'Bids retrieved successfully.'
+        );
 
         return $this->sendResponse(
             $response,

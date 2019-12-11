@@ -208,6 +208,7 @@
                     $(".js-destroy").prop("checked", "");
                 },
                 error: function (xhr, err) { 
+                    alert('Клиент не был удален, т.к. у него есть тревоги')
                     console.log("Error: " + xhr + " " + err);
                 }
             });
