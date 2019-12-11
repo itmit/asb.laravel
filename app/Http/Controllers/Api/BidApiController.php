@@ -97,7 +97,7 @@ class BidApiController extends ApiBaseController
         //     'Bids retrieved successfully.'
         // );
 
-        $bids = Bid::select('id', 'uid', 'status', 'type', 'updated_at', 'created_at', 'latitude', 'longitude')
+        $bids = Bid::select('id', 'uid', 'client','status', 'type', 'updated_at', 'created_at', 'latitude', 'longitude')
             ->when(request('status'), function ($query) {
             return $query->where('status', 'PendingAcceptance');
         })
@@ -108,33 +108,33 @@ class BidApiController extends ApiBaseController
         $currentClient = null;
         
         foreach ($bids as $bid) {
-        $currentClient = $bid->client();
-        if($currentClient->location() == NULL) continue;
-        
-        $response[] = [
-            'uid' => $bid->uid,
-            'status' => $bid->status,
-            'type' => $bid->type,
-            'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
-            'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
-            'location' => [
-            'latitude' => $bid->latitude,
-            'longitude' => $bid->longitude
-        ],
-            'client' => [
-            'type' => $currentClient['type'],
-            'name' => $currentClient['name'],
-            'email' => $currentClient['email'],
-            'phone_number' => $currentClient['phone_number'],
-            'organization' => $currentClient['organization'],
-            'note' => $currentClient['note'],
-            'user_picture' => $currentClient['user_picture'],
-            'passport' => $currentClient['passport'],
-            'INN' => $currentClient['INN'],
-            'OGRN' => $currentClient['OGRN'],
-            'director' => $currentClient['director']
-        ]
-        ];
+            $currentClient = $bid->client();
+            if($currentClient->location() == NULL) continue;
+            
+            $response[] = [
+                'uid' => $bid->uid,
+                'status' => $bid->status,
+                'type' => $bid->type,
+                'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
+                'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
+                'location' => [
+                'latitude' => $bid->latitude,
+                'longitude' => $bid->longitude
+            ],
+                'client' => [
+                'type' => $currentClient['type'],
+                'name' => $currentClient['name'],
+                'email' => $currentClient['email'],
+                'phone_number' => $currentClient['phone_number'],
+                'organization' => $currentClient['organization'],
+                'note' => $currentClient['note'],
+                'user_picture' => $currentClient['user_picture'],
+                'passport' => $currentClient['passport'],
+                'INN' => $currentClient['INN'],
+                'OGRN' => $currentClient['OGRN'],
+                'director' => $currentClient['director']
+            ]
+            ];
         }
         
         return $this->sendResponse(
