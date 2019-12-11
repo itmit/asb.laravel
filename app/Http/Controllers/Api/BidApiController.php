@@ -123,21 +123,23 @@ class BidApiController extends ApiBaseController
             return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
-        $is_active = Client::where('id', '=', auth('api')->user()->id)->first(['is_active']);
+        $userId = auth('api')->user()->id;
+
+        $is_active = Client::where('id', '=', $userId)->first(['is_active']);
 
         if($is_active->is_active != 1)
         {
             return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
-        $isBid = Bid::where('client', '=', auth('api')->user()->id)->where('status', '=', 'PendingAcceptance')->first();
+        $isBid = Bid::where('client', '=', $userId)->where('status', '=', 'PendingAcceptance')->first();
         if($isBid != NULL)
         {
             return $this->sendError('Bid create error', "Уже есть активная тревога", 401);
         }
 
         $bid = Bid::create([
-            'client' => auth('api')->user()->id,
+            'client' => $userId,
             'status' => 'PendingAcceptance',
             'uid' => $request->input('uid'),
             'type' => $request->input('type'),
@@ -146,7 +148,7 @@ class BidApiController extends ApiBaseController
         ]);
 
         PointOnMap::create([
-            'client' => auth('api')->user()->id,
+            'client' => $userId,
             'bid' => $bid->id
         ]);
     }
