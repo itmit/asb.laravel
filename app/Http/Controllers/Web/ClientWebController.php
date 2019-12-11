@@ -27,9 +27,9 @@ class ClientWebController extends Controller
     {
         $repId = false;
         $user = Auth::user();
-        $asb = User::where('name', '=', 'dispASB')->first(['id']);
+        // $asb = User::where('name', '=', 'dispASB')->first(['id']);
 
-        if($asb == NULL)
+        if(!User::where('name', '=', 'dispASB')->exists())
         {
             return 'error';
         }
