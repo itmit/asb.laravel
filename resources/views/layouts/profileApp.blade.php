@@ -151,6 +151,7 @@
                 },
                 error: function (xhr, err) { 
                     console.log("Error: " + xhr + " " + err);
+                    alert('Клиент не был удален, т.к. у него есть тревоги')
                 }
             });
             }
