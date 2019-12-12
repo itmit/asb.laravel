@@ -298,60 +298,67 @@ class BidWebController extends BaseWebController
             $bids = Bid::where('status', '=', 'PendingAcceptance')->orderBy('created_at', 'desc')->limit(10)->get();
 
             $response = [];
-            $clients = [];
             
             if(count($bids) == 1)
             {
-                foreach ($bids as $bid)
-                {
-                    $clients[$i] = $bid->client();
+                $currentClient = null;
+        
+                foreach ($bids as $bid) {
+                    $currentClient = $bid->client();
+                    if($currentClient->location() == NULL) continue;
+                    
                     $response[] = [
-                        'id'   => $bid->id,
+                        'uid' => $bid->uid,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
-                        'location' => [
+                        'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
+                        'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
+                        'location' =>
+                        [
                             'latitude' => $bid->latitude,
                             'longitude' => $bid->longitude
                         ],
-                        'client' => [
-                            'id' => $clients[$i]['id'],
-                            'name' => $clients[$i]['name'],
-                            'organization' => $clients[$i]['organization'],
-                            'email' => $clients[$i]['email'],
-                            'phone_number' => $clients[$i]['phone_number']
+                        'client' =>
+                        [
+                            'id' => $currentClient['id'],
+                            'name' => $currentClient['name'],
+                            'email' => $currentClient['email'],
+                            'phone_number' => $currentClient['phone_number'],
+                            'organization' => $currentClient['organization'],
                         ]
                     ];
-                    $i++;
                 }
 
                 return response()->json($response);
             }
             if(count($bids) > 1)
             {
-                foreach ($bids as $bid)
-                {
-                    $clients[$i] = $bid->client();
+                $currentClient = null;
+        
+                foreach ($bids as $bid) {
+                    $currentClient = $bid->client();
+                    if($currentClient->location() == NULL) continue;
+                    
                     $response[] = [
-                        'id'   => $bid->id,
+                        'uid' => $bid->uid,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
-                        'location' => [
+                        'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
+                        'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
+                        'location' =>
+                        [
                             'latitude' => $bid->latitude,
                             'longitude' => $bid->longitude
                         ],
-                        'client' => [
-                            'id' => $clients[$i]['id'],
-                            'name' => $clients[$i]['name'],
-                            'organization' => $clients[$i]['organization'],
-                            'email' => $clients[$i]['email'],
-                            'phone_number' => $clients[$i]['phone_number']
+                        'client' =>
+                        [
+                            'id' => $currentClient['id'],
+                            'name' => $currentClient['name'],
+                            'email' => $currentClient['email'],
+                            'phone_number' => $currentClient['phone_number'],
+                            'organization' => $currentClient['organization'],
                         ]
                     ];
-                    $i++;
                 }
                 return response()->json($response);
             }

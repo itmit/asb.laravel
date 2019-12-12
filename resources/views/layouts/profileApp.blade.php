@@ -209,7 +209,7 @@
                     $(".js-destroy").prop("checked", "");
                 },
                 error: function (xhr, err) { 
-                    alert('Клиент не был удален, т.к. у него есть тревоги')
+                    alert('ГБР не был удален!')
                     console.log("Error: " + xhr + " " + err);
                 }
             });
