@@ -149,7 +149,10 @@
                 }, 10000);
             }
 
-            timer();
+            if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
+            {
+                timer();
+            }
 
             $(window).focus(function() {
                 

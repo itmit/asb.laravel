@@ -269,7 +269,7 @@ class BidWebController extends BaseWebController
                 ]
             ];
         }
-        else
+        elseif($bidid->bidStatus == 'Ожидает принятия')
         {
             $response = [];
             self::translateStatus($bid);
@@ -283,6 +283,11 @@ class BidWebController extends BaseWebController
                     'last_checkpoint' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow')))
                 ]
             ];
+        }
+        else
+        {
+            $response = [];
+            $response = ['false'];
         }
 
         return response()->json($response);
