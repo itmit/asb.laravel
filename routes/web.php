@@ -21,7 +21,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::resource('representative', 'Web\RepresentativeWebController');
     Route::resource('bid', 'Web\BidWebController');
     Route::resource('client', 'Web\ClientWebController');
-    Route::resource('guard', 'Web\GuardWebController');
+    // Route::resource('guard', 'Web\GuardWebController');
     Route::post('bid/updateList', 'Web\BidWebController@updateList');
     Route::post('bid/updateCoordinates', 'Web\BidWebController@updateCoordinates');
     Route::post('bid/alarmSound', 'Web\BidWebController@alarmSound');
