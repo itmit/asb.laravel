@@ -21,7 +21,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
     Route::resource('representative', 'Web\RepresentativeWebController');
     Route::resource('bid', 'Web\BidWebController');
     Route::resource('client', 'Web\ClientWebController');
-    // Route::resource('guard', 'Web\GuardWebController');
+
     Route::post('bid/updateList', 'Web\BidWebController@updateList');
     Route::post('bid/updateCoordinates', 'Web\BidWebController@updateCoordinates');
     Route::post('bid/alarmSound', 'Web\BidWebController@alarmSound');
@@ -33,7 +33,7 @@ Route::group(['as' => 'auth.', 'middleware' => 'auth'], function () {
 
     Route::delete('clients/delete', 'Web\ClientWebController@destroy');
     Route::delete('dispatcher/delete', 'Web\DispatcherWebController@destroy');
-    Route::delete('guard/delete', 'Web\GuardWebController@destroy');
+
     Route::delete('representative/delete', 'Web\RepresentativeWebController@destroy');
 });
 
