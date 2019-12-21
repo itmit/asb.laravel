@@ -54,7 +54,14 @@ class BidWebController extends BaseWebController
         if ($user instanceof User) {
             if ($user->hasRole('super-admin'))
             {
-                $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
+                if($request->input('selectBidsByStatus') == 'active')
+                {
+                    $bids = Bid::all()->where('status', '<>', 'Processed')->sortByDesc('created_at');
+                }
+                else
+                {
+                    $bids = Bid::all()->where('status', '=', 'Processed')->sortByDesc('created_at');
+                }
 
                 $response = [];
                 self::translateStatus($bids);
@@ -76,14 +83,15 @@ class BidWebController extends BaseWebController
                         'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                         'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
-                            'latitude' => $bid->client()->location()->latitude,
-                            'longitude' => $bid->client()->location()->longitude
+                            'latitude' => $bid->latitude,
+                            'longitude' => $bid->longitude
                         ],
                         'client' => [
                             'id' => $bid->client()->id,
                             'name' => $bid->client()->name,
                             'organization' => $bid->client()->organization,
-                            'email' => $bid->client()->email
+                            'email' => $bid->client()->email,
+                            'phone_number' => $bid->client()->phone_number
                         ],
                         'guard' => $guard_name,
                     ];
@@ -93,7 +101,14 @@ class BidWebController extends BaseWebController
             }
             else
             {
-                $bids = Bid::all()->where('status', '=', $request->input('selectBidsByStatus'))->sortByDesc('created_at');
+                if($request->input('selectBidsByStatus') == 'active')
+                {
+                    $bids = Bid::all()->where('status', '<>', 'Processed')->sortByDesc('created_at');
+                }
+                else
+                {
+                    $bids = Bid::all()->where('status', '=', 'Processed')->sortByDesc('created_at');
+                }
 
                 $response = [];
                 self::translateStatus($bids);
@@ -119,14 +134,15 @@ class BidWebController extends BaseWebController
                         'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                         'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
                         'location' => [
-                            'latitude' => $bid->client()->location()->latitude,
-                            'longitude' => $bid->client()->location()->longitude
+                            'latitude' => $bid->latitude,
+                            'longitude' => $bid->longitude
                         ],
                         'client' => [
                             'id' => $bid->client()->id,
                             'name' => $bid->client()->name,
                             'organization' => $bid->client()->organization,
-                            'email' => $bid->client()->email
+                            'email' => $bid->client()->email,
+                            'phone_number' => $bid->client()->phone_number
                         ],
                         'guard' => $guard_name,
                     ];
@@ -165,7 +181,7 @@ class BidWebController extends BaseWebController
                         $bid->status = 'Ожидает принятия';
                         break;
                     case 'Accepted':
-                        $bid->status = 'Принята';
+                        $bid->status = 'В работе';
                         break;
                     case 'Processed':
                         $bid->status = 'Выполнена';
@@ -182,7 +198,7 @@ class BidWebController extends BaseWebController
                     $bids->status = 'Ожидает принятия';
                     break;
                 case 'Accepted':
-                    $bids->status = 'Принята';
+                    $bids->status = 'В работе';
                     break;
                 case 'Processed':
                     $bids->status = 'Выполнена';
@@ -242,9 +258,9 @@ class BidWebController extends BaseWebController
             $response = [
                 'updated_at' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                 'location' => [
-                    'latitude' => $bid->client()->location()->latitude,
-                    'longitude' => $bid->client()->location()->longitude,
-                    'last_checkpoint' => date('H:i:s d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow')))
+                    'latitude' => $bid->latitude,
+                    'longitude' => $bid->longitude,
+                    'last_checkpoint' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow')))
                 ],
                 'guard' => [
                     'guard_latitude' => $bid->client()->location()->latitude,
@@ -253,7 +269,7 @@ class BidWebController extends BaseWebController
                 ]
             ];
         }
-        else
+        elseif($bidid->bidStatus == 'Ожидает принятия')
         {
             $response = [];
             self::translateStatus($bid);
@@ -262,11 +278,16 @@ class BidWebController extends BaseWebController
             $response = [
                 'updated_at' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
                 'location' => [
-                    'latitude' => $bid->client()->location()->latitude,
-                    'longitude' => $bid->client()->location()->longitude,
-                    'last_checkpoint' => date('H:i:s d.m.Y', strtotime($bid->client()->location()->created_at->timezone('Europe/Moscow')))
+                    'latitude' => $bid->latitude,
+                    'longitude' => $bid->longitude,
+                    'last_checkpoint' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow')))
                 ]
             ];
+        }
+        else
+        {
+            $response = [];
+            $response = ['false'];
         }
 
         return response()->json($response);
@@ -275,32 +296,40 @@ class BidWebController extends BaseWebController
     public function alarmSound()
     {
         $user = Auth::user();
+        $i=0;
 
         if ($user->hasRole('dispatcher'))
         {
-            $bids = Bid::all()->where('status', '=', 'PendingAcceptance')->sortByDesc('created_at');
+            $bids = Bid::where('status', '=', 'PendingAcceptance')->orderBy('created_at', 'desc')->limit(10)->get();
 
             $response = [];
+            
             if(count($bids) == 1)
             {
-                foreach ($bids as $bid)
-                {
+                $currentClient = null;
+        
+                foreach ($bids as $bid) {
+                    $currentClient = $bid->client();
+                    if($currentClient->location() == NULL) continue;
+                    
                     $response[] = [
-                        'id'   => $bid->id,
+                        'uid' => $bid->uid,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
-                        'location' => [
-                            'latitude' => $bid->client()->location()->latitude,
-                            'longitude' => $bid->client()->location()->longitude
+                        'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
+                        'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
+                        'location' =>
+                        [
+                            'latitude' => $bid->latitude,
+                            'longitude' => $bid->longitude
                         ],
-                        'client' => [
-                            'id' => $bid->client()->id,
-                            'name' => $bid->client()->name,
-                            'organization' => $bid->client()->organization,
-                            'email' => $bid->client()->email,
-                            'phone_number' => $bid->client()->phone_number
+                        'client' =>
+                        [
+                            'id' => $currentClient['id'],
+                            'name' => $currentClient['name'],
+                            'email' => $currentClient['email'],
+                            'phone_number' => $currentClient['phone_number'],
+                            'organization' => $currentClient['organization'],
                         ]
                     ];
                 }
@@ -309,28 +338,36 @@ class BidWebController extends BaseWebController
             }
             if(count($bids) > 1)
             {
+                $currentClient = null;
+        
                 foreach ($bids as $bid) {
+                    $currentClient = $bid->client();
+                    if($currentClient->location() == NULL) continue;
+                    
                     $response[] = [
-                        'id'   => $bid->id,
+                        'uid' => $bid->uid,
                         'status' => $bid->status,
                         'type' => $bid->type,
-                        'updated_at' => date('H:i d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow'))),
-                        'created_at' => date('H:i d.m.Y', strtotime($bid->created_at->timezone('Europe/Moscow'))),
-                        'location' => [
-                            'latitude' => $bid->client()->location()->latitude,
-                            'longitude' => $bid->client()->location()->longitude
+                        'updated_at' => date('Y-m-d H:i:s', strtotime($bid->updated_at)),
+                        'created_at' => date('Y-m-d H:i:s', strtotime($bid->created_at)),
+                        'location' =>
+                        [
+                            'latitude' => $bid->latitude,
+                            'longitude' => $bid->longitude
                         ],
-                        'client' => [
-                            'id' => $bid->client()->id,
-                            'name' => $bid->client()->name,
-                            'organization' => $bid->client()->organization,
-                            'email' => $bid->client()->email,
-                            'phone_number' => $bid->client()->phone_number
+                        'client' =>
+                        [
+                            'id' => $currentClient['id'],
+                            'name' => $currentClient['name'],
+                            'email' => $currentClient['email'],
+                            'phone_number' => $currentClient['phone_number'],
+                            'organization' => $currentClient['organization'],
                         ]
                     ];
                 }
                 return response()->json($response);
             }
+            
             if(count($bids) == 0)
             {
                 return response()->json('');

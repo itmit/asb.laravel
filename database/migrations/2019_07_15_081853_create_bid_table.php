@@ -18,19 +18,18 @@ class CreateBidTable extends Migration
             $table->increments('id');
             $table->string('uid');
             $table->enum('type', ['Alert', 'Call']);
-            $table->integer('guard')->nullable();
-            // $table->integer('location')->unsigned();
+            $table->integer('guard')->unsigned()->nullable();
+
             $table->integer('client')->unsigned();
             $table->enum('status', ['Accepted', 'PendingAcceptance', 'Processed']);
+            $table->double('latitude');
+            $table->double('longitude');
 
-            // $table->foreign('location')->references('id')->on('point_on_map')
+            // $table->foreign('client')->references('id')->on('clients')
             //     ->onUpdate('cascade');
 
-            $table->foreign('client')->references('id')->on('clients')
-                ->onUpdate('cascade');
-
-            $table->foreign('guard')->references('id')->on('clients')
-                ->onUpdate('cascade');
+            // $table->foreign('guard')->references('id')->on('clients')
+            //     ->onUpdate('cascade');
 
             $table->timestamps();
         });

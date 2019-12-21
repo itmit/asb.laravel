@@ -19,24 +19,32 @@ class PointOnMapApiController extends ApiBaseController
      */
     public function store(Request $request)
     {
+        $userId = auth('api')->user()->id;
+
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
-            'longitude' => 'required',
+            'longitude' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError($validator->errors(), "Validation error", 401);
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
-        $is_active = Client::where('id', '=', auth('api')->user()->id)->first(['is_active']);
+        $is_active = Client::where('id', '=', $userId)->first(['is_active']);
 
         if($is_active->is_active != 1)
         {
             return $this->sendError($is_active->is_active, "Client is not active", 401);
         }
 
+        $bid = Bid::where('uid', '=', $request->input('uid'))->first();
+
         PointOnMap::create([
-            'client' => auth('api')->user()->id,
+            'client' => $userId,
+            'bid' => $bid->id
+        ]);
+
+        Bid::where('client', '=', $userId)->where('status', '<>', 'Accepted')->update([
             'latitude' => $request->input('latitude'),
             'longitude' => $request->input('longitude'),
         ]);

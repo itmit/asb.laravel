@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class ClientWebController extends Controller
 {
@@ -26,9 +27,9 @@ class ClientWebController extends Controller
     {
         $repId = false;
         $user = Auth::user();
-        $asb = User::where('name', '=', 'dispASB')->first(['id']);
+        // $asb = User::where('name', '=', 'dispASB')->first(['id']);
 
-        if($asb == NULL)
+        if(!User::where('name', '=', 'dispASB')->exists())
         {
             return 'error';
         }
@@ -46,7 +47,7 @@ class ClientWebController extends Controller
             );
             }
             if ($user->hasRole('dispatcher')) {
-                $repId = $user->dispatcher->representative;
+                // $repId = $user->dispatcher->representative;
                 return view('dispatcher.listOfClients', [
                     // 'clients' => Client::where('representative', '=', $repId)
                     //     ->orWhere('representative', '=', $asb->id)
@@ -148,7 +149,7 @@ class ClientWebController extends Controller
         Client::create([
             'name' => $request['indv_name'],
             'email' => $request['indv_email'],
-            'password' => bcrypt($request['password']),
+            'password' => Hash::make($request['password']),
             'phone_number' => $number,
             'representative' => $request['representative'],
             'passport' => $request['indv_passport'],
@@ -189,7 +190,7 @@ class ClientWebController extends Controller
         $client = Client::create([
             'organization' => $request['ent_organization'],
             'email' => $request['ent_email'],
-            'password' => bcrypt($request['password']),
+            'password' => Hash::make($request['password']),
             'phone_number' => $number,
             'representative' => $request['representative'],
             'INN' => $request['ent_INN'],

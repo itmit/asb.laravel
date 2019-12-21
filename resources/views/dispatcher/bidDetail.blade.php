@@ -1,9 +1,9 @@
-@extends('layouts.profileApp')
+@extends('layouts.bidDetailApp')
 
 @section('content')
     <h1 data-bidid="{{ $bid->id }}">Заявка {{ $bid->id }}</h1>
     <div class="col-sm-12">
-        <a href="{{ url()->previous() }}">Назад</a>
+        <a href="/bid">Назад</a>
     </div>
     <div class="col-sm-12">
         <div data-bidstatus = "{{ $bid->status }}" class="bidstatus">
@@ -40,25 +40,17 @@
             </div>
             @endif
         @endif
-        <div class="js-location" data-longitude="{{ $bid->client()->location()->latitude }}" data-latitude="{{ $bid->client()->location()->longitude }}">
-            Координаты: {{ $bid->client()->location()->latitude }} | {{ $bid->client()->location()->longitude }}
+        <div class="js-location" data-longitude="{{ $bid->latitude }}" data-latitude="{{ $bid->longitude }}">
+            Координаты: {{ $bid->latitude }} | {{ $bid->longitude }}
         </div>
         <div id="map" style="width: 600px; height: 400px"></div>
     </div>
     <script>
 
-    // let $locations = $('.js-location');
-    // var map;
-    // console.log($locations.first().data('latitude'));
-    // function initMap() {
-    // map = new google.maps.Map(document.getElementById('map'), {
-    //     center: {lat: $locations.first().data('latitude'), lng: $locations.first().data('longitude')},
-    //     zoom: 15
-    // });
-    // }
-
     $(document).ready(function()
         {
+            document.title='ASB';
+
             let $bidStatus = $('.bidstatus');
 
             // Функция ymaps.ready() будет вызвана, когда
@@ -111,10 +103,10 @@
                 });
             }
 
-            if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
+            function timer()
             {
                 let bidid = $('h1').data('bidid');
-                setInterval(function()
+                timer = setInterval(function()
                 { 
                     $.ajax({
                         headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -127,31 +119,19 @@
                             $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
                             $('.js-location').data('longitude', response['location']['longitude']);
                             $('.js-location').data('latitude', response['location']['latitude']);
-
                             myMap.geoObjects.removeAll()
-
                             MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
                             '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
                             );
-
                             let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
-
                             if($bidStatus.data('bidstatus') == 'Принята')
                             {
                                 let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
-                                    // preset: "islands#circleDotIcon",
-                                    // iconColor: '#ff0000',
-                                    // Необходимо указать данный тип макета.
                                     iconLayout: 'default#image',
-                                    // Своё изображение иконки метки.
                                     iconImageHref: '../caricon.png',
-                                    // Размеры метки.
                                     iconImageSize: [40, 35],
-                                    // Смещение левого верхнего угла иконки относительно
-                                    // её "ножки" (точки привязки).
                                     iconImageOffset: [-20, -17.5]
                                 });
-
                                 myMap.geoObjects
                                     .add(placeMark)
                                     .add(placeMarkGuard);
@@ -166,8 +146,69 @@
                             console.log("Error: " + xhr + " " + err);
                         }
                     });
-                }, 5000);
+                }, 10000);
             }
+
+            if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
+            {
+                timer();
+            }
+
+            $(window).focus(function() {
+                
+                document.title='ASB';
+
+                if($bidStatus.data('bidstatus') == 'Ожидает принятия' || $bidStatus.data('bidstatus') == 'Принята')
+                {
+                    let bidid = $('h1').data('bidid');
+                    timer = setInterval(function()
+                    { 
+                        $.ajax({
+                            headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                            dataType: "json",
+                            data: {bidid: bidid, bidStatus: $bidStatus.data('bidstatus')},
+                            url     : '../bid/updateCoordinates',
+                            method    : 'post',
+                            success: function (response) {
+                                $('.updated').html('Обновлена: ' + response['location']['last_checkpoint']);
+                                $('.js-location').html('Координаты: ' + response['location']['latitude'] + ' | ' +  response['location']['longitude']);
+                                $('.js-location').data('longitude', response['location']['longitude']);
+                                $('.js-location').data('latitude', response['location']['latitude']);
+                                myMap.geoObjects.removeAll()
+                                MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                                '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+                                );
+                                let placeMark = new ymaps.Placemark([response['location']['latitude'], response['location']['longitude']]);
+                                if($bidStatus.data('bidstatus') == 'Принята')
+                                {
+                                    let placeMarkGuard = new ymaps.Placemark([response['guard']['guard_latitude'], response['guard']['guard_longitude']], {}, {
+                                        iconLayout: 'default#image',
+                                        iconImageHref: '../caricon.png',
+                                        iconImageSize: [40, 35],
+                                        iconImageOffset: [-20, -17.5]
+                                    });
+                                    myMap.geoObjects
+                                        .add(placeMark)
+                                        .add(placeMarkGuard);
+                                }
+                                else
+                                {
+                                    myMap.geoObjects
+                                    .add(placeMark);
+                                }
+                            },
+                            error: function (xhr, err) { 
+                                console.log("Error: " + xhr + " " + err);
+                            }
+                        });
+                    }, 10000);
+                }
+
+            }); //Во вкладке
+            $(window).blur(function() {
+                document.title='ASB (не обновляется)';
+                clearInterval(timer);
+            }); //Покинули вкладку
             
             $('.close-bid').click(function (e) {
                 let bidid = $(this).data('bidid');
@@ -187,6 +228,7 @@
                 })
 
             })
+
         })
 
     </script>

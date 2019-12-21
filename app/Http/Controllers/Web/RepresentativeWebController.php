@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class RepresentativeWebController extends Controller
 {
@@ -78,7 +79,7 @@ class RepresentativeWebController extends Controller
                 'email' => $request->input('email'),
                 'city' => $request->input('city'),
                 'fio' => $request->input('fio'),
-                'password' => bcrypt($request->input('password')),
+                'password' => Hash::make($request['password']),
             ]);
 
             $representative->attachRole(Role::where('name', '=', 'representative')->first());

@@ -13,6 +13,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
 
 class GuardWebController extends Controller
 {
@@ -26,11 +27,13 @@ class GuardWebController extends Controller
         $user = Auth::user();
         if ($user instanceof User) {
             if ($user->hasRole('dispatcher')) {
-                $repId = $user->dispatcher->representative;
+                // $repId = $user->dispatcher()->representative;
                 return view('representative.guardList', [
-                    'guards' => Client::where('representative', '=', $repId)
-                        ->where('is_guard', '=', 1)
-                        ->orderBy('created_at', 'desc')->get()
+                    // 'guards' => Client::where('representative', '=', $repId)
+                    //     ->where('is_guard', '=', 1)
+                    //     ->orderBy('created_at', 'desc')->get()
+                    'guards' => Client::where('is_guard', '=', 1)
+                         ->orderBy('created_at', 'desc')->get()
                 ]
             );
         }
@@ -114,7 +117,7 @@ class GuardWebController extends Controller
         Client::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
+            'password' => Hash::make($request['password']),
             'phone_number' => $number,
             'representative' => $repId,
             'is_guard' => 1,

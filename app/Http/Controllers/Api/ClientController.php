@@ -31,7 +31,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
         if($request->clientType == 'Individual')
@@ -53,7 +53,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
         $number = $request['phone_number'];
@@ -69,14 +69,14 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);
         }
 
         $asb = User::where('name', '=', 'dispASB')->first(['id']);
 
         if($asb == NULL)
         {
-            return response()->json(['error'], 401);
+            return $this->sendError("DB Error", "Validation error", 401);
         }
 
         $client = Client::create([
@@ -257,7 +257,7 @@ class ClientController extends ApiBaseController
     public function changePhoto(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:100000',
+            'contents' => 'image|mimes:jpeg,jpg,png,gif|required|max:5000',
         ]);
 
         if ($validator->fails()) { 
@@ -280,7 +280,7 @@ class ClientController extends ApiBaseController
             ],
                 'Updated');
         }
-        return $this->SendError('Update error', 'Something gone wrong', 401);
+        return $this->SendError('Update error', 'Фотография не была загружена', 401);
     }
 
     public function note(Request $request)
@@ -422,7 +422,7 @@ class ClientController extends ApiBaseController
         ]);
 
         if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return $this->sendError($validator->errors()->first(), "Validation error", 401); 
         }
 
         $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
@@ -448,20 +448,26 @@ class ClientController extends ApiBaseController
             return $this->SendError('Payment error', 'Оплата не удалась', 401);
         }
 
-        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => $response->status]);
-
-        if($payment_confirm > 0)
+        $payment_confirm = Payment::where('yandex_kassa_id', '=', $paymentId)->update(['status' => 'succeeded']);
+        if ($payment_confirm > 0)
         {
-            $date = date_create();
-            $current_date = date_format($date, 'Y-m-d H:i:s');
-
-            $client_update = Client::where('id', '=', auth('api')->user()->id)
-            ->update([
-                'is_active' => 1,
-                'active_from' => $current_date,
-                'sms_alert' => 0
-                ]);
+            return $this->activateClient();
         }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+
+    private function activateClient()
+    {
+        $date = date_create();
+        $current_date = date_format($date, 'Y-m-d H:i:s');
+
+        $client_update = Client::where('id', '=', auth('api')->user()->id)
+        ->update([
+            'is_active' => 1,
+            'active_from' => $current_date,
+            'sms_alert' => 0
+            ]);
+        
 
         if($client_update > 0)
         {
@@ -472,6 +478,49 @@ class ClientController extends ApiBaseController
                 'Updated');
         }
         return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+
+    public function activate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'payment_token' => 'required|string'
+        ]);
+
+        if ($validator->fails()) { 
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);         
+        }
+
+        $payment_confirm = Payment::where('payment_token', '=', $request->payment_token)->update(['status' => 'succeeded']);
+        if ($payment_confirm > 0)
+        {
+            return $this->activateClient();
+        }
+        return $this->SendError('Update error', 'Something gone wrong', 401);
+    }
+
+    public function getPaymentStatus(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'payment_token' => 'required|string'
+        ]);
+
+        if ($validator->fails()) { 
+            return $this->sendError($validator->errors()->first(), "Validation error", 401);         
+        }
+
+        $paymentId = Payment::where('payment_token', '=', $request->payment_token)->latest()->first();
+
+        $paymentId = $paymentId->yandex_kassa_id;
+
+        $client = new YandexClient();
+        $client->setAuth(config('app.YANDEX_KASSA_SHOP_ID'), config('app.YANDEX_KASSA_SECRET_KEY'));
+
+        $payment = $client->getPaymentInfo($paymentId);
+        $paymentStatus = $payment->status;
+        return $this->sendResponse([
+            $paymentStatus
+        ],
+            'payment');
     }
 
     public function sendSMS()
