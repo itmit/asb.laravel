@@ -24,7 +24,6 @@
                 <tr>
                     <th>Статус</th>
                     <th>Клиент</th>
-                    <th>ГБР</th>
                     <th>Место</th>
                     <th>Тип</th>
                     <th>Телефон</th>
@@ -48,13 +47,6 @@
                                     @endif
                                 </a>
                             </div>
-                        </td>
-                        <td>
-                            
-                                @if($bid->client()->guard != NULL)
-                                @else {{ $bid->client()->guard }}
-                                @endif
-                            
                         </td>
                         <td>
                             {{ $bid->latitude }} | {{ $bid->longitude }}
@@ -98,14 +90,6 @@
                             else
                             {
                                 result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
-                            }
-                            if(response[i]['guard'] == null)
-                            {     
-                                result += '<td></td>';
-                            }
-                            else
-                            {
-                                result += '<td>' + response[i]['guard'] + '</td>';
                             }
                             
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
@@ -175,7 +159,6 @@
                             {
                                 result += '<td><a href="client/' + response[i]['client']['id'] + '">' + response[i]['client']['name'] + '</a></td>';
                             }
-                            result += '<td>' + response[i]['guard'] + '</td>';
                             result += '<td>' + response[i]['location']['latitude'] + ' | ' + response[i]['location']['longitude'] + '</td>';
                             result += '<td>' + response[i]['type'] + '</td>';
                             result += '<td>' + response[i]['client']['phone_number'] + '</td>';
