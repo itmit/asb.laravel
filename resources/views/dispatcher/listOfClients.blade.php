@@ -7,7 +7,6 @@
         <a href="{{ route('auth.client.create') }}" class="btn btn-primary">Добавить клиентов</a>
 
         <input type="button" value="Удалить" class="js-destroy-button btn btn-primary">
-        <h1>Не удалять</h1>
 
         <select name="selectClientsByType" id="selectClientsByType" class="form-control">
             <option value="Individual" selected>Физические лица</option>
