@@ -197,6 +197,10 @@ class ClientController extends ApiBaseController
             ->get()->first();
         
         if ($user != null) {
+            if($user->is_guard == 1)
+            {
+                return response()->json(['error' => ['ошибка авторизации']], 401);
+            }
             if (Hash::check(request('password'), $user->password))
             {
                 Auth::login($user);
@@ -521,12 +525,6 @@ class ClientController extends ApiBaseController
             $paymentStatus
         ],
             'payment');
-    }
-
-    public function sendSMS()
-    {
-        // return send_sms("79997913230", "Ваш пароль: 123", 1, 0, 0, 0, "SMSC.RU");
-        // return send_sms_mail("79997913230", "Ваш пароль: 123");
     }
 
     public function checkDates()

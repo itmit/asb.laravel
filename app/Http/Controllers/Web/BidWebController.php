@@ -92,8 +92,7 @@ class BidWebController extends BaseWebController
                             'organization' => $bid->client()->organization,
                             'email' => $bid->client()->email,
                             'phone_number' => $bid->client()->phone_number
-                        ],
-                        'guard' => $guard_name,
+                        ]
                     ];
                 }
 
@@ -114,19 +113,6 @@ class BidWebController extends BaseWebController
                 self::translateStatus($bids);
                 self::translateType($bids);
                 foreach ($bids as $bid) {
-                    // if ($bid->location()->client()->representative != $this->getRepresentativeId()) {
-                    //     continue;
-                    // }
-                    $guard = Client::where('id', '=', $bid->guard)->first();
-                    if($guard == NULL)
-                    {
-                        $guard_name = '';
-                    }
-                    else
-                    {
-                        $guard_name = $guard->name;
-                    }
-
                     $response[] = [
                         'id'   => $bid->id,
                         'status' => $bid->status,
@@ -143,8 +129,7 @@ class BidWebController extends BaseWebController
                             'organization' => $bid->client()->organization,
                             'email' => $bid->client()->email,
                             'phone_number' => $bid->client()->phone_number
-                        ],
-                        'guard' => $guard_name,
+                        ]
                     ];
                 }
 
@@ -157,18 +142,12 @@ class BidWebController extends BaseWebController
     public function show($id)
     {
         $bid = Bid::where('id', '=', $id)->first();
-        if($bid->guard != NULL)
-        {
-            $guard = Client::where('id', '=', $bid->guard)->first();
-        }
-        else $guard = NULL;
 
         self::translateStatus($bid);
         self::translateType($bid);
 
         return view("dispatcher.bidDetail", [
             'bid' => $bid,
-            'guard' => $guard
         ]);
     }
 
@@ -261,11 +240,6 @@ class BidWebController extends BaseWebController
                     'latitude' => $bid->latitude,
                     'longitude' => $bid->longitude,
                     'last_checkpoint' => date('H:i:s d.m.Y', strtotime($bid->updated_at->timezone('Europe/Moscow')))
-                ],
-                'guard' => [
-                    'guard_latitude' => $bid->client()->location()->latitude,
-                    'guard_longitude' => $guard->longitude,
-                    'guard_name' => $guard->name,
                 ]
             ];
         }

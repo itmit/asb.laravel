@@ -119,44 +119,6 @@ class BidApiController extends ApiBaseController
         ]);
     }
 
-    public function changeStatus(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'uid' => 'required',
-            'new_status' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->sendError($validator->errors()->first(), "Validation error", 401);
-        }
-
-        $userId = Auth::id();
-
-        if($request['new_status'] == 'Accepted')
-        {
-            $guard_enable = Bid::where('status', '=', 'Accepted')->where('guard', '=', $userId)->first();
-
-            if($guard_enable != NULL)
-            {
-                return $this->SendError('Guard error', 'Данный экипаж уже принял другую заявку', 401);
-            }
-        }
-        
-
-        $bid = Bid::where('uid', '=', $request->uid)
-            ->update(['status' => $request->new_status, 'guard' => $userId]);
-
-        if($bid > 0)
-        {
-            // event(new ChangeStatus($bid));
-            return $this->sendResponse([
-                $bid
-            ],
-                'Updated');
-        }
-        return $this->SendError('Update error', 'Something gone wrong', 401);
-    }
-
     public function updateCoordinates(Request $request)
     {
         $validator = Validator::make($request->all(), [
