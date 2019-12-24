@@ -84,19 +84,19 @@
             <div class="col-sm-3 left-menu">
                 <ul class="nav">
 
-                    <li class="active"><a href="{{ route('auth.home') }}">Главная</a></li>
+                    <li name="home" class="active"><a href="{{ route('auth.home') }}">Главная</a></li>
 
                     @ability('super-admin', 'show-representatives')
-                    <li><a href="{{ route('auth.representative.index') }}">Представители</a></li>
+                    <li name="representative"><a href="{{ route('auth.representative.index') }}">Представители</a></li>
                     @endability
 
                     @ability('super-admin,representative', 'show-dispatchers')
-                    <li><a href="{{ route('auth.dispatcher.index') }}">Диспетчеры</a></li>                    
+                    <li name="dispatcher"><a href="{{ route('auth.dispatcher.index') }}">Диспетчеры</a></li>                    
                     @endability
 
-                    <li><a href="{{ route('auth.bid.index') }}">Заявки</a></li>
+                    <li name="bid"><a href="{{ route('auth.bid.index') }}">Заявки</a></li>
 
-                    <li><a href="{{ route('auth.client.index') }}">Клиенты</a></li>
+                    <li name="client"><a href="{{ route('auth.client.index') }}">Клиенты</a></li>
                 </ul>
             </div>
             <div class="col-sm-9 tabs-content">
@@ -123,6 +123,31 @@
 
 <script>
     $(document).ready(function() {
+
+        let pathname = window.location.pathname;
+
+        switch(pathname) {
+        case '/':
+            $( "li[name='home']" ).addClass( "active" );
+            break;
+
+        case '/representative':
+            $( "li[name='representative']" ).addClass( "active" );
+            break;
+
+        case '/dispatcher':
+            $( "li[name='dispatcher']" ).addClass( "active" );
+            break;
+
+        case '/bid':
+            $( "li[name='bid']" ).addClass( "active" );
+            break;
+
+        case '/client':
+            $( "li[name='client']" ).addClass( "active" );
+            break;
+        }
+
         $(document).on('click', '.js-destroy-button', function() {
             let ids = [];
 
