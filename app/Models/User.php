@@ -10,6 +10,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 class User extends Authenticatable
 {
     use EntrustUserTrait;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
