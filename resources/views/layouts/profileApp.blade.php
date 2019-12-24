@@ -124,29 +124,29 @@
 <script>
     $(document).ready(function() {
 
-        let pathname = window.location.pathname;
+        // let pathname = window.location.pathname;
 
-        switch(pathname) {
-        case '/':
-            $( "li[name='home']" ).addClass( "active" );
-            break;
+        // switch(pathname) {
+        // case '/':
+        //     $( "li[name='home']" ).addClass( "active" );
+        //     break;
 
-        case '/representative':
-            $( "li[name='representative']" ).addClass( "active" );
-            break;
+        // case '/representative':
+        //     $( "li[name='representative']" ).addClass( "active" );
+        //     break;
 
-        case '/dispatcher':
-            $( "li[name='dispatcher']" ).addClass( "active" );
-            break;
+        // case '/dispatcher':
+        //     $( "li[name='dispatcher']" ).addClass( "active" );
+        //     break;
 
-        case '/bid':
-            $( "li[name='bid']" ).addClass( "active" );
-            break;
+        // case '/bid':
+        //     $( "li[name='bid']" ).addClass( "active" );
+        //     break;
 
-        case '/client':
-            $( "li[name='client']" ).addClass( "active" );
-            break;
-        }
+        // case '/client':
+        //     $( "li[name='client']" ).addClass( "active" );
+        //     break;
+        // }
 
         $(document).on('click', '.js-destroy-button', function() {
             let ids = [];
